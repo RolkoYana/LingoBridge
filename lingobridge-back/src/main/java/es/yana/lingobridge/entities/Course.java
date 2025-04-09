@@ -3,6 +3,8 @@ package es.yana.lingobridge.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Builder
 @Getter
 @Setter

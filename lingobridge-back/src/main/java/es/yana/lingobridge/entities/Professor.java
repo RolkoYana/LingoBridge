@@ -1,5 +1,6 @@
 package es.yana.lingobridge.entities;
 
+import java.util.*;
 import jakarta.persistence.*;
 import lombok.*;
 
