@@ -9,7 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED) // ???
+@Inheritance(strategy = InheritanceType.JOINED) // para herencia  - se crea tabla por cada clase
 @Table(name = "users")
 public class User {
     @Id
