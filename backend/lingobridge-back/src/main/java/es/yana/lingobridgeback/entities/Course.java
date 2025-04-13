@@ -17,7 +17,6 @@ public class Course {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    @Getter
     private String description;
     @ManyToOne
     private Teacher teacher;
