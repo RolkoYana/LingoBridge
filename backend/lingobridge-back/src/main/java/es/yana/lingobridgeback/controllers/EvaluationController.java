@@ -3,6 +3,9 @@ package es.yana.lingobridgeback.controllers;
 import es.yana.lingobridgeback.entities.Evaluation;
 import es.yana.lingobridgeback.services.EvaluationService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -11,55 +14,27 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/evaluations")
+@CrossOrigin(origins = "*")
 public class EvaluationController {
 
-    private final EvaluationService evaluationService;
+    @Autowired
+    private EvaluationService evaluationService;
 
     @GetMapping
     public List<Evaluation> getAll(){
         return evaluationService.findAll();
     }
 
-    @GetMapping("/{id}")
-    public Evaluation getById(@PathVariable Long id){
-        return evaluationService.findById(id);
+    //@PreAuthorize("hasRole('STUDENT')")
+    @GetMapping("/student/{id}")
+    public List<Evaluation> getEvaluationByStudent(@PathVariable Long id){
+        return evaluationService.findByStudent(id);
     }
 
-    // crear evaluacion para el estudiante
-    @PostMapping
-    public Evaluation create(@RequestBody Evaluation evaluation){
-        return evaluationService.save(evaluation);
+    //@PreAuthorize("hasRole('TEACHER')")
+    @PostMapping("/create")
+    public ResponseEntity<Evaluation> createEvaluation(@RequestBody Evaluation evaluation){
+        return ResponseEntity.ok(evaluationService.save(evaluation));
     }
 
-    @PutMapping("/{id}")
-    public Evaluation update(@PathVariable Long id, @RequestBody Evaluation updatedEvaluation){
-        updatedEvaluation.setId(id);
-        return evaluationService.save(updatedEvaluation);
-    }
-
-    @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id){
-        evaluationService.delete(id);
-    }
-
-    // ver notas del alumno
-    @GetMapping("/by-student/{studentId}")
-    public List<Evaluation> getEvaluationByStudentId(@PathVariable Long studentId){
-        return evaluationService.findByStudentId(studentId);
-    }
-
-    // crear autoevaluacion por elumno
-    //@PreAuthorize ("hasRole('STUDENT')") --> para mas adelante en SpringSecurity
-    @PostMapping("/auto")
-    public Evaluation createAutoEvaluation(@RequestBody Evaluation evaluation){
-        evaluation.setAutoEvaluation(true);
-        evaluation.setEvaluationDate(LocalDate.now());
-        return evaluationService.save(evaluation);
-    }
-
-    // ver solo las evaluacioes de un alumno
-    @GetMapping("/auto/by-student/{studentId}")
-    public List<Evaluation> getAutoEvaluations(@PathVariable Long studentId){
-        return evaluationService.findByStudentIdAndIsAutoEvaluationTrue(studentId);
-    }
 }

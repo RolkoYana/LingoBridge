@@ -3,6 +3,9 @@ package es.yana.lingobridgeback.controllers;
 import es.yana.lingobridgeback.entities.Course;
 import es.yana.lingobridgeback.services.CourseService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,34 +13,40 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/courses")
+@CrossOrigin(origins = "*")
 public class CourseController {
 
-    private final CourseService courseService;
+    @Autowired
+    private CourseService courseService;
 
-    @GetMapping
-    public List<Course> getAll(){
+    @GetMapping("/all")
+    public List<Course> getAllCourses(){
         return courseService.findAll();
     }
 
-    @GetMapping("/{id}")
-    public Course getById(@PathVariable Long id){
-        return courseService.findById(id);
+    //@PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/pending")
+    public List<Course> getPendingCourses(){
+        return courseService.getPendingApprovalCourse();
     }
 
-    // se activa al hacer la peticion POST para crear un nuevo curso
-    @PostMapping
-    public Course create(@RequestBody Course course){
-        return courseService.save(course);
+    //@PreAuthorize("hasRole('TEACHER')")
+    @GetMapping("/teacher/{id}")
+    public List<Course> getCoursesByTeacher(@PathVariable Long id){
+        return courseService.getCoursesByTeacher(id);
     }
 
-    @PutMapping("/{id}")
-    public Course update(@PathVariable Long id, @RequestBody Course updatedCourse){
-        updatedCourse.setId(id);
-        return courseService.save(updatedCourse);
+    //@PreAuthorize("hasRole('TEACHER')")
+    @PostMapping("/create")
+    public ResponseEntity<Course> createCourse(@RequestBody Course course){
+        return ResponseEntity.ok(courseService.save(course));
     }
 
-    @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id){
-        courseService.delete(id);
+    //@PreAuthorize("hasRole('ADMIN')")
+    @PutMapping("/approve/{id}")
+    public ResponseEntity<?> approveCourse(@PathVariable Long id){
+        courseService.approveCourse(id);
+        return ResponseEntity.ok("Curso aprobado");
     }
+
 }

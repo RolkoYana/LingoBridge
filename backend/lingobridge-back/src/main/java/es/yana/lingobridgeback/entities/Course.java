@@ -1,6 +1,5 @@
 package es.yana.lingobridgeback.entities;
 
-
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,8 +17,9 @@ public class Course {
     private Long id;
     private String name;
     private String description;
+    private boolean approved;
     @ManyToOne
-    private Teacher teacher;
+    private User teacher;
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private List<Material> material;
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)

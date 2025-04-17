@@ -3,6 +3,9 @@ package es.yana.lingobridgeback.controllers;
 import es.yana.lingobridgeback.entities.Matriculation;
 import es.yana.lingobridgeback.services.MatriculationService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,33 +13,26 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/matriculations")
+@CrossOrigin(origins = "*")
 public class MatriculationController {
-    private final MatriculationService matriculationService;
+
+    @Autowired
+    private MatriculationService matriculationService;
 
     @GetMapping
     public List<Matriculation> getAll(){
         return matriculationService.findAll();
     }
 
-    @GetMapping("/{id}")
-    public Matriculation getById(@PathVariable Long id){
-        return matriculationService.findById(id);
+    @GetMapping("/student/{id}")
+    public List<Matriculation> getMatriculationByStudent(@PathVariable Long id){
+        return matriculationService.getMatriculationByStudent(id);
     }
 
-    @PostMapping
-    public Matriculation create(@RequestBody Matriculation matriculation){
-        return matriculationService.save(matriculation);
-    }
-
-    @PutMapping("/{id}")
-    public Matriculation update(@PathVariable Long id, @RequestBody Matriculation updatedMatriculation){
-        updatedMatriculation.setId(id);
-        return matriculationService.save(updatedMatriculation);
-    }
-
-    @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id){
-        matriculationService.delete(id);
+    //@PreAuthorize("hasRole('STUDENT')")
+    @PostMapping("/enroll")
+    public ResponseEntity<Matriculation> enroll(@RequestBody Matriculation matriculation){
+        return ResponseEntity.ok(matriculationService.save(matriculation));
     }
 
 }

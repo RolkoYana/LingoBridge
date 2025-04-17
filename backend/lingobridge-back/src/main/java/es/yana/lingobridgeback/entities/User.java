@@ -1,15 +1,15 @@
 package es.yana.lingobridgeback.entities;
 
+import es.yana.lingobridgeback.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
-import lombok.experimental.SuperBuilder;
 
-@SuperBuilder // para herencia
+@Builder
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED) // para herencia  - se crea tabla por cada clase
 @Table(name = "users")
 public class User {
     @Id
@@ -17,8 +17,9 @@ public class User {
     private Long id;
     private String name;
     private String surname;
+    @Column(unique = true)
     private String email;
     private String password;
-    // añadir relacion
-    private String role;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 }

@@ -2,6 +2,7 @@ package es.yana.lingobridgeback.services;
 
 import es.yana.lingobridgeback.entities.Evaluation;
 import es.yana.lingobridgeback.respositories.EvaluationRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,11 +10,8 @@ import java.util.List;
 @Service
 public class EvaluationService {
 
-    private final EvaluationRepository evaluationRepository;
-
-    public EvaluationService(EvaluationRepository evaluationRepository) {
-        this.evaluationRepository = evaluationRepository;
-    }
+    @Autowired
+    private EvaluationRepository evaluationRepository;
 
     public List<Evaluation> findAll() {
         return evaluationRepository.findAll();
@@ -31,15 +29,8 @@ public class EvaluationService {
         evaluationRepository.deleteById(id);
     }
 
-    public List<Evaluation> findByStudentId(Long studentId) {
+    public List<Evaluation> findByStudent(Long studentId) {
         return evaluationRepository.findByStudentId(studentId);
     }
 
-    public List<Evaluation> findByStudentIdAndIsAutoEvaluationTrue(Long studentId) {
-        return evaluationRepository.findByStudentIdAndIsAutoEvaluationTrue(studentId);
-    }
-
-    public List<Evaluation> findByCourseIdAndIsAutoEvaluationFalse(Long courseId) {
-        return evaluationRepository.findByCourseIdAndIsAutoEvaluationFalse(courseId);
-    }
 }

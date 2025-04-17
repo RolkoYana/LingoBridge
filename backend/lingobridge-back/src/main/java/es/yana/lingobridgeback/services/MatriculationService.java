@@ -2,6 +2,7 @@ package es.yana.lingobridgeback.services;
 
 import es.yana.lingobridgeback.entities.Matriculation;
 import es.yana.lingobridgeback.respositories.MatriculationRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,11 +10,8 @@ import java.util.List;
 @Service
 public class MatriculationService {
 
-    private final MatriculationRepository matriculationRepository;
-
-    public MatriculationService(MatriculationRepository matriculationRepository) {
-        this.matriculationRepository = matriculationRepository;
-    }
+    @Autowired
+    private MatriculationRepository matriculationRepository;
 
     public List<Matriculation> findAll() {
         return matriculationRepository.findAll();
@@ -29,5 +27,9 @@ public class MatriculationService {
 
     public void delete(Long id) {
         matriculationRepository.deleteById(id);
+    }
+
+    public List<Matriculation> getMatriculationByStudent(Long studentId) {
+        return matriculationRepository.findByStudentId(studentId);
     }
 }

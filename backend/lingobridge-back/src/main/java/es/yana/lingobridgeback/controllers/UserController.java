@@ -3,6 +3,9 @@ package es.yana.lingobridgeback.controllers;
 import es.yana.lingobridgeback.entities.User;
 import es.yana.lingobridgeback.services.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,33 +13,31 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/users")
+@CrossOrigin(origins = "*")
 public class UserController {
 
-    private final UserService userService;
+    @Autowired
+    private UserService userService;
 
-    @GetMapping
-    public List<User> getAll(){
-        return userService.findAll();
+    //@PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/students")
+    public List<User> getAllStudents(){
+        return userService.findAllStudents();
     }
 
-    @GetMapping("/{id}")
-    public User getById(@PathVariable Long id){
-        return userService.findById(id);
+    //@PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/teachers")
+    public List<User> getAllTeachers(){
+        return userService.findAllTeachers();
     }
 
-    @PostMapping
-    public User create(@RequestBody User user){
-        return userService.save(user);
+    @GetMapping("/{email}")
+    public ResponseEntity<User> getUserByEmail(@PathVariable String email){
+        return userService.findByEmail(email).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
-    @PutMapping("/{id}")
-    public User update(@PathVariable Long id, @RequestBody User updatedUser){
-        updatedUser.setId(id);
-        return userService.save(updatedUser);
-    }
-
-    @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id){
-        userService.delete(id);
+    @PostMapping("/register")
+    public ResponseEntity<User> registerUser(@RequestBody User user){
+        return ResponseEntity.ok(userService.save(user));
     }
 }

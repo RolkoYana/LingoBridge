@@ -1,5 +1,6 @@
 package es.yana.lingobridgeback.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -13,8 +14,9 @@ public class Material {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String type;
+    private String title;
     private String url;
     @ManyToOne
+    @JsonIgnore
     private Course course;
 }
