@@ -1,7 +1,7 @@
 package es.yana.lingobridgeback.services;
 
 import es.yana.lingobridgeback.entities.Material;
-import es.yana.lingobridgeback.respositories.MaterialRepository;
+import es.yana.lingobridgeback.repositories.MaterialRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

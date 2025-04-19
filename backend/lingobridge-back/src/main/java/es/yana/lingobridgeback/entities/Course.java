@@ -19,7 +19,7 @@ public class Course {
     private String description;
     private boolean approved;
     @ManyToOne
-    private User teacher;
+    private AppUser teacher;
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private List<Material> material;
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)

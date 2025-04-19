@@ -16,7 +16,7 @@ public class Matriculation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
-    private User student;
+    private AppUser student;
     @ManyToOne
     private Course course;
     private LocalDate matrculationDate;

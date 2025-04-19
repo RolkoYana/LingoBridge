@@ -1,7 +1,7 @@
 package es.yana.lingobridgeback.services;
 
 import es.yana.lingobridgeback.entities.Evaluation;
-import es.yana.lingobridgeback.respositories.EvaluationRepository;
+import es.yana.lingobridgeback.repositories.EvaluationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

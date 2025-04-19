@@ -1,7 +1,7 @@
 package es.yana.lingobridgeback.services;
 
 import es.yana.lingobridgeback.entities.Course;
-import es.yana.lingobridgeback.respositories.CourseRepository;
+import es.yana.lingobridgeback.repositories.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

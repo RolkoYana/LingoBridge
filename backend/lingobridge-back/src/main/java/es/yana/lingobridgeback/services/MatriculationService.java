@@ -1,7 +1,7 @@
 package es.yana.lingobridgeback.services;
 
 import es.yana.lingobridgeback.entities.Matriculation;
-import es.yana.lingobridgeback.respositories.MatriculationRepository;
+import es.yana.lingobridgeback.repositories.MatriculationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

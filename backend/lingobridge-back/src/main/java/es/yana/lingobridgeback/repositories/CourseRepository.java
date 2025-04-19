@@ -1,4 +1,4 @@
-package es.yana.lingobridgeback.respositories;
+package es.yana.lingobridgeback.repositories;
 
 import es.yana.lingobridgeback.entities.Course;
 import org.springframework.data.jpa.repository.JpaRepository;

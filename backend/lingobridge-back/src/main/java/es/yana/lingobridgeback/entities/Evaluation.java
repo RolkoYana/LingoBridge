@@ -25,7 +25,7 @@ public class Evaluation {
     @ManyToOne
     private Course course;
     @ManyToOne
-    private User student;
+    private AppUser student;
 
 
 }
