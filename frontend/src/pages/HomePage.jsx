@@ -6,7 +6,7 @@ import Feedbacks from "../components/Feedbacks";
 import Faq from "../components/Faq";
 import Footer from "../components/Footer";
 
-const Home = () => {
+const HomePage = () => {
   return (
     <>
       <Navbar />
@@ -20,4 +20,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default HomePage;

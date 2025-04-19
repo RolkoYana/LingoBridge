@@ -1,6 +1,7 @@
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Home from "./pages/Home";
+import HomePage from "./pages/HomePage";
+import LoginPage from "./pages/LoginPage";
 import Courses from "./pages/Courses";
 import LoginAdmin from "./pages/admin/LoginAdmin";
 import AdminDashboard from "./pages/admin/AdminDashboard";
@@ -12,8 +13,9 @@ function App() {
     <Router>
       <Routes>
         {/* rutas publicas */}
-        <Route path="/" element={<Home />} />
-        <Route path="/cpurses" element={<Courses />} />
+        <Route path="/" element={<HomePage />} />
+        <Route path="/courses" element={<Courses />} />
+        <Route path="/login" element={<LoginPage />} />
 
         {/* rutas de admin */}
         <Route path="/admin/login" element={<LoginAdmin />} />

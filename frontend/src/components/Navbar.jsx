@@ -3,6 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import logo from "../assets/logo.jpg";
 import { FaMoon, FaSun } from "react-icons/fa";
+import { Link, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const [darkMode, setDarkMode] = useState(false);
@@ -11,6 +12,17 @@ const Navbar = () => {
     setDarkMode(!darkMode);
     document.body.classList.toggle("bg-dark");
     document.body.classList.toggle("text-white");
+  };
+
+  // comprueba si el usuario esta logueado
+  const isLoggedIn = !!localStorage.getItem("token");
+
+  // eliminar el token del almacenamiento local y redirige al usuario al inicio o login
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/");
   };
 
   return (
@@ -112,12 +124,20 @@ const Navbar = () => {
           </ul>
 
           {/* Botones de iniciar sesión y registrarse */}
-          <div className="d-flex">
-            <button className="btn btn-outline-primary me-2">
-              Iniciar sesión
+          {isLoggedIn ? (
+            <button className="btn btn-danger" onClick={handleLogout}>
+              Cerrar sesión
             </button>
-            <button className="btn btn-primary">Registrarse</button>
-          </div>
+          ) : (
+            <div className="d-flex">
+              <Link to="/login" className="btn btn-outline-primary me-2">
+                Iniciar sesión
+              </Link>
+              <Link to="/register" className="btn btn-primary">
+                Registrarse
+              </Link>
+            </div>
+          )}
         </div>
 
         {/* Botón de modo oscuro */}
