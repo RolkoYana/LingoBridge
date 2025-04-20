@@ -1,29 +1,49 @@
 import React, { useState } from "react";
 import { Form, Button, InputGroup } from "react-bootstrap";
 import { FaUser, FaLock, FaGoogle } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
-  const [formData, setFormData] = useState({
-    username: "",
-    password: "",
-  });
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-  const handleChange = (e) => {
-    setFormData((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
-  };
-
-  const handleSubmit = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    console.log("Datos enviados:", formData);
 
-    // Aquí iría la llamada al backend con fetch o axios
+    try {
+      const response = await fetch("http://localhost:8080/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("username", data.username);
+        localStorage.setItem("roles", JSON.stringify(data.roles));
+
+        // redirigir segun rol
+        if (data.roles.includes("ADMIN")) {
+          navigate("/admin");
+        } else if (data.roles.includes("STUDENT")) {
+          navigate("/student");
+        } else {
+          navigate("/teacher");
+        }
+      } else {
+        const error = await response.json();
+        alert(error.message || "Credenciales inválidas");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Error de conexión con el servidor");
+    }
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
+    <Form onSubmit={handleLogin}>
       <Form.Group controlId="username" className="mb-3">
         <InputGroup>
           <InputGroup.Text>
@@ -32,9 +52,9 @@ const LoginForm = () => {
           <Form.Control
             type="text"
             placeholder="Nombre usuario"
-            name="username"
-            value={formData.username}
-            onChange={handleChange}
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
           />
         </InputGroup>
       </Form.Group>
@@ -47,9 +67,9 @@ const LoginForm = () => {
           <Form.Control
             type="password"
             placeholder="Contraseña"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
           />
         </InputGroup>
       </Form.Group>

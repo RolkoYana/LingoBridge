@@ -1,33 +1,53 @@
 import React, { useState } from "react";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../assets/logo.jpg";
 
 const Register = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    surname: "",
-    username: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-    role: "STUDENT",
-  });
+  const navigate = useNavigate();
 
-  const handleChange = (e) => {
-    setFormData((data) => ({ ...data, [e.target.name]: e.target.value }));
-  };
+  // Estado de los campos
+  const [name, setName] = useState("");
+  const [surname, setSurname] = useState("");
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [role, setRole] = useState("STUDENT");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (formData.password !== formData.confirmPassword) {
-      alert("Las contraseñas no coinciden");
-      return;
+    if(password !== confirmPassword){
+        alert("Las contraseñas no coinciden");
+        return;
     }
 
-    // Aquí luego conectaremos con el backend usando fetch o axios
-    console.log("Formulario enviado:", formData);
+    try{
+        const response = await fetch("http://localhost:8080/api/auth/register", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({
+                name,
+                surname,
+                username,
+                email,
+                password,
+                roles: [role], 
+            }),
+        });
+
+        if(response.ok){
+            alert("Usuario registrado");
+            navigate("/login") // redirige a login
+        }else{
+            const error = await response.json();
+            alert(`Error: ${error.message || "No se pudo registrar"}`);
+        }
+    }catch (err){
+        console.log("Error:", err);
+        alert("Error de conexión con el servidor")
+    }
   };
 
   return (
@@ -73,9 +93,8 @@ const Register = () => {
                 <Form.Label>Nombre</Form.Label>
                 <Form.Control
                   type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                   required
                 />
               </Form.Group>
@@ -85,9 +104,8 @@ const Register = () => {
                 <Form.Label>Apellido</Form.Label>
                 <Form.Control
                   type="text"
-                  name="surname"
-                  value={formData.surname}
-                  onChange={handleChange}
+                  value={surname}
+                  onChange={(e) => setSurname(e.target.value)}
                   required
                 />
               </Form.Group>
@@ -98,9 +116,8 @@ const Register = () => {
             <Form.Label>Nombre de usuario</Form.Label>
             <Form.Control
               type="text"
-              name="username"
-              value={formData.username}
-              onChange={handleChange}
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               required
             />
           </Form.Group>
@@ -109,9 +126,8 @@ const Register = () => {
             <Form.Label>Correo electrónico</Form.Label>
             <Form.Control
               type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               required
             />
           </Form.Group>
@@ -122,9 +138,8 @@ const Register = () => {
                 <Form.Label>Contraseña</Form.Label>
                 <Form.Control
                   type="password"
-                  name="password"
-                  value={formData.password}
-                  onChange={handleChange}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   required
                 />
               </Form.Group>
@@ -134,9 +149,8 @@ const Register = () => {
                 <Form.Label>Confirmar contraseña</Form.Label>
                 <Form.Control
                   type="password"
-                  name="confirmPassword"
-                  value={formData.confirmPassword}
-                  onChange={handleChange}
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
                   required
                 />
               </Form.Group>
@@ -146,9 +160,8 @@ const Register = () => {
           <Form.Group className="mb-4" controlId="role">
             <Form.Label>Rol</Form.Label>
             <Form.Select
-              name="role"
-              value={formData.role}
-              onChange={handleChange}
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
             >
               <option value="STUDENT">Alumno</option>
               <option value="TEACHER">Profesor</option>

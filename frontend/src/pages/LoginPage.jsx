@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import logo from "../assets/logo.jpg";
 import LoginForm from "../components/forms/LoginForm";
 
-const Login = () => {
+const LoginPage = () => {
   return (
     <Container
       fluid
@@ -41,4 +41,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginPage;
