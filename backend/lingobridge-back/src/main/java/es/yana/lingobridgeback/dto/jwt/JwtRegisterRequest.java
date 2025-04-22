@@ -22,6 +22,8 @@ public class JwtRegisterRequest {
     @NotBlank
     @Size(min = 6, max = 40)
     private String password;
+    @NotBlank
+    private String confirmPassword;
     private Set<Role> roles;
 
 }
