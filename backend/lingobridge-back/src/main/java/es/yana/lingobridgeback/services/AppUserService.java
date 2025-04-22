@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,7 +36,7 @@ public class AppUserService {
         AppUser user = userMapper.toEntity(userDto);
         // Asignar roles correctamente
         if (userDto.getRoles() != null && !userDto.getRoles().isEmpty()) {
-            user.setRoles(userDto.getRoles()); // Asegurar que se guarden los roles
+            user.setRoles(new HashSet<>(userDto.getRoles())); // convertir list a set
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);

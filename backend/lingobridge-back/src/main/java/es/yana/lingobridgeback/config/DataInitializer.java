@@ -51,7 +51,7 @@ public class DataInitializer {
         AppUser teacher1 = AppUser.builder()
                 .name("Pilar")
                 .surname("Martinez")
-                .surname("pilarmartinez")
+                .username("pilarmartinez")
                 .email("pilarm@lingobridge.com")
                 .password(passwordEncoder.encode("pilar123"))
                 .roles(Set.of(Role.TEACHER))
@@ -61,7 +61,7 @@ public class DataInitializer {
         AppUser teacher2 = AppUser.builder()
                 .name("Daniel")
                 .surname("Schmidt")
-                .surname("danielschmidt")
+                .username("danielschmidt")
                 .email("daniels@lingobridge.com")
                 .password(passwordEncoder.encode("daniels123"))
                 .roles(Set.of(Role.TEACHER))
@@ -71,7 +71,7 @@ public class DataInitializer {
         AppUser teacher3 = AppUser.builder()
                 .name("Alex")
                 .surname("Johnson")
-                .surname("alexjohnson")
+                .username("alexjohnson")
                 .email("alexj@lingobridge.com")
                 .password(passwordEncoder.encode("alexj123"))
                 .roles(Set.of(Role.TEACHER))
@@ -81,7 +81,7 @@ public class DataInitializer {
         AppUser teacher4 = AppUser.builder()
                 .name("Sophie")
                 .surname("Dubois")
-                .surname("sophiedubois")
+                .username("sophiedubois")
                 .email("sophied@lingobridge.com")
                 .password(passwordEncoder.encode("sophied123"))
                 .roles(Set.of(Role.TEACHER))
@@ -91,7 +91,7 @@ public class DataInitializer {
         AppUser teacher5 = AppUser.builder()
                 .name("Anna")
                 .surname("Lopez")
-                .surname("annalopez")
+                .username("annalopez")
                 .email("annal@lingobridge.com")
                 .password(passwordEncoder.encode("annal123"))
                 .roles(Set.of(Role.TEACHER))
@@ -101,7 +101,7 @@ public class DataInitializer {
         AppUser teacher6 = AppUser.builder()
                 .name("Gabriel")
                 .surname("Moreau")
-                .surname("gabrielmoreau")
+                .username("gabrielmoreau")
                 .email("gabrielm@lingobridge.com")
                 .password(passwordEncoder.encode("gabriel123"))
                 .roles(Set.of(Role.TEACHER))
@@ -162,5 +162,21 @@ public class DataInitializer {
                 .students(Set.of(student2, student3))
                 .build();
         courseRepository.saveAll(List.of(course1, course2, course3));
+
+
+        // Asignar relaciones inversas
+
+        // Profesores
+        teacher1.setCourseGiven(Set.of(course3));
+        teacher3.setCourseGiven(Set.of(course1));
+        teacher4.setCourseGiven(Set.of(course2));
+
+        // Alumnos
+        student1.setCoursesEnrolled(Set.of(course1, course2));
+        student2.setCoursesEnrolled(Set.of(course1, course3));
+        student3.setCoursesEnrolled(Set.of(course2, course3));
+
+        // Guardar usuarios con relaciones actualizadas
+        userRepository.saveAll(List.of(teacher1, teacher3, teacher4, student1, student2, student3));
     }
 }
