@@ -20,9 +20,15 @@ const LoginForm = () => {
 
       if (response.ok) {
         const data = await response.json();
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("username", data.username);
-        localStorage.setItem("roles", JSON.stringify(data.roles));
+        // guardamos los datos en el localStorage
+        localStorage.setItem("user", JSON.stringify({
+          token: data.token,
+          username: data.username,
+          roles: data.roles,
+          name: data.name,
+          surname: data.surname
+        }));
+        
 
         // redirigir segun rol
         if (data.roles.includes("ADMIN")) {

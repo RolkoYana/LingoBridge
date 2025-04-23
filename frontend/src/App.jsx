@@ -4,26 +4,24 @@ import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import Courses from "./pages/Courses";
-import LoginAdmin from "./pages/admin/LoginAdmin";
-import AdminDashboard from "./pages/admin/AdminDashboard";
-import CoursesManagement from "./pages/admin/CoursesManagement";
-import TeachersManagement from "./pages/admin/TeachersManagement";
+import AdminPage from "./pages/AdminPage";
 
 function App() {
   return (
     <Router>
       <Routes>
-        {/* rutas publicas */}
+        {/* Pagina principal */}
         <Route path="/" element={<HomePage />} />
-        <Route path="/courses" element={<Courses />} />
+
+        {/* Autenticacion */}
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
 
-        {/* rutas de admin */}
-        <Route path="/admin/login" element={<LoginAdmin />} />
-        <Route path="/admin" element={<AdminDashboard />} />
-        <Route path="/admin/courses" element={<CoursesManagement />} />
-        <Route path="/admin/teachers" element={<TeachersManagement />} />
+        {/* Panel de admin */}
+        <Route path="/admin" element={<AdminPage />} />
+
+        {/* Pagina de curso */}
+        <Route path="/courses" element={<Courses />} />
       </Routes>
     </Router>
   );
