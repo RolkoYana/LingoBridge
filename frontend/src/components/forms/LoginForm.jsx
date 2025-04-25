@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Form, Button, InputGroup } from "react-bootstrap";
 import { FaUser, FaLock, FaGoogle } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { login } from "../api/api";
 
 const LoginForm = () => {
   const [username, setUsername] = useState("");
@@ -12,35 +13,21 @@ const LoginForm = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:8080/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password }),
-      });
+      const response = await login(username, password);
 
-      if (response.ok) {
-        const data = await response.json();
-        // guardamos los datos en el localStorage
-        localStorage.setItem("user", JSON.stringify({
-          token: data.token,
-          username: data.username,
-          roles: data.roles,
-          name: data.name,
-          surname: data.surname
-        }));
-        
+      if (response.token) {
+        alert("Login exitoso");
 
-        // redirigir segun rol
-        if (data.roles.includes("ADMIN")) {
+        //redirigir segun el rol
+        if (response.roles.includes("ADMIN")) {
           navigate("/admin");
-        } else if (data.roles.includes("STUDENT")) {
+        } else if (response.roles.includes("STUDENT")) {
           navigate("/student");
         } else {
           navigate("/teacher");
         }
       } else {
-        const error = await response.json();
-        alert(error.message || "Credenciales inválidas");
+        alert(response.message || "Credenciales invalidas");
       }
     } catch (error) {
       console.error("Error:", error);

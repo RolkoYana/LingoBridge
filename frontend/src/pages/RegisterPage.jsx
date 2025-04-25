@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../assets/logo.jpg";
+import { register } from "../api/api";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -13,36 +14,23 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [role, setRole] = useState("STUDENT");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [passwordConfirm, setPasswordConfirm] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if(password !== confirmPassword){
+    if(password !== passwordConfirm){
         alert("Las contraseñas no coinciden");
         return;
     }
 
     try{
-        const response = await fetch("http://localhost:8080/api/auth/register", {
-            method: "POST",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({
-                name,
-                surname,
-                username,
-                email,
-                password,
-                roles: [role], 
-            }),
-        });
-
+        const response = await register(username, email, password, passwordConfirm);
         if(response.ok){
-            alert("Usuario registrado");
-            navigate("/login") // redirige a login
+          alert("Usuario registrado correctamente");
+          navigate("/login") // redirige a login
         }else{
-            const error = await response.json();
-            alert(`Error: ${error.message || "No se pudo registrar"}`);
+          alert(`Error: ${response.error || "No se pudo registrar"}`);
         }
     }catch (err){
         console.log("Error:", err);
@@ -149,8 +137,8 @@ const Register = () => {
                 <Form.Label>Confirmar contraseña</Form.Label>
                 <Form.Control
                   type="password"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  value={passwordConfirm}
+                  onChange={(e) => setPasswordConfirm(e.target.value)}
                   required
                 />
               </Form.Group>
