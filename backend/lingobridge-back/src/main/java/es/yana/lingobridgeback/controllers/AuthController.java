@@ -5,7 +5,6 @@ import es.yana.lingobridgeback.dto.jwt.JwtLoginResponse;
 import es.yana.lingobridgeback.dto.jwt.JwtRegisterRequest;
 import es.yana.lingobridgeback.dto.jwt.JwtRegisterResponse;
 import es.yana.lingobridgeback.entities.AppUser;
-import es.yana.lingobridgeback.enums.Role;
 import es.yana.lingobridgeback.security.jwt.JwtTokenProvider;
 import es.yana.lingobridgeback.services.AppUserService;
 import jakarta.validation.Valid;
@@ -19,6 +18,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -26,7 +27,6 @@ import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 @Slf4j
 @RestController
@@ -38,6 +38,7 @@ public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider jwtTokenProvider;
     private final UserDetailsService userDetailsService;
+    private final PasswordEncoder passwordEncoder;
     private final AppUserService userService;
 
     @PostMapping("/register")
@@ -56,15 +57,19 @@ public class AuthController {
         }
 
         // validar que las contraseñas coincidan
-        if(!jwtRegisterRequest.getPassword().equals(jwtRegisterRequest.getConfirmPassword())){
+        if(!jwtRegisterRequest.getPassword().equals(jwtRegisterRequest.getPasswordConfirm())){
             return ResponseEntity.badRequest().body(Map.of("error", "Las contraseñas no coinciden"));
         }
 
         try{
-            // crear y guardar un usuario
+            // Cifrar la contraseña antes de guardar
+            String encryptedPassword = passwordEncoder.encode(jwtRegisterRequest.getPassword());
+            jwtRegisterRequest.setPassword(encryptedPassword);
+
+            // Crear y guardar el usuario
             AppUser savedUser = userService.save(jwtRegisterRequest);
 
-            // crear respuesta
+            // Crear respuesta
             JwtRegisterResponse response = JwtRegisterResponse.builder()
                     .id(savedUser.getId())
                     .username(savedUser.getUsername())
@@ -82,7 +87,8 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody JwtLoginRequest loginRequest) throws Exception {
-        log.info("Intentando login para: {}", loginRequest.getUsername());
+        log.info("Intentando autenticar usuario: {}", loginRequest.getUsername());
+
         try{
             // paso 1: autenticar el usuario y generar un nuevo token
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
@@ -112,23 +118,10 @@ public class AuthController {
             log.warn("Credenciales incorrectas: {}", e.getMessage());
             return ResponseEntity.status(401).body(Map.of("error", "Credenciales no validas"));
         }catch(Exception e){
-            log.warn("Error al intentar login", e);
-            return ResponseEntity.status(500).body(Map.of("error", "Error del servidor"));
+            log.error("Error completo al intentar login: ", e);
+            throw e; // Lanza el error para que veas el stacktrace completo en Postman y consola
         }
 
-//        // si todo OK, carga todos datos de usuario de BD en UserDetails (obj usuario de spring)
-//        UserDetails userDetails = userDetailsService.loadUserByUsername(loginRequest.getUsername());
-//        String token = jwtTokenProvider.generateToken(userDetails); // genera token, utiliza el secreto de app.propertires
-//        AppUser user = userService.findByUsername(loginRequest.getUsername()).orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
-//
-//        // genera la respuesta con token, usuario y roles
-//        return ResponseEntity.ok(
-//                JwtLoginResponse.builder()
-//                        .token(token)
-//                        .username(user.getUsername())
-//                        .roles(new HashSet<>(user.getRoles()))
-//                        .build()
-//        );
     }
 
 }

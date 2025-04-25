@@ -47,7 +47,6 @@ public class AppUserService {
         AppUser user = jwtMapper.toEntity(dto);
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
         return userRepository.save(user);
-
     }
 
     public void delete(Long id) {

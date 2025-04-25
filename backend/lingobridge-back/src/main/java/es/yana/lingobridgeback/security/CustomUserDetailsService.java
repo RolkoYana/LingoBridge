@@ -4,6 +4,7 @@ package es.yana.lingobridgeback.security;
 import es.yana.lingobridgeback.repositories.AppUserRepository;
 import es.yana.lingobridgeback.entities.AppUser;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.Collections;
 import java.util.List;
 
+@Primary
 @RequiredArgsConstructor
 @Service("userDetailsService")
 public class CustomUserDetailsService implements UserDetailsService {

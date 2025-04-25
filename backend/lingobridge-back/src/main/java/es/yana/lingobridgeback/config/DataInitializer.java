@@ -53,7 +53,7 @@ public class DataInitializer {
                 .surname("Martinez")
                 .username("pilarmartinez")
                 .email("pilarm@lingobridge.com")
-                .password(passwordEncoder.encode("pilar123"))
+                .password(passwordEncoder.encode("pilarm123"))
                 .roles(Set.of(Role.TEACHER))
                 .languageTaught(spanish)
                 .build();
