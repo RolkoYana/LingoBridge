@@ -5,6 +5,7 @@ import es.yana.lingobridgeback.dto.jwt.JwtLoginResponse;
 import es.yana.lingobridgeback.dto.jwt.JwtRegisterRequest;
 import es.yana.lingobridgeback.dto.jwt.JwtRegisterResponse;
 import es.yana.lingobridgeback.entities.AppUser;
+import es.yana.lingobridgeback.enums.Role;
 import es.yana.lingobridgeback.security.jwt.JwtTokenProvider;
 import es.yana.lingobridgeback.services.AppUserService;
 import jakarta.validation.Valid;
@@ -26,13 +27,14 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:5173")
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;
@@ -89,39 +91,44 @@ public class AuthController {
     public ResponseEntity<?> login(@Valid @RequestBody JwtLoginRequest loginRequest) throws Exception {
         log.info("Intentando autenticar usuario: {}", loginRequest.getUsername());
 
-        try{
-            // paso 1: autenticar el usuario y generar un nuevo token
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                    loginRequest.getUsername(), loginRequest.getPassword()
-            ));
+            try {
+                // Paso 1: autenticar el usuario
+                authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                        loginRequest.getUsername(), loginRequest.getPassword()
+                ));
 
-            // paso 2: obtener detalles del usuario desde la BD
-            UserDetails userDetails = userDetailsService.loadUserByUsername(loginRequest.getUsername());
+                // Paso 2: obtener detalles del usuario
+                UserDetails userDetails = userDetailsService.loadUserByUsername(loginRequest.getUsername());
+                AppUser user = userService.findByUsername(loginRequest.getUsername())
+                        .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
 
-            // paso 3: generar el token con los detalles del usuario
-            String token = jwtTokenProvider.generateToken(userDetails);
+                // Paso 3: generar el token con los detalles del usuario
+                String token = jwtTokenProvider.generateToken(userDetails);
 
-            // paso 4: devolver la respuesta con el token y roles
-            AppUser user = userService.findByUsername(loginRequest.getUsername()).orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
+                // Paso 4: convertir Set<Role> en List<String> antes de enviarlo al frontend
+                List<String> roles = user.getRoles().stream()
+                        .map(Role::name) // Convertir enum Role a String
+                        .toList();
 
-            return ResponseEntity.ok(
-                    JwtLoginResponse.builder()
-                            .token(token)
-                            .username(user.getUsername())
-                            .roles(new HashSet<>(user.getRoles()))
-                            .build()
-            );
-        }catch(DisabledException e){
-            log.warn("Usuario deshabilitado: {}", e.getMessage());
-            return ResponseEntity.status(403).body(Map.of("error", "Usuario deshabilitado"));
-        }catch(BadCredentialsException e){
-            log.warn("Credenciales incorrectas: {}", e.getMessage());
-            return ResponseEntity.status(401).body(Map.of("error", "Credenciales no validas"));
-        }catch(Exception e){
-            log.error("Error completo al intentar login: ", e);
-            throw e; // Lanza el error para que veas el stacktrace completo en Postman y consola
-        }
+                // Paso 5: enviar respuesta con token y roles
+                return ResponseEntity.ok(
+                        JwtLoginResponse.builder()
+                                .token(token)
+                                .username(user.getUsername())
+                                .roles(roles)
+                                .build()
+                );
 
+            } catch (DisabledException e) {
+                log.warn("Usuario deshabilitado: {}", e.getMessage());
+                return ResponseEntity.status(403).body(Map.of("error", "Usuario deshabilitado"));
+            } catch (BadCredentialsException e) {
+                log.warn("Credenciales incorrectas: {}", e.getMessage());
+                return ResponseEntity.status(401).body(Map.of("error", "Credenciales no válidas"));
+            } catch (Exception e) {
+                log.error("Error completo al intentar login: ", e);
+                throw e;
+            }
     }
 
 }

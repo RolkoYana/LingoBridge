@@ -1,5 +1,6 @@
 package es.yana.lingobridgeback.entities;
 
+import es.yana.lingobridgeback.converters.RoleConverter;
 import es.yana.lingobridgeback.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
@@ -19,16 +20,19 @@ public class AppUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(nullable = false)
     private String name;
+    @Column(nullable = false)
     private String surname;
     @Column(unique = true, nullable = false)
     private String username;
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String email;
+    @Column(nullable = false)
     private String password;
-    @ElementCollection(targetClass = Role.class) // indica que es una coleccion de elementos embebidos (no una relacion con otra entidad)
-    @Enumerated(EnumType.STRING) // almacena los valores del enum Role como cadenas de texto en la BD
-    //@CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id")) // crea una tabla separada donde cada usuario puede tener varios roles
+
+    @Convert(converter = RoleConverter.class) // convierte la Set<Role> en una cadena antes de guardar en BD
+    @Column(name = "roles", nullable = false)
     private Set<Role> roles = new HashSet<>();
 
     @OneToMany(mappedBy = "teacher")

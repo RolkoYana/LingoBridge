@@ -23,6 +23,7 @@ public class Course {
     @ManyToOne
     @JoinColumn(name = "teacher_id")
     private AppUser teacher;
+    @Builder.Default
     @ManyToMany
     @JoinTable(
             name = "course_students",

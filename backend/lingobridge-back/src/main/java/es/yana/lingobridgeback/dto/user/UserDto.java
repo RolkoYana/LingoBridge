@@ -1,5 +1,7 @@
 package es.yana.lingobridgeback.dto.user;
 
+import es.yana.lingobridgeback.entities.Course;
+import es.yana.lingobridgeback.entities.Language;
 import es.yana.lingobridgeback.enums.Role;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -9,6 +11,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.Set;
 
 @Builder
 @Data
@@ -34,4 +37,8 @@ public class UserDto {
     private String email;
     @NotNull
     private List<Role> roles;
+
+    private Set<Course> courseGiven;
+    private Set<Course> coursesEnrolled;
+    private Language languageTaught;
 }

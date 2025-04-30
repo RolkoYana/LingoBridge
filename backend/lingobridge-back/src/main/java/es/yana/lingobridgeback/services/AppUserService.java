@@ -57,12 +57,12 @@ public class AppUserService {
         return userRepository.findByEmail(email);
     }
 
-    public List<AppUser> findAllStudents(){
-        return userRepository.findByRole(Role.STUDENT);
+    public List<AppUser> findAllStudents() {
+        return userRepository.findByRole("STUDENT");
     }
 
     public List<AppUser> findAllTeachers() {
-        return userRepository.findByRole(Role.TEACHER);
+        return userRepository.findByRole("TEACHER");
     }
 
     public AppUser findByUsernameOrEmail(String input){
@@ -73,5 +73,6 @@ public class AppUserService {
     public Optional<AppUser> findByUsername(String username){
         return userRepository.findByUsername(username);
     }
+
 
 }

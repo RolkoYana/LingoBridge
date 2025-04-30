@@ -23,12 +23,12 @@ public class CustomUserDetailsService implements UserDetailsService {
     private final AppUserRepository userRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException{
-        AppUser user = userRepository.findByUsername(s).orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException{
+        AppUser user = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
 
         // Convertir la lista de roles en una lista de SimpleGrantedAuthority
         List<SimpleGrantedAuthority> authorities = user.getRoles().stream()
-                .map(role -> new SimpleGrantedAuthority("ROLE_" + role.name()))
+                .map(role -> new SimpleGrantedAuthority(role.name()))
                 .toList();
 
         return User.builder()

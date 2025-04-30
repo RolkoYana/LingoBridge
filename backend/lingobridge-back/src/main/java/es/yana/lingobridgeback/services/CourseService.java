@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CourseService {
@@ -41,5 +42,9 @@ public class CourseService {
         Course course = courseRepository.findById(id).orElseThrow();
         course.setApproved(true);
         courseRepository.save(course);
+    }
+
+    public Optional<Course> findByName(String name){
+        return courseRepository.findByName(name);
     }
 }

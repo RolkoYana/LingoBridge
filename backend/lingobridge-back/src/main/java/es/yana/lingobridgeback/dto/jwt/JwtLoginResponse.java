@@ -3,6 +3,7 @@ package es.yana.lingobridgeback.dto.jwt;
 import es.yana.lingobridgeback.enums.Role;
 import lombok.*;
 
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -14,5 +15,5 @@ public class JwtLoginResponse {
     @Builder.Default
     private String tokenType = "Bearer";
     private String username;
-    private Set<Role> roles;
+    private List<String> roles; // convertimos Set a List
 }
