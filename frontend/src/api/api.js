@@ -1,8 +1,8 @@
-const API_URL = "http://localhost:8080/api/auth";
+const API_URL = "http://localhost:8080";
 
 // Función para registrar un usuario
 export const register = async (username, email, password, passwordConfirm) => {
-  const response = await fetch(`${API_URL}/register`, {
+  const response = await fetch(`${API_URL}/api/auth/register`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -15,7 +15,7 @@ export const register = async (username, email, password, passwordConfirm) => {
 
 // Función para hacer login y recibir el token JWT
 export const login = async (username, password) => {
-  const response = await fetch(`${API_URL}/login`, {
+  const response = await fetch(`${API_URL}/api/auth/login`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -40,11 +40,12 @@ export const fetchWithAuth = async (url, options = {}) => {
     throw new Error("Usuario no autenticado");
   }
 
-  return fetch(url, {
+  return fetch(`${API_URL}${url}`, {
     ...options,
     headers: {
       ...options.headers,
       Authorization: `Bearer ${token}`, // Enviar el token en el header
+      "Content-Type": "application/json",
     },
   });
 };

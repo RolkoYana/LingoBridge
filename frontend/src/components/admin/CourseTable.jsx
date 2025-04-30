@@ -13,11 +13,19 @@ const CourseTable = () => {
     }
 
     fetch("http://localhost:8080/api/courses", {
+      method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
       },
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`Error ${res.status}: No autorizado`);
+        }
+
+        res.json();
+      })
       .then((data) => setCourses(data))
       .catch((err) => console.error("Error al cargar cursos:", err));
   }, [token]);
@@ -31,7 +39,7 @@ const CourseTable = () => {
             <th>Nombre</th>
             <th>Descripción</th>
             <th>Aprobado</th>
-            <th>PProfesor</th>
+            <th>Profesor</th>
             <th>Acciones</th>
           </tr>
         </thead>

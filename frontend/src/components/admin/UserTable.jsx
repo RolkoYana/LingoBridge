@@ -12,14 +12,21 @@ const UserTable = () => {
       return <p>No autorizado. Por favor inicia sesión.</p>;
     }
     fetch("http://localhost:8080/api/users", {
-        headers: {
-          Authorization: `Bearer ${token}`
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`Error ${res.status}: No autorizado`);
         }
+        res.json();
       })
-        .then(res => res.json())
-        .then(data => setUsers(data))
-        .catch(err => console.error("Error al cargar usuarios:", err));
-    }, [token]);
+      .then((data) => setUsers(data))
+      .catch((err) => console.error("Error al cargar usuarios:", err));
+  }, [token]);
 
   return (
     <div id="users" className="mb-4">

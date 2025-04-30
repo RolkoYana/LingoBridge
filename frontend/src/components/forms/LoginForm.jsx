@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Form, Button, InputGroup } from "react-bootstrap";
 import { FaUser, FaLock, FaGoogle } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { login } from "../api/api";
+import { login } from "../../api/api.js";
 
 const LoginForm = () => {
   const [username, setUsername] = useState("");
@@ -15,15 +15,25 @@ const LoginForm = () => {
     try {
       const response = await login(username, password);
 
+      console.log("Respuesta del login:", response); // depuracion
+      console.log("Roles recibidos:", response.roles); // verificar roles
+
       if (response.token) {
         alert("Login exitoso");
 
-        //redirigir segun el rol
+        // guardar el token y usuario en localStorage
+        localStorage.setItem("token", response.token);
+        localStorage.setItem("user", JSON.stringify(response));
+
+        // redirigir segun el rol
         if (response.roles.includes("ADMIN")) {
+          console.log("Redirigiendo a /admin...");
           navigate("/admin");
         } else if (response.roles.includes("STUDENT")) {
+          console.log("Redirigiendo a /student...");
           navigate("/student");
         } else {
+          console.log("Redirigiendo a /teacher...");
           navigate("/teacher");
         }
       } else {

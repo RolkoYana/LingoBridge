@@ -10,6 +10,8 @@ const AdminPage = () => {
   const user = localStorage.getItem("user");
   const userData = user ? JSON.parse(user) : null;
 
+  console.log("Datos del usuario en localStorage:", userData);
+
   if (!userData || !userData.token || !userData.roles.includes("ADMIN")) {
     return (
       <p className="text-center text-danger mt-5">
