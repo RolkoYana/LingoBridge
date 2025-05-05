@@ -1,5 +1,6 @@
 package es.yana.lingobridgeback.dto.user;
 
+import es.yana.lingobridgeback.dto.CourseDto;
 import es.yana.lingobridgeback.entities.Course;
 import es.yana.lingobridgeback.entities.Language;
 import es.yana.lingobridgeback.enums.Role;
@@ -38,7 +39,7 @@ public class UserDto {
     @NotNull
     private List<Role> roles;
 
-    private Set<Course> courseGiven;
-    private Set<Course> coursesEnrolled;
+    private List<CourseDto> courseGiven;
+    private List<CourseDto> coursesEnrolled;
     private Language languageTaught;
 }

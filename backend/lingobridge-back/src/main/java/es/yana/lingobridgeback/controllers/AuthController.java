@@ -105,17 +105,29 @@ public class AuthController {
                 // Paso 3: generar el token con los detalles del usuario
                 String token = jwtTokenProvider.generateToken(userDetails);
 
+                // Paso 4: obtener los cursos del usuario segun su rol
+                List<Map<String, Object>> courses = user.getRoles().contains(Role.STUDENT)
+                        ? user.getCoursesEnrolled().stream()
+                            .map(course -> Map.of("id", (Object)course.getId(), "name", (Object)course.getName()))
+                            .toList()
+                        : user.getRoles().contains(Role.TEACHER)
+                        ? user.getCourseGiven().stream()
+                            .map(course -> Map.of("id", (Object)course.getId(), "name", (Object)course.getName()))
+                            .toList()
+                        : List.of(); // si es admin - no tiene cursos
+
                 // Paso 4: convertir Set<Role> en List<String> antes de enviarlo al frontend
-                List<String> roles = user.getRoles().stream()
-                        .map(Role::name) // Convertir enum Role a String
-                        .toList();
+//                List<String> roles = user.getRoles().stream()
+//                        .map(Role::name) // Convertir enum Role a String
+//                        .toList();
 
                 // Paso 5: enviar respuesta con token y roles
                 return ResponseEntity.ok(
                         JwtLoginResponse.builder()
                                 .token(token)
                                 .username(user.getUsername())
-                                .roles(roles)
+                                .roles(user.getRoles().stream().map(Role::name).toList())
+                                .courses(courses)
                                 .build()
                 );
 

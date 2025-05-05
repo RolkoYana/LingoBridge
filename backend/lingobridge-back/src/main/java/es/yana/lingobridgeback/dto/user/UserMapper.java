@@ -1,5 +1,6 @@
 package es.yana.lingobridgeback.dto.user;
 
+import es.yana.lingobridgeback.dto.CourseDto;
 import es.yana.lingobridgeback.entities.AppUser;
 import es.yana.lingobridgeback.entities.Course;
 import es.yana.lingobridgeback.entities.Language;
@@ -17,12 +18,20 @@ import java.util.Set;
 public interface UserMapper {
 
     // Métodos auxiliares para filtrar datos según el rol del usuario
-    default Set<Course> mapCourseGiven(AppUser user) {
-        return user.getRoles().contains(Role.TEACHER) ? user.getCourseGiven() : null;
+    default List<CourseDto> mapCourseGiven(AppUser user) {
+        return user.getRoles().contains(Role.TEACHER)
+                ? user.getCourseGiven().stream()
+                    .map(course -> new CourseDto(course.getId(), course.getName()))
+                    .toList()
+                : List.of();
     }
 
-    default Set<Course> mapCoursesEnrolled(AppUser user) {
-        return user.getRoles().contains(Role.STUDENT) ? user.getCoursesEnrolled() : null;
+    default List<CourseDto> mapCoursesEnrolled(AppUser user) {
+        return user.getRoles().contains(Role.STUDENT)
+                ? user.getCoursesEnrolled().stream()
+                    .map(course -> new CourseDto(course.getId(), course.getName()))
+                    .toList()
+                : List.of();
     }
 
     default Language mapLanguageTaught(AppUser user) {
