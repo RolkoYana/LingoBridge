@@ -74,5 +74,8 @@ public class AppUserService {
         return userRepository.findByUsername(username);
     }
 
+    public AppUser save(AppUser user) {
+        return userRepository.save(user);
+    }
 
 }

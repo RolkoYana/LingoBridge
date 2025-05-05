@@ -5,12 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="75256b7e-7ff8-472c-b6cf-f1cb6d6157aa" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/lingobridge-back/src/main/java/es/yana/lingobridgeback/dto/CourseDto.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lingobridge-back/src/main/java/es/yana/lingobridgeback/controllers/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/lingobridge-back/src/main/java/es/yana/lingobridgeback/controllers/AuthController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lingobridge-back/src/main/java/es/yana/lingobridgeback/dto/jwt/JwtLoginResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/lingobridge-back/src/main/java/es/yana/lingobridgeback/dto/jwt/JwtLoginResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lingobridge-back/src/main/java/es/yana/lingobridgeback/dto/user/UserDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/lingobridge-back/src/main/java/es/yana/lingobridgeback/dto/user/UserDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lingobridge-back/src/main/java/es/yana/lingobridgeback/dto/user/UserMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/lingobridge-back/src/main/java/es/yana/lingobridgeback/dto/user/UserMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lingobridge-back/src/main/java/es/yana/lingobridgeback/controllers/CourseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/lingobridge-back/src/main/java/es/yana/lingobridgeback/controllers/CourseController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lingobridge-back/src/main/java/es/yana/lingobridgeback/repositories/AppUserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/lingobridge-back/src/main/java/es/yana/lingobridgeback/repositories/AppUserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lingobridge-back/src/main/java/es/yana/lingobridgeback/services/AppUserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/lingobridge-back/src/main/java/es/yana/lingobridgeback/services/AppUserService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -121,7 +119,7 @@
       <workItem from="1745159864793" duration="1885000" />
       <workItem from="1745164165907" duration="1315000" />
       <workItem from="1746007805570" duration="742000" />
-      <workItem from="1746464387473" duration="4342000" />
+      <workItem from="1746464387473" duration="7574000" />
     </task>
     <servers />
   </component>
