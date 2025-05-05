@@ -12,7 +12,7 @@ const CourseCard = ({ name, image, features }) => {
           ))}
         </ul>
         <button className="btn btn-primary mt-3">
-          Más información sobrte {name}
+          Más información sobre {name}
         </button>
       </div>
     </div>

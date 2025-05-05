@@ -23,7 +23,16 @@ const LoginForm = () => {
 
         // guardar el token y usuario en localStorage
         localStorage.setItem("token", response.token);
-        localStorage.setItem("user", JSON.stringify(response));
+
+        // obtener datos del usuario
+        const userData = {
+          username: response.username,
+          roles: response.roles,
+          courses: response.courses || [], // confirmar que courses existe
+        }
+
+        localStorage.setItem("user", JSON.stringify(userData))
+
 
         // redirigir segun el rol
         if (response.roles.includes("ADMIN")) {
