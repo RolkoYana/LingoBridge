@@ -26,7 +26,7 @@ public class CourseController {
     private final AppUserService appUserService;
 
     // obtener todos los cursos
-    @GetMapping("/all")
+    @GetMapping("/courses")
     public List<Course> getAllCourses(){
         return courseService.findAll();
     }
@@ -55,29 +55,81 @@ public class CourseController {
     }
 
     // crear curso
+    /*
+    despues de crear el curso se queda marcado como "pendiente de aprobar"
+    se almacena en BD para que el admin pueda revisarlo
+    admin tendra un endpoint para apribar o rechazar cursos
+     */
+    /* para hacer prueba en Postman -->
+    solicitud -->
+        http://localhost:8080/api/create-course?teacherUsername=profesor1
+    cuerpo --> raw JSON :
+        {
+  "name": "Curso de JavaScript Avanzado",
+  "description": "Curso intensivo para aprender JavaScript en profundidad"
+}
+    */
     //@PreAuthorize("hasRole('TEACHER')")
-    @PostMapping("/create")
-    public ResponseEntity<Course> createCourse(@RequestBody Course course){
-        return ResponseEntity.ok(courseService.save(course));
+    @PostMapping("/create-course")
+    public ResponseEntity<?> createCourse(@RequestBody Course course, @RequestParam String teacherUsername){
+        AppUser teacher = appUserService.findByUsername(teacherUsername)
+                .orElseThrow(() -> new UsernameNotFoundException("Profesor no encontrado"));
+
+        if(!teacher.getRoles().contains(Role.TEACHER)){
+            return ResponseEntity.badRequest().body(Map.of("error", "Solo los profesores pueden crear el curso"));
+        }
+
+        course.setTeacher(teacher); // asigna el profesor al curso
+        course.setApproved(false); // queda pendiente de aprobar
+        course.setDescription(course.getDescription()); // guarda la descripcion
+
+        Course savedCourse = courseService.save(course);
+
+        return ResponseEntity.ok(
+                Map.of(
+                        "message", "Curso creado correctamente, pendiente de aprobación",
+                        "courseId", savedCourse.getId(),
+                        "name", savedCourse.getName(),
+                        "description", savedCourse.getDescription()
+                )
+                );
     }
 
     // obtener cursos pendientes de aprobacion
     //@PreAuthorize("hasRole('ADMIN')")
-    @GetMapping("/pending")
-    public List<Course> getPendingCourses(){
-        return courseService.getPendingApprovalCourse();
+    @GetMapping("/pending-courses")
+    public ResponseEntity<List<Course>> getPendingCourses(){
+        List<Course> pendingCourses = courseService.getPendingApprovalCourse();
+        return ResponseEntity.ok(pendingCourses);
     }
 
-    // aprobar curso
+    // aprobar curso (admin)
+    /*
+    busca el curso por id y cambia el estado
+
+     */
     //@PreAuthorize("hasRole('ADMIN')")
-    @PutMapping("/approve/{id}")
+    @PutMapping("/approve-course/{id}")
     public ResponseEntity<?> approveCourse(@PathVariable Long id){
-        courseService.approveCourse(id);
-        return ResponseEntity.ok("Curso aprobado");
+        Course course = courseService.findById(id);
+        if(course == null){
+            return ResponseEntity.badRequest().body(Map.of("error", "Curso no encontrado"));
+        }
+        if(course.isApproved()){
+            return ResponseEntity.badRequest().body(Map.of("error", "El curso ya esta aprobado"));
+        }
+        course.setApproved(true); // cambia el estado a aprobado
+        courseService.save(course); // guarda el curso con nuevo estado
+
+        return ResponseEntity.ok(Map.of(
+                "message", "Curso aprobado",
+                "courseId", course.getId()
+        ));
     }
 
-    // inscribirse en un curso
-    @PostMapping("/{courseId}/enroll")
+    // inscribirse en un curso (estudiante)
+    // @PreAuthorize("hasRole('STUDENT')")
+    @PostMapping("/enroll-course/{courseId}")
     public ResponseEntity<?> enrollCourse(@PathVariable Long courseId, @RequestParam String username){
         AppUser user = appUserService.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
@@ -93,30 +145,26 @@ public class CourseController {
     }
 
     //asignar curso a un profesor
-    @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/{courseId}/assign")
-    public ResponseEntity<?> assignCourse(@PathVariable Long courseId, @RequestParam String username){
-        AppUser admin = appUserService.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
-
-        if(!admin.getRoles().contains(Role.ADMIN)){
-            return ResponseEntity.badRequest().body(Map.of("error", "Solo los administradores pueden asignar cursos"));
-        }
-
+    //@PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/assign-course/{courseId}")
+    public ResponseEntity<?> assignCourse(@PathVariable Long courseId, @RequestParam String teacherUsername){
         Course course = courseService.findById(courseId);
-        if(course == null){
-            return ResponseEntity.badRequest().body(Map.of("error", "Course no encontrado"));
+        if (course == null) {
+            return ResponseEntity.badRequest().body(Map.of("error", "Curso no encontrado"));
         }
 
-        AppUser teacher = appUserService.findById(course.getTeacher().getId());
-        if (teacher == null || !teacher.getRoles().contains(Role.TEACHER)) {
+        AppUser teacher = appUserService.findByUsername(teacherUsername)
+                .orElseThrow(() -> new UsernameNotFoundException("Profesor no encontrado"));
+
+        if (!teacher.getRoles().contains(Role.TEACHER)) {
             return ResponseEntity.badRequest().body(Map.of("error", "El usuario no es un profesor válido"));
         }
 
-        teacher.getCourseGiven().add(course);
-        appUserService.save(teacher);
+        course.setTeacher(teacher); // asigna manualmente el profesor al curso
+        courseService.save(course); // guarda los cambios en la BD
 
-        return ResponseEntity.ok(Map.of("message", "Curso asignado correctamente"));
+        return ResponseEntity.ok(Map.of("message", "Curso asignado correctamente", "courseId", course.getId(), "teacher", teacher.getUsername()));
     }
+
 
 }
