@@ -1,8 +1,17 @@
-const API_URL = "http://localhost:8080";
+const API_URL = "http://localhost:8080/api";
 
-// Función para registrar un usuario
+// manejar solicitudes con fetch
+const handleResponse = async (response) => {
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.error || "Error en la solicitud");
+  }
+  return response.json();
+};
+
+// registrar un usuario
 export const register = async (username, email, password, passwordConfirm) => {
-  const response = await fetch(`${API_URL}/api/auth/register`, {
+  const response = await fetch(`${API_URL}/auth/register`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -10,12 +19,12 @@ export const register = async (username, email, password, passwordConfirm) => {
     body: JSON.stringify({ username, email, password, passwordConfirm }),
   });
 
-  return response.json();
+  return handleResponse(response);
 };
 
-// Función para hacer login y recibir el token JWT
+// hacer login y recibir el token JWT
 export const login = async (username, password) => {
-  const response = await fetch(`${API_URL}/api/auth/login`, {
+  const response = await fetch(`${API_URL}/auth/login`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -23,16 +32,16 @@ export const login = async (username, password) => {
     body: JSON.stringify({ username, password }),
   });
 
-  const data = await response.json();
+  const data = await handleResponse(response);
 
   if (data.token) {
-    localStorage.setItem("token", data.token); // Guardar el token en el navegador
+    localStorage.setItem("token", data.token); // guardar el token
   }
 
   return data;
 };
 
-// Función para hacer peticiones a endpoints protegidos con el token JWT
+// hacer peticiones a endpoints protegidos con el token JWT
 export const fetchWithAuth = async (url, options = {}) => {
   const token = localStorage.getItem("token");
 
@@ -44,7 +53,7 @@ export const fetchWithAuth = async (url, options = {}) => {
     ...options,
     headers: {
       ...options.headers,
-      Authorization: `Bearer ${token}`, // Enviar el token en el header
+      Authorization: `Bearer ${token}`, // enviar el token en el header
       "Content-Type": "application/json",
     },
   });

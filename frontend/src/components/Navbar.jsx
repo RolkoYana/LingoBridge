@@ -17,11 +17,12 @@ const Navbar = () => {
   // comprueba si el usuario esta logueado
   const isLoggedIn = !!localStorage.getItem("token");
 
-  // eliminar el token del almacenamiento local y redirige al usuario al inicio o login
+  // logout + eliminar el token del almacenamiento local y redirige al usuario al inicio o login
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
+    localStorage.removeItem("token"); // eliminar el token JWT
+    localStorage.removeItem("user"); // elimina la info del usuario
     navigate("/");
   };
 
