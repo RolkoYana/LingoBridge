@@ -3,6 +3,7 @@ package es.yana.lingobridgeback.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -31,6 +32,10 @@ public class Course {
             inverseJoinColumns = @JoinColumn(name = "student_id")
     )
     private Set<AppUser> students = new HashSet<>();
+    private boolean completed;
+    @Temporal(TemporalType.DATE) // se almacena en un campo Date en la BD
+    private Date completedAt;
+
 
 
 //    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)

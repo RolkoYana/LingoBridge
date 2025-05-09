@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -164,6 +165,25 @@ public class CourseController {
         courseService.save(course); // guarda los cambios en la BD
 
         return ResponseEntity.ok(Map.of("message", "Curso asignado correctamente", "courseId", course.getId(), "teacher", teacher.getUsername()));
+    }
+
+    // finalizar curso (admin)
+    @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping("/finalize-course/{courseId}")
+    public ResponseEntity<?> finalizeCourse(@PathVariable Long courseId){
+        Course course = courseService.findById(courseId);
+
+        if(course == null){
+            return ResponseEntity.badRequest().body(Map.of("error", "Curso no encontrado"));
+        }
+
+        // finalizar el curso y registrar fecha de cierre
+        course.setCompleted(true);
+        course.setCompletedAt(new Date());
+        courseService.save(course);
+
+        return ResponseEntity.ok(Map.of("message", "Curso finalizado correctamente"));
+
     }
 
 
