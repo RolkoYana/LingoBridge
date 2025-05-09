@@ -48,11 +48,18 @@ const CourseTable = () => {
             <tr key={course.id}>
               <td>{course.name}</td>
               <td>{course.description}</td>
-              <td>{course.approved ? "si" : "No"}</td>
+              <td>{course.approved ? "Si" : "No"}</td>
               <td>
                 {course.teacher?.name} {course.teacher?.surname}
               </td>
               <td>
+                <Button
+                  variand="primary"
+                  size="sm"
+                  onClick={() => onSelectCourse(course.id)}
+                >
+                  Seleccionar
+                </Button>
                 <Button variant="success" size="sm">
                   Aprobar
                 </Button>
