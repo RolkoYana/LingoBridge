@@ -42,4 +42,12 @@ public class UserDto {
     private List<CourseDto> courseGiven;
     private List<CourseDto> coursesEnrolled;
     private Language languageTaught;
+
+
+    //contructor adicional para la tabla de alumnos en el panel de profesor
+    public UserDto(String name, String surname, String courseName) {
+        this.name = name;
+        this.surname = surname;
+        this.coursesEnrolled = List.of(new CourseDto(courseName));
+    }
 }

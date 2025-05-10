@@ -2,15 +2,12 @@ package es.yana.lingobridgeback.dto.user;
 
 import es.yana.lingobridgeback.dto.CourseDto;
 import es.yana.lingobridgeback.entities.AppUser;
-import es.yana.lingobridgeback.entities.Course;
 import es.yana.lingobridgeback.entities.Language;
 import es.yana.lingobridgeback.enums.Role;
-import org.mapstruct.CollectionMappingStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 import java.util.List;
-import java.util.Set;
 
 @Mapper(
         componentModel = "spring"
@@ -50,4 +47,6 @@ public interface UserMapper {
 
     List<UserDto> toDtoList(List<AppUser> list);
     List<AppUser> toEntityList(List<UserDto> list);
+
+
 }

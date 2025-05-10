@@ -3,6 +3,7 @@ package es.yana.lingobridgeback.config;
 import es.yana.lingobridgeback.entities.AppUser;
 import es.yana.lingobridgeback.entities.Course;
 import es.yana.lingobridgeback.entities.Language;
+import es.yana.lingobridgeback.enums.CourseType;
 import es.yana.lingobridgeback.enums.Role;
 import es.yana.lingobridgeback.repositories.AppUserRepository;
 import es.yana.lingobridgeback.repositories.CourseRepository;
@@ -145,6 +146,7 @@ public class DataInitializer {
                 .approved(true)
                 .teacher(teacher3) // Alex
                 .students(Set.of(student1, student2))
+                .type(CourseType.INTENSIVO)
                 .build();
 
         Course course2 = Course.builder()
@@ -153,6 +155,7 @@ public class DataInitializer {
                 .approved(true)
                 .teacher(teacher4) // Sophie
                 .students(Set.of(student1, student3))
+                .type(CourseType.FLEXIBLE)
                 .build();
         Course course3 = Course.builder()
                 .name("Español Nivel B1")
@@ -160,6 +163,7 @@ public class DataInitializer {
                 .approved(true)
                 .teacher(teacher1) //Pilar
                 .students(Set.of(student2, student3))
+                .type(CourseType.GRUPAL)
                 .build();
         courseRepository.saveAll(List.of(course1, course2, course3));
 

@@ -1,5 +1,7 @@
 package es.yana.lingobridgeback.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import es.yana.lingobridgeback.enums.CourseType;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -21,6 +23,9 @@ public class Course {
     private String name;
     private String description;
     private boolean approved;
+    @Enumerated(EnumType.STRING)
+    private CourseType type;
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "teacher_id")
     private AppUser teacher;

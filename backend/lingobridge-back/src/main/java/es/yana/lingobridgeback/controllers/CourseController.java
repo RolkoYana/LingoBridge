@@ -1,5 +1,6 @@
 package es.yana.lingobridgeback.controllers;
 
+import es.yana.lingobridgeback.dto.CourseDto;
 import es.yana.lingobridgeback.entities.AppUser;
 import es.yana.lingobridgeback.entities.Course;
 import es.yana.lingobridgeback.enums.Role;
@@ -9,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,12 +31,22 @@ public class CourseController {
 
     // obtener todos los cursos
     @GetMapping("/courses")
-    public List<Course> getAllCourses(){
-        return courseService.findAll();
+    public List<CourseDto> getAllCourses(){
+        List<Course> courses = courseService.findAll();
+        return courses.stream().map(courseService::convertToDto).toList();
     }
 
-    // obtener cursos de un profesor
-    //@PreAuthorize("hasRole('TEACHER')")
+    // ver cursos de profesor
+    @PreAuthorize("hasAuthority('TEACHER')")
+    @GetMapping("/teacher/courses")
+    public ResponseEntity<List<CourseDto>> getTeacherCourses(@AuthenticationPrincipal UserDetails userDetails){
+        String teacherUsername = userDetails.getUsername();  // obtiene el username del usuario autenticado
+        List<CourseDto> courses = courseService.getCoursesByTeacher(teacherUsername);
+        return ResponseEntity.ok(courses);
+    }
+
+    // obtener un curso de profesor (al hacer clir ir a curso)
+    @PreAuthorize("hasAuthority('TEACHER')")
     @GetMapping("/teacher/course/{id}")
     public ResponseEntity<List<Course>> getCoursesByTeacher(@PathVariable Long id){
         AppUser teacher = appUserService.findById(id);
@@ -44,7 +57,7 @@ public class CourseController {
     }
 
     // ver cursos de un estudiante
-    //@PreAuthorize("hasRole('STUDENT')")
+    @PreAuthorize("hasAuthority('STUDENT')")
     @GetMapping("/student/course/{id}")
     public ResponseEntity<List<Course>> getCoursesByStudent(@PathVariable Long id){
         AppUser student = appUserService.findById(id);
@@ -70,7 +83,7 @@ public class CourseController {
   "description": "Curso intensivo para aprender JavaScript en profundidad"
 }
     */
-    //@PreAuthorize("hasRole('TEACHER')")
+    @PreAuthorize("hasAuthority('TEACHER')")
     @PostMapping("/create-course")
     public ResponseEntity<?> createCourse(@RequestBody Course course, @RequestParam String teacherUsername){
         AppUser teacher = appUserService.findByUsername(teacherUsername)
@@ -78,6 +91,10 @@ public class CourseController {
 
         if(!teacher.getRoles().contains(Role.TEACHER)){
             return ResponseEntity.badRequest().body(Map.of("error", "Solo los profesores pueden crear el curso"));
+        }
+
+        if (course.getType() == null) {
+            return ResponseEntity.badRequest().body(Map.of("error", "El tipo de curso no puede ser nulo"));
         }
 
         course.setTeacher(teacher); // asigna el profesor al curso
@@ -97,8 +114,8 @@ public class CourseController {
     }
 
     // obtener cursos pendientes de aprobacion
-    //@PreAuthorize("hasRole('ADMIN')")
-    @GetMapping("/pending-courses")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/admin/pending-courses")
     public ResponseEntity<List<Course>> getPendingCourses(){
         List<Course> pendingCourses = courseService.getPendingApprovalCourse();
         return ResponseEntity.ok(pendingCourses);
@@ -109,8 +126,8 @@ public class CourseController {
     busca el curso por id y cambia el estado
 
      */
-    //@PreAuthorize("hasRole('ADMIN')")
-    @PutMapping("/approve-course/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PutMapping("/admin/approve-course/{id}")
     public ResponseEntity<?> approveCourse(@PathVariable Long id){
         Course course = courseService.findById(id);
         if(course == null){
@@ -129,8 +146,8 @@ public class CourseController {
     }
 
     // inscribirse en un curso (estudiante)
-    // @PreAuthorize("hasRole('STUDENT')")
-    @PostMapping("/enroll-course/{courseId}")
+    @PreAuthorize("hasAuthority('STUDENT')")
+    @PostMapping("/student/enroll-course/{courseId}")
     public ResponseEntity<?> enrollCourse(@PathVariable Long courseId, @RequestParam String username){
         AppUser user = appUserService.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
@@ -146,8 +163,8 @@ public class CourseController {
     }
 
     //asignar curso a un profesor
-    //@PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/assign-course/{courseId}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PostMapping("/admin/assign-course/{courseId}")
     public ResponseEntity<?> assignCourse(@PathVariable Long courseId, @RequestParam String teacherUsername){
         Course course = courseService.findById(courseId);
         if (course == null) {
@@ -168,8 +185,8 @@ public class CourseController {
     }
 
     // finalizar curso (admin)
-    @PreAuthorize("hasRole('ADMIN')")
-    @PutMapping("/finalize-course/{courseId}")
+    @PreAuthorize("hasAuthority('TEACHER')")
+    @PutMapping("/admin/finalize-course/{courseId}")
     public ResponseEntity<?> finalizeCourse(@PathVariable Long courseId){
         Course course = courseService.findById(courseId);
 

@@ -15,4 +15,7 @@ public interface AppUserRepository extends JpaRepository<AppUser, Long> {
     @Query("SELECT u FROM AppUser u WHERE u.roles LIKE :role")
     List<AppUser> findByRole(@Param("role") String role);
     AppUser save(AppUser user);
+    @Query("SELECT DISTINCT s FROM Course c JOIN c.students s WHERE c.teacher.username = :teacherUsername")
+    List<AppUser> findStudentsByTeacher(@Param("teacherUsername") String teacherUsername);
+
 }

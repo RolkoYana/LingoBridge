@@ -1,5 +1,6 @@
 package es.yana.lingobridgeback.services;
 
+import es.yana.lingobridgeback.dto.CourseDto;
 import es.yana.lingobridgeback.entities.Course;
 import es.yana.lingobridgeback.repositories.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,4 +48,31 @@ public class CourseService {
     public Optional<Course> findByName(String name){
         return courseRepository.findByName(name);
     }
+
+//     convierte entidad a dto
+    public CourseDto convertToDto(Course course) {
+        return new CourseDto(
+                course.getId(),
+                course.getName(),
+                course.getDescription(),
+                course.getTeacher().getName(),
+                course.getType(),
+                course.getStudents().size()
+        );
+    }
+
+    public List<CourseDto> getCoursesByTeacher(String teacherUsername) {
+        List<Course> courses = courseRepository.findByTeacherUsername(teacherUsername);
+        return courses.stream()
+                .map(course -> new CourseDto(
+                        course.getId(),
+                        course.getName(),
+                        course.getDescription(),
+                        course.getTeacher().getUsername(),
+                        course.getType(),
+                        course.getStudents().size()
+                ))
+                        .toList();
+    }
+
 }

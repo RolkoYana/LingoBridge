@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Primary
 @RequiredArgsConstructor
@@ -29,7 +30,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         // Convertir la lista de roles en una lista de SimpleGrantedAuthority
         List<SimpleGrantedAuthority> authorities = user.getRoles().stream()
                 .map(role -> new SimpleGrantedAuthority(role.name()))
-                .toList();
+                .collect(Collectors.toList());
 
         return User.builder()
                 .username(user.getUsername())
