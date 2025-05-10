@@ -8,6 +8,7 @@ import StudentPage from "./pages/StudentPage";
 import TeacherPage from "./pages/TeacherPage";
 import StudentCoursePage from "./pages/StudentCoursePage";
 import TeacherCoursePage from "./pages/TeacherCoursePage";
+import CreateCourseForm from "./components/forms/CreateCourseForm";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
 
         {/* panel de profesor */}
         <Route path="/teacher" element={<TeacherPage />} />
+        <Route path="/teacher/create-course" element={<CreateCourseForm/>}/>
 
         {/* pagina de curso para alumno*/}
         <Route path="/student/course/:id" element={<StudentCoursePage />} />

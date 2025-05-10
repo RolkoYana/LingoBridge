@@ -1,18 +1,27 @@
 import React from "react";
-import { Navbar, Form, FormControl } from "react-bootstrap";
+import { Row, Col, InputGroup, Form } from "react-bootstrap";
 import { FaBell, FaUserCircle } from "react-icons/fa";
 
 const TeacherHeader = () => {
+  const user = JSON.parse(localStorage.getItem("user"));
+
   return (
-    <Navbar bg="light" className="p-3">
-      <Form className="d-flex w-75">
-        <FormControl type="search" placeholder="Buscar..." className="me-2" />
-      </Form>
-      <div className="d-flex align-items-center">
-        <FaBell size={24} className="me-3 text-dark" />
-        <FaUserCircle size={30} className="text-dark" />
-      </div>
-    </Navbar>
+    <Row className="align-items-center mb-4">
+      <Col>
+        <h5>
+          ¡Bienvenido, <strong>{user?.name || "Profesor"}</strong>!
+        </h5>
+      </Col>
+      <Col>
+        <InputGroup>
+          <Form.Control type="text" placeholder="Buscar..." />
+        </InputGroup>
+      </Col>
+      <Col sx="auto">
+        <FaBell className="me-3" size={20} />
+        <FaUserCircle size={32} />
+      </Col>
+    </Row>
   );
 };
 

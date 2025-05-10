@@ -1,12 +1,12 @@
 import React from "react";
 import { Row, Col, Button, Card, Table } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 const TeacherDashboard = ({ name }) => {
+  const navigate = useNavigate();
+
   return (
     <>
-      <Card className="p-3 mb-3">
-        <h4>¡Bienvenido, {name}!</h4>
-      </Card>
 
       <Row>
         <Col md={8}>
@@ -38,7 +38,12 @@ const TeacherDashboard = ({ name }) => {
         <Col md={4}>
           <Card className="p-3 mb-3">
             <h5>Crear un curso</h5>
-            <Button variant="primary">Crear Curso</Button>
+            <Button
+              variant="primary"
+              onClick={() => navigate("/teacher/create-course")}
+            >
+              Crear Curso
+            </Button>
           </Card>
 
           <Card className="p-3">

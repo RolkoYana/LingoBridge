@@ -42,6 +42,23 @@ export const login = async (username, password) => {
 };
 
 // hacer peticiones a endpoints protegidos con el token JWT
+// export const fetchWithAuth = async (url, options = {}) => {
+//   const token = localStorage.getItem("token");
+
+//   if (!token) {
+//     throw new Error("Usuario no autenticado");
+//   }
+
+//   return fetch(`${API_URL}${url}`, {
+//     ...options,
+//     headers: {
+//       ...options.headers,
+//       Authorization: `Bearer ${token}`, // enviar el token en el header
+//       "Content-Type": "application/json",
+//     },
+//   });
+// };
+
 export const fetchWithAuth = async (url, options = {}) => {
   const token = localStorage.getItem("token");
 
@@ -49,7 +66,7 @@ export const fetchWithAuth = async (url, options = {}) => {
     throw new Error("Usuario no autenticado");
   }
 
-  return fetch(`${API_URL}${url}`, {
+  const response = await fetch(`${API_URL}${url}`, {
     ...options,
     headers: {
       ...options.headers,
@@ -57,4 +74,12 @@ export const fetchWithAuth = async (url, options = {}) => {
       "Content-Type": "application/json",
     },
   });
+
+  // Verifica que la respuesta sea exitosa
+  if (!response.ok) {
+    throw new Error(`Error en la respuesta: ${response.status}`);
+  }
+
+  // Convierte la respuesta a JSON antes de devolverla
+  return response.json();
 };

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Nav } from "react-bootstrap";
-import { FaAngleDown } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
-const TeacherSidebar = () => {
-  const [showCourses, setShowCourses] = useState(false);
+const TeacherSidebar = ({ setActiveSection }) => {
+  const navigate = useNavigate();
   const [courses, setCourses] = useState([]);
 
   useEffect(() => {
@@ -15,39 +15,51 @@ const TeacherSidebar = () => {
 
   return (
     <Nav className="flex-column text-center mt-4">
-      <Nav.Link href="#" className="text-white">
-        Cambiar modo
-      </Nav.Link>
-      {/* Mis Cursos con menú desplegable */}
+      {/* modo estudiante */}
       <Nav.Link
-        onClick={() => setShowCourses(!showCourses)}
         className="text-white"
         style={{ cursor: "pointer" }}
+        onClick={() => navigate("/student")}
       >
-        Mis cursos <FaAngleDown className="ms-2" />
+        Modo estudiante
       </Nav.Link>
-      {showCourses &&
-        courses.map((course) => (
-          <Nav.Link
-            key={course.id}
-            href={`/teacher/course/${course.id}`}
-            className="text-white ps-4"
-          >
-            {course.name}
-          </Nav.Link>
-        ))}
-      <Nav.Link href="#" className="text-white">
+      <Nav.Link
+        onClick={() => setActiveSection("inicio")}
+        className="text-white my-2"
+      >
+        Inicio
+      </Nav.Link>
+
+      {/* mis cursos - session por defecto al entrar a la pagina */}
+      <Nav.Link
+        className="text-white"
+        style={{ cursor: "pointer" }}
+        onClick={() => setActiveSection("mis-cursos")}
+      >
+        Mis cursos
+      </Nav.Link>
+      <Nav.Link
+        className="text-white"
+        style={{ cursor: "pointer" }}
+        onClick={() => setActiveSection("mis-alumnos")}
+      >
+        Mis alumnos
+      </Nav.Link>
+      <Nav.Link
+        className="text-white"
+        style={{ cursor: "pointer" }}
+        onClick={() => setActiveSection("material")}
+      >
         Material
       </Nav.Link>
-      <Nav.Link href="#" className="text-white">
+      <Nav.Link
+        className="text-white"
+        style={{ cursor: "pointer" }}
+        onClick={() => setActiveSection("evaluaciones")}
+      >
         Evaluaciones
       </Nav.Link>
-      <Nav.Link href="#" className="text-white">
-        Mensajes
-      </Nav.Link>
-      <Nav.Link href="#" className="text-white">
-        Ajustes
-      </Nav.Link>
+      <Nav.Link className="text-white">Mensajes</Nav.Link>
     </Nav>
   );
 };
