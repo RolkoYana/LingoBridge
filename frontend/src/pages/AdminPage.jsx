@@ -1,23 +1,28 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import AdminSidebar from "../components/admin/AdminSidebar";
 import AdminHeader from "../components/admin/AdminHeader";
 import UserTable from "../components/admin/UserTable";
-import CourseTable from "../components/admin/CourseTable";
 import AdminStats from "../components/admin/AdminStats";
-import ApproveCourse from "../components/admin/ApproveCourse";
-import AssignCourse from "../components/admin/AssignCourse";
-import FinalizeCourse from "../components/admin/FinalizeCourse";
-import { useState } from "react";
+import ActiveCourses from "../components/admin/ActiveCourses";
+import PendingCourses from "../components/admin/PendingCourses";
 
 const AdminPage = () => {
-  const user = localStorage.getItem("user");
-  const userData = user ? JSON.parse(user) : null;
-  const [selectedCourseId, setSelectedCourseId] = useState(null);
+  const [activeSection, setActiveSection] = useState("cursos-activos"); // se ve el apartado de cursos activos por defecto al entrar a la pagina de admin
+  const [userData, setUserData] = useState(null);
 
-  console.log("Datos del usuario en localStorage:", userData);
+  useEffect(() => {
+    const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
+    console.log("Usuario cargado desde localStorage:", storedUser);
 
-  if (!userData || !userData.token || !userData.roles.includes("ADMIN")) {
+    setUserData(storedUser);
+  }, []);
+
+  console.log("userData antes de la validación:", userData);
+  console.log("Roles antes de la validación:", userData?.roles);
+  console.log("Es un array?:", Array.isArray(userData?.roles));
+
+  if (!userData?.token || ![].concat(userData.roles).includes("ADMIN")) {
     return (
       <p className="text-center text-danger mt-5">
         Acceso denegado. Debes iniciar sesión como administrador.
@@ -29,22 +34,20 @@ const AdminPage = () => {
     <Container fluid className="min-vh-100 bg-light">
       <Row>
         <Col xs={2} className="bg-secondary text-white p-0">
-          <AdminSidebar />
+          <AdminSidebar setActiveSection={setActiveSection} />{" "}
+          {/* sidebar envía el estado */}
         </Col>
         <Col xs={10} className="p-3">
           <AdminHeader />
-          <UserTable />
-          <CourseTable onSelectCourse={setSelectedCourseId} />
-          <AdminStats />
-          <ApproveCourse /> {/* panel de cursos pendientes de aprobar */}
-          {/* solo muestra asignacion y finalizacion si hay un curso seleccionado */}
-          {selectedCourseId && (
-            <>
-              <h3>Gestionando Cursi ID: {selectedCourseId}</h3>
-              <AssignCourse courseId={selectedCourseId} />
-              <FinalizeCourse courseId={selectedCourseId} />
-            </>
+
+          {/* renderiza la sección correcta según `activeSection` */}
+          {activeSection === "inicio" && (
+            <h3>Bienvenido al Panel de Administración</h3>
           )}
+          {activeSection === "cursos-activos" && <ActiveCourses />}
+          {activeSection === "cursos-pendientes" && <PendingCourses />}
+          {activeSection === "usuarios" && <UserTable />}
+          {activeSection === "estadisticas" && <AdminStats />}
         </Col>
       </Row>
     </Container>

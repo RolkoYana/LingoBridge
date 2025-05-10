@@ -1,54 +1,23 @@
 import React, { useState, useEffect } from "react";
-import { fetchWithAuth } from "../utils/api";
+import { fetchWithAuth } from "../../api/api";
 
 // componente que permite al admin ver y aprobar los cursos
 
-const ApproveCourse = () => {
-  const [pendingCourses, setPendingCourses] = useState([]);
-
-  // obtener los cursos pendientes
-  useEffect(() => {
-    const fetchPendingCourses = async () => {
-      try {
-        const data = await fetchWithAuth("/pending-courses"); // GET de backend para ver los cursos pendientes
-        setPendingCourses(data); //guard la lista de cursos
-      } catch (error) {
-        alert(error.message);
-      }
-    };
-    fetchPendingCourses();
-  }, []);
-
-  // aprobar el curso
-  const approveCourse = async (courseId) => {
+const ApproveCourse = ({ courseId, onApprove }) => {
+  const approveCourse = async () => {
     try {
-      const data = await fetchWithAuth("/approve-course/${courseId}", {
+      const data = await fetchWithAuth(`/approve-course/${courseId}`, {
         method: "PUT",
-      }); // PUT de backend para aprobar el curso seleccionado
+      });
+
       alert(data.message);
-      // eliminar curso aprobado y actualizar la lista de pendientes
-      setPendingCourses(pendingCourses.filter((c) => c.id !== courseId));
+      onApprove(courseId); // elimina el curso aprobado de `PendingCourses`
     } catch (error) {
-      alert(error.message);
+      alert("Error al aprobar el curso: " + error.message);
     }
   };
 
-  return (
-    <div>
-      <h2>Cursos Pendientes de aprobar</h2>
-      {/* mapear los cursos pendientes y mostrar un boton para aprobar */}
-      {pendingCourses.map((course) => (
-        <div key={course.id}>
-          <p>
-            {course.name} - {course.description}
-          </p>
-          <button onClick={() => approveCourse(course.id)}>
-            Aprobar curso
-          </button>
-        </div>
-      ))}
-    </div>
-  );
+  return <button onClick={approveCourse}>Aprobar curso</button>;
 };
 
 export default ApproveCourse;

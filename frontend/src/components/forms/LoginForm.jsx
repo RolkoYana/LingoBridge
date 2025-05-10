@@ -29,10 +29,10 @@ const LoginForm = () => {
           username: response.username,
           roles: response.roles,
           courses: response.courses || [], // confirmar que courses existe
-        }
+          token: response.token,
+        };
 
-        localStorage.setItem("user", JSON.stringify(userData))
-
+        localStorage.setItem("user", JSON.stringify(userData));
 
         // redirigir segun el rol
         if (response.roles.includes("ADMIN")) {
@@ -67,6 +67,7 @@ const LoginForm = () => {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
+            autoComplete="username"
           />
         </InputGroup>
       </Form.Group>
@@ -82,6 +83,7 @@ const LoginForm = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
+            autoComplete="current-password"
           />
         </InputGroup>
       </Form.Group>
