@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Row, Col, InputGroup, Form } from "react-bootstrap";
+import { Row, Col, InputGroup, Form, Dropdown } from "react-bootstrap";
 import { FaBell, FaUserCircle } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const TeacherHeader = () => {
   const [user, setUser] = useState({ name: "Profesor" });
+  const navigate = useNavigate();
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -15,6 +17,11 @@ const TeacherHeader = () => {
       }
     }
   }, []);
+
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate("/login");
+  };
 
   return (
     <Row className="align-items-center mb-4">
@@ -28,9 +35,26 @@ const TeacherHeader = () => {
           <Form.Control type="text" placeholder="Buscar..." />
         </InputGroup>
       </Col>
-      <Col sx="auto">
-        <FaBell className="me-3" size={20} />
-        <FaUserCircle size={32} />
+      <Col xs="auto">
+        <div className="d-flex align-items-center gap-3">
+          <FaBell size={20} />
+          <Dropdown align="end">
+            <Dropdown.Toggle
+              as="span"
+              style={{ cursor: "pointer" }}
+              id="dropdown-user"
+            >
+              <FaUserCircle size={32} />
+            </Dropdown.Toggle>
+
+            <Dropdown.Menu>
+              <Dropdown.Item onClick={handleLogout}>
+                <i className="bi bi-box-arrow-right me-2"></i>
+                Cerrar sesión
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+        </div>
       </Col>
     </Row>
   );
