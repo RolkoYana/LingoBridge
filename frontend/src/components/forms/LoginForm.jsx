@@ -26,6 +26,7 @@ const LoginForm = () => {
 
         // obtener datos del usuario
         const userData = {
+          name: response.name,
           username: response.username,
           roles: response.roles,
           courses: response.courses || [], // confirmar que courses existe

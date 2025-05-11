@@ -23,13 +23,6 @@ const TeacherSidebar = ({ setActiveSection }) => {
       >
         Modo estudiante
       </Nav.Link>
-      <Nav.Link
-        onClick={() => setActiveSection("inicio")}
-        className="text-white my-2"
-      >
-        Inicio
-      </Nav.Link>
-
       {/* mis cursos - session por defecto al entrar a la pagina */}
       <Nav.Link
         className="text-white"

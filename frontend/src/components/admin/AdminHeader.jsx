@@ -1,9 +1,20 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Row, Col, Form, InputGroup } from "react-bootstrap";
 import { FaUserCircle, FaBell } from "react-icons/fa";
 
 const AdminHeader = () => {
-  const user = JSON.parse(localStorage.getItem("user"));
+  const [user, setUser] = useState({ name: "Admin" });
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      try {
+        setUser(JSON.parse(storedUser));
+      } catch (e) {
+        console.error("Error al parsear user:", e);
+      }
+    }
+  }, []);
 
   return (
     <Row className="align-items-center mb-4">

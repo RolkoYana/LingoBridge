@@ -1,13 +1,28 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Row, Col, Form, InputGroup } from "react-bootstrap";
 import { FaBell, FaUserCircle } from "react-icons/fa";
 
 const StudentHeader = ({ name }) => {
+  const [user, setUser] = useState({ name: "Student" });
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      try {
+        setUser(JSON.parse(storedUser));
+      } catch (e) {
+        console.error("Error al parsear user:", e);
+      }
+    }
+  }, []);
+
   return (
     <>
       <Row className="align-items-center mb-3">
         <Col>
-          <h5>¡Bienvenido/a {name}!</h5>
+          <h5>
+            ¡Bienvenido, <strong>{user?.name || "Student"}</strong>!
+          </h5>
         </Col>
         <Col className="text-end">
           <FaUserCircle size={30} />
