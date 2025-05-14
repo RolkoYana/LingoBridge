@@ -6,6 +6,7 @@ import UserTable from "../components/admin/UserTable";
 import AdminStats from "../components/admin/AdminStats";
 import ActiveCourses from "../components/admin/ActiveCourses";
 import PendingCourses from "../components/admin/PendingCourses";
+import AllCourses from "../components/admin/AllCourses";
 
 const AdminPage = () => {
   const [activeSection, setActiveSection] = useState("cursos-activos"); // se ve el apartado de cursos activos por defecto al entrar a la pagina de admin
@@ -44,6 +45,7 @@ const AdminPage = () => {
           {activeSection === "inicio" && (
             <h3>Bienvenido al Panel de Administración</h3>
           )}
+          {activeSection === "todos-los-cursos" && <AllCourses />}
           {activeSection === "cursos-activos" && <ActiveCourses />}
           {activeSection === "cursos-pendientes" && <PendingCourses />}
           {activeSection === "usuarios" && <UserTable />}

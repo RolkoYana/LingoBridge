@@ -6,7 +6,7 @@ import { fetchWithAuth } from "../../api/api";
 const RejectCourse = ({ courseId, onReject }) => {
   const rejectCourse = async () => {
     try {
-      const data = await fetchWithAuth(`/reject-course/${courseId}`, {
+      const data = await fetchWithAuth(`/admin/reject-course/${courseId}`, {
         method: "DELETE",
       });
 

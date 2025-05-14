@@ -1,18 +1,34 @@
 import React from "react";
 import { Button, Nav } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
-const TeacherCourseSidebar = () => {
+const TeacherCourseSidebar = ({ setActiveSection }) => {
+  const navigate = useNavigate();
+
   return (
     <Nav className="flex-column text-center mt-4">
-      <Button variant="outline-secondary" className="w-100 mb-2">
+      <Nav.Link
+        className="text-white"
+        style={{ cursor: "pointer" }}
+        onClick={() => navigate("/teacher")}
+      >
         Inicio
-      </Button>
-      <Button variant="outline-secondary" className="w-100 mb-2">
+      </Nav.Link>
+      <Nav.Link
+        className="text-white"
+        style={{ cursor: "pointer" }}
+        onClick={() => setActiveSection("add-material")}
+      >
         Añadir Material
-      </Button>
-      <Button variant="outline-secondary" className="w-100">
+      </Nav.Link>
+
+      <Nav.Link
+        className="text-white"
+        style={{ cursor: "pointer" }}
+        onClick={() => setActiveSection("create-task")}
+      >
         Crear Tarea
-      </Button>
+      </Nav.Link>
     </Nav>
   );
 };

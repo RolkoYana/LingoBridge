@@ -6,7 +6,7 @@ import { fetchWithAuth } from "../../api/api";
 const ApproveCourse = ({ courseId, onApprove }) => {
   const approveCourse = async () => {
     try {
-      const data = await fetchWithAuth(`/approve-course/${courseId}`, {
+      const data = await fetchWithAuth(`/admin/approve-course/${courseId}`, {
         method: "PUT",
       });
 

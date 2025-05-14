@@ -11,6 +11,12 @@ const AdminSidebar = ({ setActiveSection }) => {
         Inicio
       </Nav.Link>
       <Nav.Link
+        onClick={() => setActiveSection("todos-los-cursos")}
+        className="text-white my-2"
+      >
+        Todos los Cursos
+      </Nav.Link>
+      <Nav.Link
         onClick={() => setActiveSection("cursos-activos")}
         className="text-white my-2"
       >

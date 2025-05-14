@@ -1,36 +1,71 @@
 import React, { useState } from "react";
-import { Form, Button, Card, Row, Col } from "react-bootstrap";
+import { Form, Button, Card, Row, Col, Modal } from "react-bootstrap";
+import { fetchWithAuth } from "../../api/api";
 
-const CreateCourseForm = () => {
+const CreateCourseForm = ({ onSuccess }) => {
   const [course, setCourse] = useState({
     name: "",
     description: "",
     level: "A1",
-    type: "Intensivo",
+    type: "INTENSIVO",
     completedAt: "",
   });
+  const [errorMessage, setErrorMessage] = useState(null);
 
   const levels = ["A1", "A2", "B1", "B2", "C1", "C2"];
-  const courseTypes = ["Intenivo", "Grupal", "Flexible"];
+  const courseTypes = ["INTENSIVO", "GRUPAL", "FLEXIBLE"];
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setCourse({ ...course, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Curso a enviar:", {
+
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (!user || !user.username) {
+      alert("No se encontró el usuario autenticado.");
+      return;
+    }
+
+    const courseToSend = {
       ...course,
       approved: false,
       completed: false,
-    });
-    // aqui se mandara la info a backend
+    };
+
+    try {
+      const data = await fetchWithAuth(
+        `/teacher/create-course?teacherUsername=${user.username}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(courseToSend),
+        }
+      );
+
+      alert("Curso creado correctamente");
+      onSuccess();
+      setCourse({
+        name: "",
+        description: "",
+        level: "A1",
+        type: "INTENSIVO",
+        completedAt: "",
+      });
+    } catch (error) {
+      console.error("Error al crear el curso:", error);
+      alert("Hubo un error al crear el curso");
+    }
   };
 
   return (
     <Card className="p-4">
       <h3>Crear Curso</h3>
+      {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
       <Form onSubmit={handleSubmit}>
         <Row>
           <Col md={6}>

@@ -7,9 +7,12 @@ const CompleteCourse = ({ courseId, onComplete }) => {
   const completeCourse = async () => {
     setLoading(true);
     try {
-      const response = await fetchWithAuth(`/finalize-course/${courseId}`, {
-        method: "PUT",
-      });
+      const response = await fetchWithAuth(
+        `/admin/complete-course/${courseId}`,
+        {
+          method: "PUT",
+        }
+      );
 
       alert("Curso finalizado correctamente.");
       onComplete(courseId); // elimina el curso de la tabla de cursos activos

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Table, Button } from "react-bootstrap";
 import ApproveCourse from "./ApproveCourse";
 import RejectCourse from "./RejectCourse";
+import { fetchWithAuth } from "../../api/api";
 
 // este componente muestra cursos con approved: false y permite aprobarlos
 
@@ -11,19 +12,12 @@ const PendingCourses = () => {
   const token = userData?.token;
 
   useEffect(() => {
-    fetch("http://localhost:8080/api/courses", {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => setCourses(data.filter((course) => !course.approved)))
+    fetchWithAuth("/admin/pending-courses")
+      .then((data) => setCourses(data))
       .catch((err) => console.error("Error al cargar cursos:", err));
-  }, [token]);
+  }, []);
 
-  // actualizar la lista tras aprobacion del curso
+  // Actualizar la lista tras aprobación o rechazo de curso
   const removeCourse = (courseId) => {
     setCourses(courses.filter((c) => c.id !== courseId));
   };

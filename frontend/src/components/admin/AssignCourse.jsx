@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { fetchWithAuth } from "../../api/api";
 
-const AssignCourse = ({courseId}) => {
+const AssignCourse = ({ courseId, onAssign }) => {
   const [teachers, setTeachers] = useState([]);
   const [selectedTeacher, setSelectedTeacher] = useState("");
 
@@ -9,7 +9,7 @@ const AssignCourse = ({courseId}) => {
   useEffect(() => {
     const fetchTeachers = async () => {
       try {
-        const data = await fetchWithAuth("/teachers"); // endpoint que devuelve la lista de profesores
+        const data = await fetchWithAuth("/admin/teachers");
         setTeachers(data);
       } catch (error) {
         alert("Error al obtener profesores");
@@ -26,10 +26,14 @@ const AssignCourse = ({courseId}) => {
     }
     try {
       const response = await fetchWithAuth(
-        "assign-course/${courseId}?teacherUsername=${selectedTeacher}",
+        `/admin/assign-course/${courseId}?teacherUsername=${selectedTeacher}`,
         { method: "POST" }
       );
       alert(response.message);
+
+      if (onAssign) {
+        onAssign();
+      }
     } catch (error) {
       alert("Error al asignar curso");
     }
@@ -37,12 +41,16 @@ const AssignCourse = ({courseId}) => {
 
   return (
     <div>
-      <h3>Asignar Curso a Profesor</h3>
-      <select onChange={(e) => setSelectedTeacher(e.target.value)}>
+      <h5>Asignar Curso a Profesor</h5>
+      <select
+        onChange={(e) => setSelectedTeacher(e.target.value)} // Actualizamos el estado con el valor seleccionado
+        value={selectedTeacher} // El valor seleccionado es el username del profesor
+      >
         <option value="">Selecciona un profesor</option>
         {teachers.map((teacher) => (
-          <option key={teacher.username} value={teacher.username}>
-            {teacher.username}
+          // Mapeamos la lista de profesores y mostramos su nombre y username
+          <option key={teacher.id} value={teacher.username}>
+            {teacher.name} {teacher.surname} ({teacher.username})
           </option>
         ))}
       </select>

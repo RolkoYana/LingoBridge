@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Modal, Button } from "react-bootstrap";
 import TeacherSidebar from "../components/teacher/TeacherSidebar";
 import TeacherHeader from "../components/teacher/TeacherHeader";
 import TeacherCourses from "../components/teacher/TeacherCourses";
@@ -7,49 +7,66 @@ import TeacherStudents from "../components/teacher/TeacherStudents";
 import TeacherMaterials from "../components/teacher/TeacherMaterials";
 import TeacherEvaluations from "../components/teacher/TeacherEvaluations";
 import TeacherMessages from "../components/teacher/TeacherMessages";
+import CreateCourseForm from "../components/forms/CreateCourseForm";
 
 const TeacherPage = () => {
   const [activeSection, setActiveSection] = useState("mis-cursos");
   const [userData, setUserData] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
-    console.log("Usuario cargado desde localStorage:", storedUser);
-
     setUserData(storedUser);
   }, []);
 
-  console.log("userData antes de la validación:", userData);
-  console.log("Roles antes de la validación:", userData?.roles);
-  console.log("Es un array?:", Array.isArray(userData?.roles));
-
   if (!userData?.token || ![].concat(userData.roles).includes("TEACHER")) {
-    return (
-      <p className="text-center text-danger mt-5">
-        Acceso denegado. Debes iniciar sesión como profesor.
-      </p>
-    );
+    return <p className="text-center text-danger mt-5">Acceso denegado.</p>;
   }
 
-  const user = JSON.parse(localStorage.getItem("user"));
   return (
     <Container fluid className="min-vh-100 bg-light">
       <Row>
         <Col xs={2} className="bg-dark text-white p-0">
           <TeacherSidebar setActiveSection={setActiveSection} />
         </Col>
-        <Col md={9} className="p-4">
+
+        <Col md={10} className="p-4">
           <TeacherHeader />
 
-          {/* Renderizar sección activa según lo seleccionado en el sidebar */}
-          {activeSection === "inicio" && (
-            <h3>Bienvenido all Panel de Profesor</h3>
-          )}
-          {activeSection === "mis-cursos" && <TeacherCourses />}
-          {activeSection === "mis-alumnos" && <TeacherStudents />}
-          {activeSection === "material" && <TeacherMaterials />}
-          {activeSection === "evaluaciones" && <TeacherEvaluations />}
-          {activeSection === "mensajes" && <TeacherMessages />}
+          {/* Botón y contenido en fila */}
+          <Row className="align-items-start mt-3">
+            <Col md={10}>
+              {activeSection === "inicio" && <h3>Bienvenido al Panel</h3>}
+              {activeSection === "mis-cursos" && <TeacherCourses />}
+              {activeSection === "mis-alumnos" && <TeacherStudents />}
+              {activeSection === "material" && <TeacherMaterials />}
+              {activeSection === "evaluaciones" && <TeacherEvaluations />}
+              {activeSection === "mensajes" && <TeacherMessages />}
+            </Col>
+
+            <Col md={2}>
+              <div className="d-flex justify-content-end">
+                <Button variant="success" onClick={() => setShowModal(true)}>
+                  Crear Curso
+                </Button>
+              </div>
+            </Col>
+          </Row>
+
+          {/* Modal con el formulario */}
+          <Modal
+            show={showModal}
+            onHide={() => setShowModal(false)}
+            size="lg"
+            centered
+          >
+            <Modal.Header closeButton>
+              <Modal.Title>Crear un nuevo curso</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <CreateCourseForm onSuccess={()=> setShowModal(false)}/>
+            </Modal.Body>
+          </Modal>
         </Col>
       </Row>
     </Container>

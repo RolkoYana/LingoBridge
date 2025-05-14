@@ -11,7 +11,7 @@ const UserTable = () => {
     if (!token) {
       return <p>No autorizado. Por favor inicia sesión.</p>;
     }
-    fetch("http://localhost:8080/api/users", {
+    fetch("http://localhost:8080/api/admin/users", {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -22,7 +22,7 @@ const UserTable = () => {
         if (!res.ok) {
           throw new Error(`Error ${res.status}: No autorizado`);
         }
-        res.json();
+        return res.json();
       })
       .then((data) => setUsers(data))
       .catch((err) => console.error("Error al cargar usuarios:", err));
@@ -34,28 +34,23 @@ const UserTable = () => {
       <Table bordered hover>
         <thead>
           <tr>
+            <th>ID</th>
             <th>Nombre</th>
-            <th>Apellidos</th>
-            <th>Rol</th>
+            <th>Apellido</th>
+            <th>Nombre de usuario</th>
             <th>Email</th>
-            <th>Acciones</th>
+            <th>Rol</th>
           </tr>
         </thead>
         <tbody>
           {users.map((user) => (
             <tr key={user.id}>
+              <td>{user.id}</td>
               <td>{user.name}</td>
               <td>{user.surname}</td>
-              <td>{user.roles.join(", ")}</td>
+              <td>{user.username}</td>
               <td>{user.email}</td>
-              <td>
-                <Button variant="success" size="sm">
-                  Activar
-                </Button>
-                <Button variant="warning" size="sm">
-                  Desactivar
-                </Button>
-              </td>
+              <td>{user.roles.join(", ")}</td>
             </tr>
           ))}
         </tbody>

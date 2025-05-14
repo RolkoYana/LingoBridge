@@ -1,46 +1,49 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { Nav } from "react-bootstrap";
 import { FaAngleDown } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
-const StudentSidebar = () => {
-  const [showCourses, setShowCourses] = useState(false); // para controlar si el menu de cursos esta desplegado o no 
+const StudentSidebar = ({ setActiveSection }) => {
+  const [showCourses, setShowCourses] = useState(false); // para controlar si el menu de cursos esta desplegado o no
   const [courses, setCourses] = useState([]); // para almacenar los cursos del estudiante
+  const navigate = useNavigate();
 
   // obtener los cursos cuando el componente se monta
-  useEffect(() =>{
-    const user = JSON.parse(localStorage.getItem("user")) // obtener usuario desde localStorage 
-    
-    if(user && user.roles.includes("STUDENT") && user.courses){
-      setCourses(user.courses); // los cursos deben existir en la API de login 
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("user")); // obtener usuario desde localStorage
+
+    if (user && user.roles.includes("STUDENT") && user.courses) {
+      setCourses(user.courses); // los cursos deben existir en la API de login
     }
-  
-  }, []) // [] - hace que el efecto se ejecute solo una vez al montar el componente
+  }, []); // [] - hace que el efecto se ejecute solo una vez al montar el componente
 
   return (
     <Nav className="flex-column text-center mt-4">
       <Nav.Link href="#" className="text-white">
         Inicio
       </Nav.Link>
-      {/* enlace "Mis cursos" con la opcion de desplegar */}
-      <Nav.Link onClick={() => setShowCourse(!showCourses)} className="text-white" style={{cursor: "pointer"}}>
-        Mis cursos <FaAngleDown className="ms-2"/> {/* icono de flecha indicando que es deplegable */}
+      <Nav.Link
+        className="text-white"
+        style={{ cursor: "pointer" }}
+        onClick={() => setActiveSection("mis-cursos")}
+      >
+        Mis cursos
       </Nav.Link>
 
-      {/* si showCourses = true, se muestran los cursos del estudiantes */}
-      {showCourses && courses.map((course) =>(
-        <Nav.Link key={course.id} gref={`/student/course/${course.id}`} className="text-white ps-4">
-          {course.name}
-        </Nav.Link>
-      ))}
-
-      <Nav.Link href="#" className="text-white">
+      <Nav.Link
+        className="text-white"
+        style={{ cursor: "pointer" }}
+        onClick={() => setActiveSection("evaluaciones")}
+      >
         Evaluaciones
       </Nav.Link>
-      <Nav.Link href="#" className="text-white">
+
+      <Nav.Link
+        className="text-white"
+        style={{ cursor: "pointer" }}
+        onClick={() => setActiveSection("chat")}
+      >
         Mensajes
-      </Nav.Link>
-      <Nav.Link href="#" className="text-white">
-        Ajustes
       </Nav.Link>
     </Nav>
   );
