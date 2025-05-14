@@ -1,6 +1,7 @@
 package es.yana.lingobridgeback.entities;
 
 import es.yana.lingobridgeback.converters.RoleConverter;
+import es.yana.lingobridgeback.enums.Language;
 import es.yana.lingobridgeback.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
@@ -41,7 +42,7 @@ public class AppUser {
     @ManyToMany(mappedBy = "students")
     private Set<Course> coursesEnrolled;
 
-    @ManyToOne
-    @JoinColumn(name = "language_id")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "language")
     private Language languageTaught;
 }

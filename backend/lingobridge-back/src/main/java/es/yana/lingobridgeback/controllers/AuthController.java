@@ -126,6 +126,7 @@ public class AuthController {
                         JwtLoginResponse.builder()
                                 .token(token)
                                 .username(user.getUsername())
+                                .name(user.getName())
                                 .roles(user.getRoles().stream().map(Role::name).toList())
                                 .courses(courses)
                                 .build()

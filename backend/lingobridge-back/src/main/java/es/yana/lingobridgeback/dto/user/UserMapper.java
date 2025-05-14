@@ -1,8 +1,7 @@
 package es.yana.lingobridgeback.dto.user;
 
-import es.yana.lingobridgeback.dto.CourseDto;
+import es.yana.lingobridgeback.dto.course.CourseDto;
 import es.yana.lingobridgeback.entities.AppUser;
-import es.yana.lingobridgeback.entities.Language;
 import es.yana.lingobridgeback.enums.Role;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -31,9 +30,9 @@ public interface UserMapper {
                 : List.of();
     }
 
-    default Language mapLanguageTaught(AppUser user) {
-        return user.getRoles().contains(Role.TEACHER) ? user.getLanguageTaught() : null;
-    }
+//    default Language mapLanguageTaught(AppUser user) {
+//        return user.getRoles().contains(Role.TEACHER) ? user.getLanguageTaught() : null;
+//    }
 
     @Mapping(target = "passwordConfirm", source = "password")
     @Mapping(target = "username", source = "username")
@@ -41,7 +40,7 @@ public interface UserMapper {
     @Mapping(target = "roles", source = "roles")
     @Mapping(target = "courseGiven", expression = "java(mapCourseGiven(user))")
     @Mapping(target = "coursesEnrolled", expression = "java(mapCoursesEnrolled(user))")
-    @Mapping(target = "languageTaught", expression = "java(mapLanguageTaught(user))")
+    //@Mapping(target = "languageTaught", expression = "java(mapLanguageTaught(user))")
     UserDto toDto(AppUser user);
     AppUser toEntity(UserDto userDto);
 

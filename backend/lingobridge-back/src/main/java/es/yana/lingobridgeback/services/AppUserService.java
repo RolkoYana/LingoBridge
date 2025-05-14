@@ -7,6 +7,7 @@ import es.yana.lingobridgeback.dto.user.UserDto;
 import es.yana.lingobridgeback.dto.user.UserMapper;
 import es.yana.lingobridgeback.entities.AppUser;
 import es.yana.lingobridgeback.entities.Course;
+import es.yana.lingobridgeback.enums.Language;
 import es.yana.lingobridgeback.enums.Role;
 import es.yana.lingobridgeback.repositories.AppUserRepository;
 import es.yana.lingobridgeback.repositories.CourseRepository;
@@ -105,17 +106,74 @@ public class AppUserService {
             for (AppUser student : course.getStudents()) {
                 // Creamos el StudentDto con el nombre, apellido y nombre del curso
                 StudentDto dto = new StudentDto(
+                        student.getId(),
                         student.getName(),
                         student.getSurname(),
                         student.getUsername(),
-                        course.getName() // Nombre del curso en el que está matriculado
+                        course.getName()
                 );
                 studentDtos.add(dto);
             }
         }
-
         return studentDtos;
     }
+
+    // convierte AppUser a UserDto (con roles como String)
+    public List<UserDto> getAllUsersWithRolesAsStrings(List<AppUser> users) {
+        return users.stream()
+                // solo estudiantes y profesores
+                .filter(user -> user.getRoles().contains(Role.STUDENT) || user.getRoles().contains(Role.TEACHER))
+                .map(user -> {
+                    List<String> roleNames = user.getRoles().stream()
+                            .map(Enum::name)
+                            .collect(Collectors.toList());
+
+                    return new UserDto(
+                            user.getId(),
+                            user.getName(),
+                            user.getSurname(),
+                            user.getUsername(),
+                            user.getEmail(),
+                            roleNames
+                    );
+                })
+                .collect(Collectors.toList());
+    }
+
+    // estadisticas - alumnos por idioma
+    public Map<Language, Long> countStudentsPerLanguage() {
+        List<AppUser> students = userRepository.findAll().stream()
+                .filter(user -> user.getRoles().contains(Role.STUDENT))
+                .toList();
+
+        Map<Language, Set<Long>> studentsByLanguage = new HashMap<>();
+
+        for (AppUser student : students) {
+            for (Course course : student.getCoursesEnrolled()) {
+                Language language = course.getLanguage();
+                if (language != null) {
+                    studentsByLanguage
+                            .computeIfAbsent(language, k -> new HashSet<>())
+                            .add(student.getId());
+                }
+            }
+        }
+
+        return studentsByLanguage.entrySet().stream()
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        e -> (long) e.getValue().size()
+                ));
+    }
+
+    // estadisticas - profesores por idioma
+    public Map<Language, Long> countTeachersPerLanguage() {
+        return userRepository.findAll().stream()
+                .filter(user -> user.getRoles().contains(Role.TEACHER) && user.getLanguageTaught() != null)
+                .collect(Collectors.groupingBy(AppUser::getLanguageTaught, Collectors.counting()));
+    }
+
+
 
 
 }

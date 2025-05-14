@@ -2,6 +2,7 @@ package es.yana.lingobridgeback.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import es.yana.lingobridgeback.enums.CourseType;
+import es.yana.lingobridgeback.enums.Language;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -30,7 +31,8 @@ public class Course {
     @JoinColumn(name = "teacher_id")
     private AppUser teacher;
     @Builder.Default
-    @ManyToMany
+    @JsonIgnore
+    @ManyToMany(fetch =FetchType.EAGER)
     @JoinTable(
             name = "course_students",
             joinColumns = @JoinColumn(name = "course_id"),
@@ -40,6 +42,9 @@ public class Course {
     private boolean completed;
     @Temporal(TemporalType.DATE) // se almacena en un campo Date en la BD
     private Date completedAt;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "language")
+    private Language language;
 
 
 

@@ -8,11 +8,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @RestController
@@ -24,15 +28,9 @@ public class UserController {
     private AppUserService userService;
 
     @PreAuthorize("hasAuthority('ADMIN')")
-    @GetMapping("/students")
+    @GetMapping("/admin/students")
     public List<AppUser> getAllStudents(){
         return userService.findAllStudents();
-    }
-
-    @PreAuthorize("hasAuthority('ADMIN')")
-    @GetMapping("/teachers")
-    public List<AppUser> getAllTeachers(){
-        return userService.findAllTeachers();
     }
 
     @GetMapping("/{email}")
@@ -46,15 +44,16 @@ public class UserController {
         return ResponseEntity.ok("Bienvenido al panel de administrador");
     }
 
-    // obtener los estudiantes de los cursos del profesor autenticado
-//    @PreAuthorize("hasAuthority('TEACHER')")
-//    @GetMapping("/teacher/students")
-//    public ResponseEntity<List<UserDto>> getTeacherStudents(@AuthenticationPrincipal UserDetails userDetails){
-//        String teacherUsername = userDetails.getUsername();
-//        List<UserDto> students = userService.getStudentsByTeacher(teacherUsername);
-//        return ResponseEntity.ok(students);
-//    }
+    // obtener todos los usuarios (tabla de usuarios en panel de admin)
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/admin/users")
+    public ResponseEntity<List<UserDto>> getAllUsers(){
+        List<AppUser> users = userService.findAll();
+        List<UserDto> userDtos = userService.getAllUsersWithRolesAsStrings(users);
+        return ResponseEntity.ok(userDtos);
+    }
 
+    // obtener los estudiantes de los cursos del profesor autenticado
     @PreAuthorize("hasAuthority('TEACHER')")
     @GetMapping("/teacher/students")
     public ResponseEntity<List<StudentDto>> getTeacherStudents(@AuthenticationPrincipal UserDetails userDetails) {
@@ -62,5 +61,19 @@ public class UserController {
         List<StudentDto> students = userService.getStudentsByTeacher(teacherUsername);
         return ResponseEntity.ok(students);
     }
+
+    // obtener profesores (para que admin pueda asignar un curso)
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/admin/teachers")
+    public ResponseEntity<List<UserDto>> getTeachers() {
+        List<AppUser> teachers = userService.findAllTeachers();
+        List<UserDto> teacherDtos = teachers.stream()
+                .map(user -> new UserDto(user.getId(), user.getName(), user.getSurname(), user.getUsername()))
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(teacherDtos);
+    }
+
+
 
 }
