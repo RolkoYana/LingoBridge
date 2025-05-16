@@ -2,25 +2,28 @@ package es.yana.lingobridgeback.services;
 
 import es.yana.lingobridgeback.dto.course.CourseDto;
 import es.yana.lingobridgeback.dto.user.StudentDto;
+import es.yana.lingobridgeback.entities.AppUser;
 import es.yana.lingobridgeback.entities.Course;
 import es.yana.lingobridgeback.enums.Language;
+import es.yana.lingobridgeback.repositories.AppUserRepository;
 import es.yana.lingobridgeback.repositories.CourseRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class CourseService {
 
-    @Autowired
-    private CourseRepository courseRepository;
+    private final CourseRepository courseRepository;
+    private final AppUserRepository appUserRepository;
 
     public List<Course> findAll() {
         return courseRepository.findAll();
@@ -56,9 +59,9 @@ public class CourseService {
         return courseRepository.findByName(name);
     }
 
-    // convierte Course to Dto
     public List<CourseDto> getCoursesByTeacher(String teacherUsername) {
         List<Course> courses = courseRepository.findByTeacherUsername(teacherUsername);
+        // mapea Course a CourseDTo para pasar a front
         return courses.stream()
                 .map(course -> new CourseDto(
                         course.getId(),
@@ -70,7 +73,7 @@ public class CourseService {
                 )).toList();
     }
 
-
+    // ver estudiantes de un curso de profesor
     public List<StudentDto> getStudentsOfCourseByTeacher(Long courseId, String teacherUsername) {
         Optional<Course> courseOpt = courseRepository.findById(courseId);
 
@@ -103,6 +106,20 @@ public class CourseService {
         return courses.stream()
                 .filter(course -> course.getLanguage() != null)
                 .collect(Collectors.groupingBy(Course::getLanguage, Collectors.counting()));
+    }
+
+    public List<CourseDto> getCoursesByStudent(String studentUsername) {
+        AppUser student = appUserRepository.findByUsername(studentUsername)
+                .orElseThrow(() -> new UsernameNotFoundException("Estudiante no encontrado"));
+
+        return student.getCoursesEnrolled().stream()
+                .map(course -> new CourseDto(
+                        course.getId(),
+                        course.getName(),
+                        course.getDescription(),
+                        course.getTeacher().getUsername()
+                ))
+                .toList();
     }
 
 

@@ -305,8 +305,17 @@ public class CourseController {
 
     // ***** ESTUDIANTE *****
 
+    // ver todos cursos de estudiante
+    @PreAuthorize("hasAuthority('STUDENT')")
+    @GetMapping("/student/courses")
+    public ResponseEntity<List<CourseDto>> getStudentCourses(@AuthenticationPrincipal UserDetails userDetails) {
+        String username = userDetails.getUsername();
+        List<CourseDto> courses = courseService.getCoursesByStudent(username);
+        return ResponseEntity.ok(courses);
+    }
 
-    // ver cursos de un estudiante
+
+    // ver curso de un estudiante
     @PreAuthorize("hasAuthority('STUDENT')")
     @GetMapping("/student/course/{courseId}")
     public ResponseEntity<List<Course>> getCourseDetailsForStudent(@PathVariable Long courseId){

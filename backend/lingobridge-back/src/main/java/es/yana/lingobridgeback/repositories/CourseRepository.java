@@ -11,6 +11,7 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
     List<Course> findByApproved(boolean approved);
     Optional<Course> findByName(String name);
     List<Course> findByTeacherUsername(String teacherUsername);
+    //List<Course> findByStudentUsername(String studentUsername);
     @Query("SELECT c FROM Course c WHERE c.approved = true AND c.completed = false")
     List<Course>findActiveCourse();
 }

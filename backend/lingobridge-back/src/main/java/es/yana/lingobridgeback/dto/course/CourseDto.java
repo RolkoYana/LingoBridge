@@ -18,7 +18,7 @@ public class CourseDto {
     private Long id;
     private String name;
     private String description;
-    private String teacherName;
+    private String teacherUsername;
     private Boolean approved;
     private Boolean completed;
     private Date completedAt;
@@ -26,19 +26,12 @@ public class CourseDto {
     private Integer numberOfStudents;
     private UserDto teacher;
 
-    public CourseDto(Long id,
-                     String name,
-                     String description,
-                     String teacherName,
-                     Boolean approved,
-                     Boolean completed,
-                     Date completedAt,
-                     CourseType type,
-                     Integer numerOfStudents) {
+
+    public CourseDto(Long id, String name, String description, String teacherUsername, Boolean approved, Boolean completed, Date completedAt, CourseType type, Integer numerOfStudents) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.teacherName = teacherName;
+        this.teacherUsername = teacherUsername;
         this.approved = approved;
         this.completed = completed;
         this.completedAt = completedAt;
@@ -55,11 +48,11 @@ public class CourseDto {
         this.name = name;
     }
 
-    public CourseDto(Long id, String name, String description, String teacherName, CourseType type, Integer numberOfStudents){
+    public CourseDto(Long id, String name, String description, String teacherUsername, CourseType type, Integer numberOfStudents){
         this.id = id;
         this.name = name;
         this.description = description;
-        this.teacherName = teacherName;
+        this.teacherUsername = teacherUsername;
         this.type = type;
         this.numberOfStudents = numberOfStudents;
     }
@@ -70,6 +63,14 @@ public class CourseDto {
         this.approved = approved;
         this.completed = completed;
         this.teacher = teacher;
+    }
+
+    // para mostrar curso en panel de estudiante
+    public CourseDto(Long id, String name, String description, String teacherUsername){
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.teacherUsername = teacherUsername;
     }
 
 
