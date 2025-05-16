@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Nav } from "react-bootstrap";
-import { FaAngleDown } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
 const StudentSidebar = ({ setActiveSection }) => {
