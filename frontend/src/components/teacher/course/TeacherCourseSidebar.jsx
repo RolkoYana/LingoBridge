@@ -1,33 +1,43 @@
 import React from "react";
-import { Button, Nav } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { Nav } from "react-bootstrap";
+import { useNavigate, useParams } from "react-router-dom";
 
 const TeacherCourseSidebar = ({ setActiveSection }) => {
   const navigate = useNavigate();
+  const {id} = useParams(); // obtener ID del curso desde URL
 
   return (
     <Nav className="flex-column text-center mt-4">
       <Nav.Link
         className="text-white"
         style={{ cursor: "pointer" }}
-        onClick={() => navigate("/teacher")}
+        onClick={() => navigate(`/teacher/course/${id}`)} 
       >
         Inicio
-      </Nav.Link>
-      <Nav.Link
-        className="text-white"
-        style={{ cursor: "pointer" }}
-        onClick={() => setActiveSection("add-material")}
-      >
-        Añadir Material
       </Nav.Link>
 
       <Nav.Link
         className="text-white"
         style={{ cursor: "pointer" }}
-        onClick={() => setActiveSection("create-task")}
+        onClick={() => setActiveSection("students")}
       >
-        Crear Tarea
+        Estudiantes
+      </Nav.Link>
+
+      <Nav.Link
+        className="text-white"
+        style={{ cursor: "pointer" }}
+        onClick={() => setActiveSection("material")}
+      >
+        Material
+      </Nav.Link>
+
+      <Nav.Link
+        className="text-white fw-bold"
+        style={{ cursor: "pointer" }}
+        onClick={() => navigate("/teacher")} 
+      >
+        Panel Principal
       </Nav.Link>
     </Nav>
   );

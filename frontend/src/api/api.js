@@ -42,7 +42,6 @@ export const login = async (username, password) => {
   return data;
 };
 
-// hacer peticiones a endpoints protegidos con el token JWT
 // export const fetchWithAuth = async (url, options = {}) => {
 //   const token = localStorage.getItem("token");
 
@@ -50,7 +49,7 @@ export const login = async (username, password) => {
 //     throw new Error("Usuario no autenticado");
 //   }
 
-//   return fetch(`${API_URL}${url}`, {
+//   const response = await fetch(`${API_URL}${url}`, {
 //     ...options,
 //     headers: {
 //       ...options.headers,
@@ -58,29 +57,53 @@ export const login = async (username, password) => {
 //       "Content-Type": "application/json",
 //     },
 //   });
+
+//   // Verifica que la respuesta sea exitosa
+//   if (!response.ok) {
+//     throw new Error(`Error en la respuesta: ${response.status}`);
+//   }
+
+//   // Convierte la respuesta a JSON antes de devolverla
+//   return response.json();
 // };
 
-export const fetchWithAuth = async (url, options = {}) => {
+export const fetchWithAuth = async (url, options = {}, expectBlob = false) => {
   const token = localStorage.getItem("token");
 
   if (!token) {
     throw new Error("Usuario no autenticado");
   }
 
-  const response = await fetch(`${API_URL}${url}`, {
-    ...options,
-    headers: {
-      ...options.headers,
-      Authorization: `Bearer ${token}`, // enviar el token en el header
-      "Content-Type": "application/json",
-    },
-  });
+  const headers = {
+    ...options.headers,
+    Authorization: `Bearer ${token}`,
+  };
 
-  // Verifica que la respuesta sea exitosa
-  if (!response.ok) {
-    throw new Error(`Error en la respuesta: ${response.status}`);
+  // agrega "Content-Type: application/json" si no se usa FormData
+  if (!(options.body instanceof FormData)) {
+    headers["Content-Type"] = "application/json";
   }
 
-  // Convierte la respuesta a JSON antes de devolverla
-  return response.json();
+  const response = await fetch(`${API_URL}${url}`, {
+    ...options,
+    headers,
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`Error: ${response.status} - ${errorText}`);
+  }
+
+  // soporte para blobs (para descarga de archivos)
+  if (expectBlob) {
+    return response.blob();
+  }
+
+  // convertir la respuesta a JSON si es posible
+  const contentType = response.headers.get("content-type");
+  if (contentType && contentType.includes("application/json")) {
+    return response.json();
+  }
+
+  return response; // devuleve objeto Response si no es JSON
 };
