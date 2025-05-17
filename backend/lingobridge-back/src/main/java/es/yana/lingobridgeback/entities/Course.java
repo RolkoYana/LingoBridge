@@ -45,11 +45,9 @@ public class Course {
     @Enumerated(EnumType.STRING)
     @Column(name = "language")
     private Language language;
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Material> material;
 
-
-
-//    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
-//    private List<Material> material;
 //    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
 //    private List<Evaluation> evaluations;
 //    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)

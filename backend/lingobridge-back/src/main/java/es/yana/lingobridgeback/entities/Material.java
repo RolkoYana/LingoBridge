@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Builder
 @Getter
 @Setter
@@ -15,8 +17,14 @@ public class Material {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
-    private String url;
-    @ManyToOne
+    private String filename;
+
+    private String youtubeLink;
+
+    private LocalDateTime uploadedAt;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "course_id")
     @JsonIgnore
     private Course course;
 }
