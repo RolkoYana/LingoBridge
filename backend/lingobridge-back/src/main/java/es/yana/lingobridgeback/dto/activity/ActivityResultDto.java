@@ -1,12 +1,18 @@
-package es.yana.lingobridgeback.dto;
+package es.yana.lingobridgeback.dto.activity;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
+@Builder
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ActivityResultDto {
     private Long id;
-    private Long activityId;
-    private String activityTitle;
-    private String studentUsername;
     private Double score;
     private boolean completed;
     private boolean autoCorrected;

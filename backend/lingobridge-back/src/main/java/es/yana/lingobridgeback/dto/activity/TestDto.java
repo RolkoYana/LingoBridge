@@ -1,12 +1,16 @@
 package es.yana.lingobridgeback.dto.activity;
 
-import lombok.Data;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @Data
-public class ActivityWithQuestionsDto {
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class TestDto {
+    private Long id;
     private String title;
     private String description;
     private LocalDate dueDate;

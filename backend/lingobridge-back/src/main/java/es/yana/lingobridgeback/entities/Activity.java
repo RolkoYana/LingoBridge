@@ -1,10 +1,15 @@
 package es.yana.lingobridgeback.entities;
 
 
+import es.yana.lingobridgeback.enums.ActivityType;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+
+/*
+    profesores crean actividades y se muestran en el frontend
+ */
 
 @Builder
 @Getter
@@ -12,19 +17,21 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Evaluation {
+public class Activity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String title; // para describir el test
-    private Double note;
-    @Column(nullable = false)
-    private boolean isAutoEvaluation; // true -> alumno la realiza y se autocorrige; false -> profesor la crea y evalua manualmente
-    private boolean completed;
-    private LocalDate evaluationDate;
+    private String title;
+    private String description;
+    @Enumerated(EnumType.STRING)
+    private ActivityType type;
+
+    private LocalDate dueDate;
     @ManyToOne
     private Course course;
+
     @ManyToOne
+    @JoinColumn(name = "student_id")
     private AppUser student;
 
 

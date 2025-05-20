@@ -1,4 +1,10 @@
 package es.yana.lingobridgeback.repositories;
 
-public class QuestionRepository {
+import es.yana.lingobridgeback.entities.Question;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
+
+public interface QuestionRepository extends JpaRepository<Question, Long> {
+    List<Question> findByActivityId(Long activityId);
 }
