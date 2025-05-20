@@ -1,5 +1,6 @@
 package es.yana.lingobridgeback.services;
 
+import es.yana.lingobridgeback.dto.course.AvailableCourseDto;
 import es.yana.lingobridgeback.dto.course.CourseDto;
 import es.yana.lingobridgeback.dto.user.StudentDto;
 import es.yana.lingobridgeback.entities.AppUser;
@@ -7,6 +8,7 @@ import es.yana.lingobridgeback.entities.Course;
 import es.yana.lingobridgeback.enums.Language;
 import es.yana.lingobridgeback.repositories.AppUserRepository;
 import es.yana.lingobridgeback.repositories.CourseRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -41,9 +43,6 @@ public class CourseService {
         courseRepository.deleteById(id);
     }
 
-    public List<Course> getCoursesByTeacher(Long teacherId) {
-        return courseRepository.findByTeacherId(teacherId);
-    }
 
     public List<Course> getPendingApprovalCourse(){
         return courseRepository.findByApproved(false);
@@ -55,9 +54,6 @@ public class CourseService {
         courseRepository.save(course);
     }
 
-    public Optional<Course> findByName(String name){
-        return courseRepository.findByName(name);
-    }
 
     public List<CourseDto> getCoursesByTeacher(String teacherUsername) {
         List<Course> courses = courseRepository.findByTeacherUsername(teacherUsername);
@@ -117,9 +113,39 @@ public class CourseService {
                         course.getId(),
                         course.getName(),
                         course.getDescription(),
-                        course.getTeacher().getUsername()
+                        course.getTeacher().getUsername(),
+                        course.isCompleted()
                 ))
-                .toList();
+                .collect(Collectors.toList());
+    }
+
+    // cursos disponibles para estudiante
+
+    public List<AvailableCourseDto> getAvailableCoursesForStudent() {
+        return courseRepository.findActiveCourse().stream()
+                .map(AvailableCourseDto::new)
+                .collect(Collectors.toList());
+    }
+
+
+    // inscribirse en el curso
+    public void enrollInCourse(Long courseId, String username) {
+        AppUser student = appUserRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
+
+        Course course = courseRepository.findById(courseId)
+                .orElseThrow(() -> new EntityNotFoundException("Curso no encontrado"));
+
+        if (course.isCompleted()) {
+            throw new IllegalStateException("No puedes inscribirte en un curso completado.");
+        }
+
+        if (course.getStudents().contains(student)) {
+            throw new IllegalStateException("Ya estás inscrito en este curso.");
+        }
+
+        course.getStudents().add(student);
+        courseRepository.save(course);
     }
 
 

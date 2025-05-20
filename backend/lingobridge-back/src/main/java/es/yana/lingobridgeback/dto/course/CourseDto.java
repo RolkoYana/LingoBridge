@@ -66,12 +66,22 @@ public class CourseDto {
     }
 
     // para mostrar curso en panel de estudiante
-    public CourseDto(Long id, String name, String description, String teacherUsername){
+    public CourseDto(Long id, String name, String description, String teacherUsername, Boolean completed){
         this.id = id;
         this.name = name;
         this.description = description;
         this.teacherUsername = teacherUsername;
+        this.completed = completed;
     }
+
+    // para mostrar info de curso en la web de un curso en concreto (entrando desde panel de estudiante)
+    public CourseDto(Course course){
+        this.id = course.getId();
+        this.name = course.getName();
+        this.description = course.getDescription();
+        this.teacherUsername = course.getTeacher().getUsername();
+    }
+
 
 
 

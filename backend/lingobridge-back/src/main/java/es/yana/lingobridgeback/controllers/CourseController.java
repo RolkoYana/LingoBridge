@@ -1,5 +1,6 @@
 package es.yana.lingobridgeback.controllers;
 
+import es.yana.lingobridgeback.dto.course.AvailableCourseDto;
 import es.yana.lingobridgeback.dto.course.CourseDetailDto;
 import es.yana.lingobridgeback.dto.course.CourseDto;
 import es.yana.lingobridgeback.dto.user.StudentDto;
@@ -11,6 +12,7 @@ import es.yana.lingobridgeback.enums.Role;
 import es.yana.lingobridgeback.services.AppUserService;
 import es.yana.lingobridgeback.services.CourseService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -24,6 +26,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import java.security.Principal;
+
+@Slf4j
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api")
@@ -318,40 +323,59 @@ public class CourseController {
     // ver curso de un estudiante
     @PreAuthorize("hasAuthority('STUDENT')")
     @GetMapping("/student/course/{courseId}")
-    public ResponseEntity<List<Course>> getCourseDetailsForStudent(@PathVariable Long courseId){
-        AppUser student = appUserService.findById(courseId);
-        if(student == null || !student.getRoles().contains(Role.STUDENT)){
-            return ResponseEntity.badRequest().body(List.of());
+    public ResponseEntity<CourseDto> getCourseDetailsForStudent(@PathVariable Long courseId, @AuthenticationPrincipal UserDetails userDetails) {
+
+        AppUser student = appUserService.findByUsername(userDetails.getUsername()).orElse(null);
+
+        if (student == null || !student.getRoles().contains(Role.STUDENT)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
-        List<Course> enrolledCourses = new ArrayList<>(student.getCoursesEnrolled());
-        return ResponseEntity.ok(enrolledCourses);
+
+        Course course = courseService.findById(courseId).orElse(null);
+        if (course == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        CourseDto courseDto = new CourseDto(course);
+        return ResponseEntity.ok(courseDto);
+    }
+
+    // ver cursos disponibles para inscribirse
+    @PreAuthorize("hasAuthority('STUDENT')")
+    @GetMapping("/student/available-courses")
+    public ResponseEntity<List<AvailableCourseDto>> getAvailableCourses(@AuthenticationPrincipal UserDetails userDetails) {
+        String username = userDetails.getUsername();
+
+        // los cursos a los que el estudiante está inscrito
+        List<CourseDto> enrolledCourses = courseService.getCoursesByStudent(username);
+
+        // los cursos disponibles para inscribirse
+        List<AvailableCourseDto> availableCourses = courseService.getAvailableCoursesForStudent();
+
+        // filtrar para que solo se muestren los no inscritos
+        availableCourses = availableCourses.stream()
+                .filter(course -> enrolledCourses.stream()
+                        .noneMatch(enrolledCourse -> enrolledCourse.getId().equals(course.getId())))
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(availableCourses);
     }
 
     // inscribirse en un curso
     @PreAuthorize("hasAuthority('STUDENT')")
-    @PostMapping("/student/enroll-course/{courseId}")
-    public ResponseEntity<?> enrollCourse(@PathVariable Long courseId, @RequestParam String username){
-        AppUser user = appUserService.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
+    @PostMapping("/student/enroll/{courseId}")
+    public ResponseEntity<String> enrollInCourse(
+            @PathVariable Long courseId,
+            @AuthenticationPrincipal UserDetails userDetails) {
 
-        // Cambiar la manera de obtener el curso
-        Optional<Course> courseOpt = courseService.findById(courseId);
+        String username = userDetails.getUsername();
+        courseService.enrollInCourse(courseId, username);
 
-        if (courseOpt.isEmpty()) {
-            return ResponseEntity.badRequest().body(Map.of("error", "Curso no encontrado"));
-        }
-
-        Course course = courseOpt.get(); // Obtener el curso
-
-        if (!user.getRoles().contains(Role.STUDENT)) {
-            return ResponseEntity.badRequest().body(Map.of("error", "Solo los estudiantes pueden inscribirse"));
-        }
-
-        user.getCoursesEnrolled().add(course);
-        appUserService.save(user); // Guarda los cambios en BD
-
-        return ResponseEntity.ok(Map.of("message", "Inscripción exitosa"));
+        return ResponseEntity.ok("Inscripción exitosa");
     }
+
+
+
 
 
 

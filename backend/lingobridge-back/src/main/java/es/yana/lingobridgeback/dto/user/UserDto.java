@@ -55,6 +55,11 @@ public class UserDto {
         this.roles = roleNames.stream().map(Role::valueOf).collect(Collectors.toList());
     }
 
+    public UserDto(String name, String surname){
+        this.name = name;
+        this.surname = surname;
+    }
+
 
 
 

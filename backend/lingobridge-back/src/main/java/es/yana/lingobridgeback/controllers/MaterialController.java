@@ -104,6 +104,24 @@ public class MaterialController {
         }
     }
 
+    // ***** ESTUDIANTE *****
+
+    // ver material del curso
+    @PreAuthorize("hasAuthority('STUDENT')")
+    @GetMapping("/student/course/{courseId}/material")
+    public ResponseEntity<List<Material>> getMaterialsByCourseForStudent(@PathVariable Long courseId) {
+        List<Material> materials = materialService.findByCourseId(courseId);
+
+        for (Material material : materials) {
+            // Extraer solo el nombre del archivo del filePath
+            String filename = material.getFilename();
+            material.setFilename(filename);
+        }
+
+        return ResponseEntity.ok(materials);
+    }
+
+
 
 
 
