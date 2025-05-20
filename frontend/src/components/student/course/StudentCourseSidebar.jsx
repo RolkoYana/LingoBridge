@@ -1,18 +1,48 @@
 import React from "react";
 import { Nav } from "react-bootstrap";
+import { useNavigate, useParams } from "react-router-dom";
 import { FaHome, FaClipboardList, FaStickyNote } from "react-icons/fa";
 
-const StudentCourseSidebar = () => {
+const StudentCourseSidebar = ({ setActiveSection }) => {
+  const navigate = useNavigate();
+  const { id } = useParams(); 
+
   return (
     <Nav className="flex-column text-center mt-4">
-      <Nav.Link href="#" className="text-white">
+      {/* Ir a la página de inicio del curso */}
+      <Nav.Link
+        className="text-white"
+        style={{ cursor: "pointer" }}
+        onClick={() => navigate(`/student/course/${id}`)}
+      >
         <FaHome className="me-2" /> Inicio
       </Nav.Link>
-      <Nav.Link href="#" className="text-white">
+
+      {/* Sección de Material del curso */}
+      <Nav.Link
+        className="text-white"
+        style={{ cursor: "pointer" }}
+        onClick={() => setActiveSection("material")}
+      >
+        <FaStickyNote className="me-2" /> Material
+      </Nav.Link>
+
+      {/* Sección de Calificaciones */}
+      <Nav.Link
+        className="text-white"
+        style={{ cursor: "pointer" }}
+        onClick={() => setActiveSection("grades")}
+      >
         <FaClipboardList className="me-2" /> Calificaciones
       </Nav.Link>
-      <Nav.Link href="#" className="text-white">
-        <FaStickyNote className="me-2" /> Notas del Profesor
+
+      {/* Volver al panel principal del estudiante */}
+      <Nav.Link
+        className="text-white fw-bold"
+        style={{ cursor: "pointer" }}
+        onClick={() => navigate("/student")}
+      >
+        Panel Principal
       </Nav.Link>
     </Nav>
   );

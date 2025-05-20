@@ -18,8 +18,22 @@ const StudentSidebar = ({ setActiveSection }) => {
 
   return (
     <Nav className="flex-column text-center mt-4">
-      <Nav.Link href="#" className="text-white">
+      <Nav.Link
+        className="text-white"
+        style={{ cursor: "pointer" }}
+        onClick={() => {
+          setActiveSection("mis-cursos");
+          navigate("/student");
+        }}
+      >
         Inicio
+      </Nav.Link>
+      <Nav.Link
+        className="text-white"
+        style={{ cursor: "pointer" }}
+        onClick={() => setActiveSection("cursos-disponibles")}
+      >
+        Cursos Disponibles
       </Nav.Link>
       <Nav.Link
         className="text-white"

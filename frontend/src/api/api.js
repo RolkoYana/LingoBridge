@@ -42,31 +42,6 @@ export const login = async (username, password) => {
   return data;
 };
 
-// export const fetchWithAuth = async (url, options = {}) => {
-//   const token = localStorage.getItem("token");
-
-//   if (!token) {
-//     throw new Error("Usuario no autenticado");
-//   }
-
-//   const response = await fetch(`${API_URL}${url}`, {
-//     ...options,
-//     headers: {
-//       ...options.headers,
-//       Authorization: `Bearer ${token}`, // enviar el token en el header
-//       "Content-Type": "application/json",
-//     },
-//   });
-
-//   // Verifica que la respuesta sea exitosa
-//   if (!response.ok) {
-//     throw new Error(`Error en la respuesta: ${response.status}`);
-//   }
-
-//   // Convierte la respuesta a JSON antes de devolverla
-//   return response.json();
-// };
-
 export const fetchWithAuth = async (url, options = {}, expectBlob = false) => {
   const token = localStorage.getItem("token");
 

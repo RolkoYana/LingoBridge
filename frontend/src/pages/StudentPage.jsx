@@ -6,6 +6,7 @@ import StudentCourses from "../components/student/StudentCourses";
 import StudentActivities from "../components/student/StudentActivities";
 import StudentEvaluations from "../components/student/StudentEvaluations";
 import StudentMessages from "../components/student/StudentMessages";
+import AvailableCourses from "../components/student/StudentAvailableCourses";
 
 const StudentPage = () => {
   const [activeSection, setActiveSection] = useState("mis-cursos");
@@ -38,6 +39,7 @@ const StudentPage = () => {
 
           <Row>
             <Col md={8}>
+              {activeSection === "cursos-disponibles" && <AvailableCourses />}
               {activeSection === "mis-cursos" && <StudentCourses />}
               {activeSection === "evaluaciones" && <StudentEvaluations />}
               {activeSection === "chat" && <StudentMessages />}
