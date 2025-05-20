@@ -4,14 +4,14 @@ import { useNavigate, useParams } from "react-router-dom";
 
 const TeacherCourseSidebar = ({ setActiveSection }) => {
   const navigate = useNavigate();
-  const {id} = useParams(); // obtener ID del curso desde URL
+  const { id } = useParams(); // obtener ID del curso desde URL
 
   return (
     <Nav className="flex-column text-center mt-4">
       <Nav.Link
         className="text-white"
         style={{ cursor: "pointer" }}
-        onClick={() => navigate(`/teacher/course/${id}`)} 
+        onClick={() => navigate(`/teacher/course/${id}`)}
       >
         Inicio
       </Nav.Link>
@@ -33,9 +33,17 @@ const TeacherCourseSidebar = ({ setActiveSection }) => {
       </Nav.Link>
 
       <Nav.Link
+        className="text-white"
+        style={{ cursor: "pointer" }}
+        onClick={() => setActiveSection("create-task")}
+      >
+        Actividades
+      </Nav.Link>
+
+      <Nav.Link
         className="text-white fw-bold"
         style={{ cursor: "pointer" }}
-        onClick={() => navigate("/teacher")} 
+        onClick={() => navigate("/teacher")}
       >
         Panel Principal
       </Nav.Link>

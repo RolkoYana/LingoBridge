@@ -7,6 +7,7 @@ import TeacherCourseStudents from "../components/teacher/course/TeacherCourseStu
 import TeacherCourseMaterial from "../components/teacher/course/TeacherCourseMaterial";
 import TeacherCourseActivities from "../components/teacher/course/TeacherCourseActivities";
 import AddMaterialForm from "../components/forms/AddMaterialForm";
+import CreateActivityForm from "../components/forms/CreateActivityForm";
 import { fetchWithAuth } from "../api/api";
 
 const TeacherCoursePage = () => {
@@ -15,6 +16,7 @@ const TeacherCoursePage = () => {
   const [activeSection, setActiveSection] = useState("students");
   const [refreshMaterials, setRefreshMaterials] = useState(false);
   const [showAddMaterialModal, setShowAddMaterialModal] = useState(false);
+  const [showCreateActivityModal, setShowCreateActivityModal] = useState(false);
 
   useEffect(() => {
     const fetchCourse = async () => {
@@ -54,9 +56,9 @@ const TeacherCoursePage = () => {
               </Button>
               <Button
                 variant="warning"
-                onClick={() => setActiveSection("create-task")}
+                onClick={() => setShowCreateActivityModal(true)}
               >
-                Crear una Tarea
+                Crear Nueva Actividad
               </Button>
             </Col>
           </Row>
@@ -79,6 +81,7 @@ const TeacherCoursePage = () => {
         </Col>
       </Row>
 
+      {/* Modal para añadir material */}
       <Modal
         show={showAddMaterialModal}
         onHide={() => setShowAddMaterialModal(false)}
@@ -94,6 +97,26 @@ const TeacherCoursePage = () => {
               setShowAddMaterialModal(false); // Cierra modal al subir
               setActiveSection("material"); // Muestra lista de material actualizada
               setRefreshMaterials(true); // Refresca lista
+            }}
+          />
+        </Modal.Body>
+      </Modal>
+
+      {/* Modal para crear una tarea */}
+      <Modal
+        show={showCreateActivityModal}
+        onHide={() => setShowCreateActivityModal(false)} // Cerrar modal
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Crear Actividad</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <CreateActivityForm
+            courseId={id}
+            onActivityCreated={() => {
+              setShowCreateActivityModal(false); // Cerrar modal al crear actividad
+              setActiveSection("activities"); // Si quieres cambiar a la sección de actividades
             }}
           />
         </Modal.Body>
