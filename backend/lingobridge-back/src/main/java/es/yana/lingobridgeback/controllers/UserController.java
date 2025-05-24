@@ -24,8 +24,7 @@ import java.util.stream.Collectors;
 @CrossOrigin(origins = "http://localhost:5173")
 public class UserController {
 
-    @Autowired
-    private AppUserService userService;
+    private final AppUserService userService;
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/admin/students")
@@ -33,10 +32,10 @@ public class UserController {
         return userService.findAllStudents();
     }
 
-    @GetMapping("/{email}")
-    public ResponseEntity<AppUser> getUserByEmail(@PathVariable String email){
-        return userService.findByEmail(email).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
-    }
+//    @GetMapping("/{email}")
+//    public ResponseEntity<AppUser> getUserByEmail(@PathVariable String email){
+//        return userService.findByEmail(email).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+//    }
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/admin")

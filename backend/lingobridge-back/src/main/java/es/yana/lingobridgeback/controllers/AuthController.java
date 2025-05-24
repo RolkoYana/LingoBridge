@@ -19,16 +19,13 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Slf4j
 @RestController
@@ -44,34 +41,55 @@ public class AuthController {
     private final AppUserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@Valid @RequestBody JwtRegisterRequest jwtRegisterRequest) throws Exception{
-
-        if(jwtRegisterRequest == null){
-            return ResponseEntity.badRequest().body(Map.of("error", "Datos invalidos"));
+    public ResponseEntity<?> register(@Valid @RequestBody JwtRegisterRequest jwtRegisterRequest) {
+        if (jwtRegisterRequest == null) {
+            return ResponseEntity.badRequest().body(Map.of("error", "Datos inválidos"));
         }
 
-        // validar email y username unicos
-        if(userService.findByEmail(jwtRegisterRequest.getEmail()).isPresent()){
-            return ResponseEntity.badRequest().body(Map.of("error", "Email ya registrado"));
+        Optional<AppUser> existingUserOpt = userService.findByEmail(jwtRegisterRequest.getEmail());
+
+        // Caso 1: El usuario ya existe --> añadir roles si son nuevos
+        if (existingUserOpt.isPresent()) {
+            AppUser existingUser = existingUserOpt.get();
+
+            Set<Role> requestedRoles = jwtRegisterRequest.getRoles();
+            Set<Role> currentRoles = existingUser.getRoles();
+
+            // Si ya tiene todos los roles solicitados → error
+            if (currentRoles.containsAll(requestedRoles)) {
+                return ResponseEntity.badRequest().body(Map.of("error", "Este usuario ya tiene los roles asignados"));
+            }
+
+            // Añadir nuevos roles
+            currentRoles.addAll(requestedRoles);
+            existingUser.setRoles(currentRoles);
+
+            // Guardar actualización
+            userService.save(existingUser);
+
+            return ResponseEntity.ok(Map.of(
+                    "message", "Roles añadidos correctamente",
+                    "roles_actuales", currentRoles.stream().map(Role::name).toList()
+            ));
         }
-        if(userService.findByUsername(jwtRegisterRequest.getUsername()).isPresent()){
+
+        // Caso 2: Usuario nuevo --> validar datos y crear
+        if (userService.findByUsername(jwtRegisterRequest.getUsername()).isPresent()) {
             return ResponseEntity.badRequest().body(Map.of("error", "El nombre de usuario ya está en uso"));
         }
 
-        // validar que las contraseñas coincidan
-        if(!jwtRegisterRequest.getPassword().equals(jwtRegisterRequest.getPasswordConfirm())){
+        if (!jwtRegisterRequest.getPassword().equals(jwtRegisterRequest.getPasswordConfirm())) {
             return ResponseEntity.badRequest().body(Map.of("error", "Las contraseñas no coinciden"));
         }
 
-        try{
-            // Cifrar la contraseña antes de guardar
+        try {
+            // Cifrar contraseña
             String encryptedPassword = passwordEncoder.encode(jwtRegisterRequest.getPassword());
             jwtRegisterRequest.setPassword(encryptedPassword);
 
-            // Crear y guardar el usuario
+            // Crear y guardar usuario nuevo
             AppUser savedUser = userService.save(jwtRegisterRequest);
 
-            // Crear respuesta
             JwtRegisterResponse response = JwtRegisterResponse.builder()
                     .id(savedUser.getId())
                     .username(savedUser.getUsername())
@@ -81,11 +99,14 @@ public class AuthController {
             URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(savedUser.getId()).toUri();
 
             return ResponseEntity.created(location).body(response);
-        }catch (Exception e){
+        } catch (Exception e) {
             log.error("Error en el registro", e);
             return ResponseEntity.internalServerError().body(Map.of("error", "Error interno del servidor"));
         }
     }
+
+
+
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody JwtLoginRequest loginRequest) throws Exception {
@@ -143,5 +164,11 @@ public class AuthController {
                 throw e;
             }
     }
+
+
+
+
+
+
 
 }
