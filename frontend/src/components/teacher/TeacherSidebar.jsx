@@ -48,12 +48,11 @@ const TeacherSidebar = ({ setActiveSection }) => {
       <Nav.Link
         className="text-white"
         style={{ cursor: "pointer" }}
-        onClick={() => setActiveSection("evaluaciones")}
+        onClick={() => setActiveSection("tareas-entregadas")}
       >
-        Evaluaciones
+        Tareas entregadas
       </Nav.Link>
       <Nav.Link className="text-white">Mensajes</Nav.Link>
-    
     </Nav>
   );
 };

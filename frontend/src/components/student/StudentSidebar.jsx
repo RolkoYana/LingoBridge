@@ -48,7 +48,7 @@ const StudentSidebar = ({ setActiveSection }) => {
         style={{ cursor: "pointer" }}
         onClick={() => setActiveSection("evaluaciones")}
       >
-        Evaluaciones
+        Mis Evaluaciones
       </Nav.Link>
 
       <Nav.Link

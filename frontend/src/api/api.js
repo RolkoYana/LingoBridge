@@ -1,4 +1,5 @@
-const API_URL = "http://localhost:8080/api";
+const API_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8080/api";
+
 
 // manejar solicitudes con fetch
 const handleResponse = async (response) => {
@@ -35,7 +36,8 @@ export const login = async (username, password) => {
   const data = await handleResponse(response);
 
   if (data.token) {
-    localStorage.setItem("token", data.token); // guardar el token
+    localStorage.setItem("token", data.token);
+    localStorage.setItem("username", data.username);
     localStorage.setItem("user", JSON.stringify({ name: data.name }));
   }
 
@@ -44,6 +46,7 @@ export const login = async (username, password) => {
 
 export const fetchWithAuth = async (url, options = {}, expectBlob = false) => {
   const token = localStorage.getItem("token");
+  console.log("Token usado en fetch:", token); // depuracion
 
   if (!token) {
     throw new Error("Usuario no autenticado");
@@ -58,6 +61,8 @@ export const fetchWithAuth = async (url, options = {}, expectBlob = false) => {
   if (!(options.body instanceof FormData)) {
     headers["Content-Type"] = "application/json";
   }
+
+  console.log("Headers enviados:", headers); // depuracion
 
   const response = await fetch(`${API_URL}${url}`, {
     ...options,

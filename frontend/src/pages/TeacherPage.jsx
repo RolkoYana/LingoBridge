@@ -5,7 +5,7 @@ import TeacherHeader from "../components/teacher/TeacherHeader";
 import TeacherCourses from "../components/teacher/TeacherCourses";
 import TeacherStudents from "../components/teacher/TeacherStudents";
 import TeacherMaterials from "../components/teacher/TeacherMaterials";
-import TeacherEvaluations from "../components/teacher/TeacherEvaluations";
+import TeacherTaskList from "../components/teacher/TeacherTaskList";
 import TeacherMessages from "../components/teacher/TeacherMessages";
 import CreateCourseForm from "../components/forms/CreateCourseForm";
 
@@ -33,14 +33,15 @@ const TeacherPage = () => {
         <Col md={10} className="p-4">
           <TeacherHeader />
 
-          {/* Botón y contenido en fila */}
           <Row className="align-items-start mt-3">
             <Col md={10}>
               {activeSection === "inicio" && <h3>Bienvenido al Panel</h3>}
               {activeSection === "mis-cursos" && <TeacherCourses />}
               {activeSection === "mis-alumnos" && <TeacherStudents />}
               {activeSection === "material" && <TeacherMaterials />}
-              {activeSection === "evaluaciones" && <TeacherEvaluations />}
+              {activeSection === "tareas-entregadas" && (
+                <TeacherTaskList teacherUsername={userData.username} />
+              )}
               {activeSection === "mensajes" && <TeacherMessages />}
             </Col>
 
@@ -53,7 +54,7 @@ const TeacherPage = () => {
             </Col>
           </Row>
 
-          {/* Modal con el formulario */}
+          {/* Modal con el formulario paracrear un curso */}
           <Modal
             show={showModal}
             onHide={() => setShowModal(false)}
@@ -64,7 +65,7 @@ const TeacherPage = () => {
               <Modal.Title>Crear un nuevo curso</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              <CreateCourseForm onSuccess={()=> setShowModal(false)}/>
+              <CreateCourseForm onSuccess={() => setShowModal(false)} />
             </Modal.Body>
           </Modal>
         </Col>

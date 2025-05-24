@@ -1,21 +1,80 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Form, Row, Col, Card } from "react-bootstrap";
 import { fetchWithAuth } from "../../api/api";
 
-const CreateActivityForm = ({ courseId, onActivityCreated }) => {
+const CreateActivityForm = ({
+  courseId,
+  onActivityCreated,
+  initialData = null,
+  onCancel,
+  visible = true,
+}) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [type, setType] = useState("TAREA");
+  const [type, setType] = useState("TASK");
   const [dueDate, setDueDate] = useState("");
   const [questions, setQuestions] = useState([]);
+
+  // Cuando cambie visibility o initialData reseteamos el formulario (por si se cierra toggle)
+  useEffect(() => {
+    if (!visible) {
+      clearForm();
+    } else if (initialData) {
+      setTitle(initialData.title || "");
+      setDescription(initialData.description || "");
+      setType(initialData.type || "TASK");
+      setDueDate(initialData.dueDate || "");
+
+      if (initialData.type === "TEST" && initialData.questions) {
+        // Adaptar formato preguntas para editar
+        const formattedQuestions = initialData.questions.map((q) => ({
+          text: q.text || "",
+          options: q.options.map((opt) => opt.text || ""),
+          correctIndex: q.options.findIndex((opt) => opt.correct) ?? null,
+        }));
+        setQuestions(formattedQuestions);
+      } else {
+        setQuestions([]);
+      }
+    } else {
+      clearForm();
+    }
+  }, [initialData, visible]);
+
+  const clearForm = () => {
+    setTitle("");
+    setDescription("");
+    setType("TASK");
+    setDueDate("");
+    setQuestions([]);
+  };
 
   const addQuestion = () => {
     setQuestions([...questions, { text: "", options: [], correctIndex: null }]);
   };
 
+  const removeQuestion = (qIndex) => {
+    const updated = [...questions];
+    updated.splice(qIndex, 1);
+    setQuestions(updated);
+  };
+
   const addOption = (qIndex) => {
     const updated = [...questions];
     updated[qIndex].options.push("");
+    setQuestions(updated);
+  };
+
+  const removeOption = (qIndex, oIndex) => {
+    const updated = [...questions];
+    updated[qIndex].options.splice(oIndex, 1);
+
+    // Ajustar correctIndex si es necesario
+    if (updated[qIndex].correctIndex === oIndex) {
+      updated[qIndex].correctIndex = null;
+    } else if (updated[qIndex].correctIndex > oIndex) {
+      updated[qIndex].correctIndex -= 1;
+    }
     setQuestions(updated);
   };
 
@@ -30,7 +89,7 @@ const CreateActivityForm = ({ courseId, onActivityCreated }) => {
 
     try {
       if (type === "TASK") {
-        // FUTURO: Este endpoint aún no existe, deberás crearlo si quieres soportar TASK
+        // Crear o actualizar actividad de tipo tarea (sin preguntas)
         const activityDto = {
           title,
           description,
@@ -38,13 +97,21 @@ const CreateActivityForm = ({ courseId, onActivityCreated }) => {
           dueDate,
         };
 
-        await fetchWithAuth(`/teacher/course/${courseId}/activity`, {
-          method: "POST",
-          body: JSON.stringify(activityDto),
-        });
-
+        if (initialData?.id) {
+          await fetchWithAuth(`/teacher/activity/${initialData.id}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(activityDto),
+          });
+        } else {
+          await fetchWithAuth(`/teacher/course/${courseId}/activity`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(activityDto),
+          });
+        }
       } else if (type === "TEST") {
-        // Estructura completa de TEST con preguntas y opciones
+        // Crear o actualizar test con preguntas y opciones
         const dto = {
           title,
           description,
@@ -58,20 +125,34 @@ const CreateActivityForm = ({ courseId, onActivityCreated }) => {
           })),
         };
 
-        await fetchWithAuth(`/teacher/course/${courseId}/test`, {
-          method: "POST",
-          body: JSON.stringify(dto),
-        });
+        if (initialData?.id) {
+          await fetchWithAuth(`/teacher/test/${initialData.id}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(dto),
+          });
+        } else {
+          await fetchWithAuth(`/teacher/course/${courseId}/test`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(dto),
+          });
+        }
       }
 
-      alert("Actividad creada correctamente");
+      alert(
+        `Actividad ${initialData ? "actualizada" : "creada"} correctamente`
+      );
       onActivityCreated?.();
-
+      clearForm();
+      onCancel?.();
     } catch (err) {
-      console.error("Error al crear la actividad:", err);
-      alert("Error al crear la actividad");
+      console.error("Error guardando la actividad:", err);
+      alert("Error guardando la actividad");
     }
   };
+
+  if (!visible) return null; // No mostrar nada si no está visible
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -97,8 +178,12 @@ const CreateActivityForm = ({ courseId, onActivityCreated }) => {
       <Row className="mb-3">
         <Col>
           <Form.Label>Tipo</Form.Label>
-          <Form.Select value={type} onChange={(e) => setType(e.target.value)}>
-            <option value="TAREA">Tarea</option>
+          <Form.Select
+            value={type}
+            onChange={(e) => setType(e.target.value)}
+            disabled={!!initialData} // No permitir cambiar tipo en edición (mejor práctica)
+          >
+            <option value="TASK">Tarea</option>
             <option value="TEST">Test</option>
           </Form.Select>
         </Col>
@@ -119,16 +204,30 @@ const CreateActivityForm = ({ courseId, onActivityCreated }) => {
           <h5>Preguntas</h5>
           {questions.map((q, qIndex) => (
             <Card key={qIndex} className="mb-3 p-3">
-              <Form.Group className="mb-2">
+              <Form.Group
+                className="mb-2"
+                controlId={`question-text-${qIndex}`}
+              >
                 <Form.Label>Texto de la pregunta</Form.Label>
-                <Form.Control
-                  value={q.text}
-                  onChange={(e) => {
-                    const updated = [...questions];
-                    updated[qIndex].text = e.target.value;
-                    setQuestions(updated);
-                  }}
-                />
+                <div className="d-flex align-items-center">
+                  <Form.Control
+                    value={q.text}
+                    onChange={(e) => {
+                      const updated = [...questions];
+                      updated[qIndex].text = e.target.value;
+                      setQuestions(updated);
+                    }}
+                    required
+                  />
+                  <Button
+                    variant="danger"
+                    size="sm"
+                    className="ms-2"
+                    onClick={() => removeQuestion(qIndex)}
+                  >
+                    Eliminar pregunta
+                  </Button>
+                </div>
               </Form.Group>
 
               {q.options.map((opt, oIndex) => (
@@ -136,14 +235,26 @@ const CreateActivityForm = ({ courseId, onActivityCreated }) => {
                   key={oIndex}
                   type="radio"
                   name={`correct-${qIndex}`}
+                  className="mb-2"
                   label={
-                    <Form.Control
-                      type="text"
-                      value={opt}
-                      onChange={(e) =>
-                        handleOptionChange(qIndex, oIndex, e.target.value)
-                      }
-                    />
+                    <div className="d-flex align-items-center">
+                      <Form.Control
+                        type="text"
+                        value={opt}
+                        onChange={(e) =>
+                          handleOptionChange(qIndex, oIndex, e.target.value)
+                        }
+                        required
+                      />
+                      <Button
+                        variant="outline-danger"
+                        size="sm"
+                        className="ms-2"
+                        onClick={() => removeOption(qIndex, oIndex)}
+                      >
+                        X
+                      </Button>
+                    </div>
                   }
                   checked={q.correctIndex === oIndex}
                   onChange={() => {
@@ -158,6 +269,7 @@ const CreateActivityForm = ({ courseId, onActivityCreated }) => {
                 size="sm"
                 onClick={() => addOption(qIndex)}
                 className="mt-2"
+                variant="secondary"
               >
                 Añadir opción
               </Button>
@@ -170,9 +282,14 @@ const CreateActivityForm = ({ courseId, onActivityCreated }) => {
         </div>
       )}
 
-      <Button type="submit" variant="primary" className="mt-3">
-        Crear Actividad
-      </Button>
+      <div className="mt-3 d-flex justify-content-end">
+        <Button variant="secondary" onClick={onCancel} className="me-2">
+          Cancelar
+        </Button>
+        <Button type="submit" variant="primary">
+          {initialData ? "Guardar Cambios" : "Crear Actividad"}
+        </Button>
+      </div>
     </Form>
   );
 };
