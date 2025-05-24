@@ -4,7 +4,6 @@ import TeacherSidebar from "../components/teacher/TeacherSidebar";
 import TeacherHeader from "../components/teacher/TeacherHeader";
 import TeacherCourses from "../components/teacher/TeacherCourses";
 import TeacherStudents from "../components/teacher/TeacherStudents";
-import TeacherMaterials from "../components/teacher/TeacherMaterials";
 import TeacherTaskList from "../components/teacher/TeacherTaskList";
 import TeacherMessages from "../components/teacher/TeacherMessages";
 import CreateCourseForm from "../components/forms/CreateCourseForm";
@@ -38,7 +37,6 @@ const TeacherPage = () => {
               {activeSection === "inicio" && <h3>Bienvenido al Panel</h3>}
               {activeSection === "mis-cursos" && <TeacherCourses />}
               {activeSection === "mis-alumnos" && <TeacherStudents />}
-              {activeSection === "material" && <TeacherMaterials />}
               {activeSection === "tareas-entregadas" && (
                 <TeacherTaskList teacherUsername={userData.username} />
               )}

@@ -4,13 +4,10 @@ import AssignCourse from "./AssignCourse";
 import CompleteCourse from "./CompleteCourse";
 import { fetchWithAuth } from "../../api/api";
 
-// este componente muestra cursos con approved:true y permite asignarlos o finalizarlos
-
 const ActiveCourses = () => {
   const [courses, setCourses] = useState([]);
   const [selectedCourseId, setSelectedCourseId] = useState(null);
 
-  // cargar cursos activos
   const loadCourses = () => {
     fetchWithAuth("/admin/active-courses")
       .then((data) =>
@@ -25,7 +22,6 @@ const ActiveCourses = () => {
     loadCourses();
   }, []);
 
-  // eliminar el curso de la lista tras finalizarlo
   const removeCourse = (courseId) => {
     setCourses(courses.filter((course) => course.id !== courseId));
   };
@@ -36,6 +32,7 @@ const ActiveCourses = () => {
       <Table striped bordered hover>
         <thead>
           <tr>
+            <th>ID</th> {/* Nueva columna para el ID */}
             <th>Nombre</th>
             <th>Profesor</th>
             <th>Acciones</th>
@@ -44,20 +41,14 @@ const ActiveCourses = () => {
         <tbody>
           {courses.map((course) => (
             <tr key={course.id}>
+              <td>{course.id}</td> {/* Mostrar el ID aquí */}
               <td>{course.name}</td>
               <td>
                 {course.teacher
                   ? `${course.teacher.name} ${course.teacher.surname} (${course.teacher.username})`
                   : "No asignado"}
               </td>
-
               <td>
-                <Button
-                  variant="warning"
-                  onClick={() => setSelectedCourseId(course.id)}
-                >
-                  Asignar Profesor
-                </Button>
                 <CompleteCourse
                   courseId={course.id}
                   onComplete={removeCourse}

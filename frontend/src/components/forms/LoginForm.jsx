@@ -39,12 +39,12 @@ const LoginForm = () => {
         if (response.roles.includes("ADMIN")) {
           console.log("Redirigiendo a /admin...");
           navigate("/admin");
+        } else if (response.roles.includes("TEACHER")) {
+          console.log("Redirigiendo a /teacher...");
+          navigate("/teacher");
         } else if (response.roles.includes("STUDENT")) {
           console.log("Redirigiendo a /student...");
           navigate("/student");
-        } else {
-          console.log("Redirigiendo a /teacher...");
-          navigate("/teacher");
         }
       } else {
         alert(response.message || "Credenciales invalidas");

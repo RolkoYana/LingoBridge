@@ -17,12 +17,12 @@ const TeacherSidebar = ({ setActiveSection }) => {
     <Nav className="flex-column text-center mt-4">
       {/* modo estudiante */}
       <Nav.Link
-        className="text-white"
-        style={{ cursor: "pointer" }}
-        onClick={() => navigate("/student")}
-      >
-        Modo estudiante
-      </Nav.Link>
+    className="text-white fw-bold"
+    style={{ cursor: "pointer" }}
+    onClick={() => navigate("/student")}
+  >
+    Modo estudiante 
+  </Nav.Link>
       {/* mis cursos - session por defecto al entrar a la pagina */}
       <Nav.Link
         className="text-white"
@@ -37,13 +37,6 @@ const TeacherSidebar = ({ setActiveSection }) => {
         onClick={() => setActiveSection("mis-alumnos")}
       >
         Mis alumnos
-      </Nav.Link>
-      <Nav.Link
-        className="text-white"
-        style={{ cursor: "pointer" }}
-        onClick={() => setActiveSection("material")}
-      >
-        Material
       </Nav.Link>
       <Nav.Link
         className="text-white"

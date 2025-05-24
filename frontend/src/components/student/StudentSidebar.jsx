@@ -3,18 +3,24 @@ import { Nav } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
 const StudentSidebar = ({ setActiveSection }) => {
-  const [showCourses, setShowCourses] = useState(false); // para controlar si el menu de cursos esta desplegado o no
-  const [courses, setCourses] = useState([]); // para almacenar los cursos del estudiante
+  const [courses, setCourses] = useState([]);
+  const [showTeacherButton, setShowTeacherButton] = useState(false);
   const navigate = useNavigate();
 
-  // obtener los cursos cuando el componente se monta
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("user")); // obtener usuario desde localStorage
+    const user = JSON.parse(localStorage.getItem("user"));
 
     if (user && user.roles.includes("STUDENT") && user.courses) {
-      setCourses(user.courses); // los cursos deben existir en la API de login
+      setCourses(user.courses);
     }
-  }, []); // [] - hace que el efecto se ejecute solo una vez al montar el componente
+
+    // Mostrar botón solo si tiene ambos roles
+    if (user && user.roles.includes("STUDENT") && user.roles.includes("TEACHER")) {
+      setShowTeacherButton(true);
+    } else {
+      setShowTeacherButton(false);
+    }
+  }, []);
 
   return (
     <Nav className="flex-column text-center mt-4">
@@ -42,7 +48,6 @@ const StudentSidebar = ({ setActiveSection }) => {
       >
         Mis cursos
       </Nav.Link>
-
       <Nav.Link
         className="text-white"
         style={{ cursor: "pointer" }}
@@ -50,7 +55,6 @@ const StudentSidebar = ({ setActiveSection }) => {
       >
         Mis Evaluaciones
       </Nav.Link>
-
       <Nav.Link
         className="text-white"
         style={{ cursor: "pointer" }}
@@ -58,6 +62,17 @@ const StudentSidebar = ({ setActiveSection }) => {
       >
         Mensajes
       </Nav.Link>
+
+      {/* Botón para volver a modo profesor */}
+      {showTeacherButton && (
+        <Nav.Link
+          className="text-white mt-3"
+          style={{ cursor: "pointer", fontWeight: "bold" }}
+          onClick={() => navigate("/teacher")}
+        >
+          Volver a modo profesor
+        </Nav.Link>
+      )}
     </Nav>
   );
 };
