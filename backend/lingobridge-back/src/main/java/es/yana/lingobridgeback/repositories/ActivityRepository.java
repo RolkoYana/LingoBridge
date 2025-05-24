@@ -7,7 +7,6 @@ import java.util.*;
 
 public interface ActivityRepository extends JpaRepository<Activity, Long> {
 
-    List<Activity> findByStudentId(Long studentId);
-    List<Activity> findByCourseId(Long courseId);
+    List<Activity> findByCourse_Id(Long courseId);
 
 }

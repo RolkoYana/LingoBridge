@@ -16,12 +16,14 @@ public class ActivityDto {
     private String description;
     private ActivityType type;
     private LocalDate dueDate;
+    private boolean completed;
 
-    public ActivityDto(Activity activity) {
+    public ActivityDto(Activity activity, boolean completed) {
         this.id = activity.getId();
         this.title = activity.getTitle();
         this.description = activity.getDescription();
         this.type = activity.getType();
         this.dueDate = activity.getDueDate();
+        this.completed = completed;
     }
 }

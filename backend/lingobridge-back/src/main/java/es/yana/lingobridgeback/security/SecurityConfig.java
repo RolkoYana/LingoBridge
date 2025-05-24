@@ -38,6 +38,7 @@ public class SecurityConfig {
         return http
                 .cors(cors -> cors.configurationSource(request -> {
                     CorsConfiguration config = new CorsConfiguration();
+                    config.setAllowCredentials(true); // para enviar cookies o headers  de auth
                     config.addAllowedOrigin("http://localhost:5173");
                     config.addAllowedMethod("*");
                     config.addAllowedHeader("*");
@@ -46,6 +47,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/api/activity-result/*/download").permitAll()
                         .requestMatchers("/api/admin/**").hasAuthority("ADMIN")
                         .requestMatchers("/api/teacher/**").hasAuthority("TEACHER")
                         .requestMatchers("/api/student/**").hasAuthority("STUDENT")

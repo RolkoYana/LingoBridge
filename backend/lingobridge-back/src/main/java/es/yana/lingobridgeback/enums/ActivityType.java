@@ -1,7 +1,6 @@
 package es.yana.lingobridgeback.enums;
 
 public enum ActivityType {
-    LECTURA,
-    TAREA,
+    TASK,
     TEST
 }

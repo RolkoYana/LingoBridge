@@ -31,9 +31,10 @@ public class ActivityResult {
     private Double score;
     private LocalDate completedAt;
     private boolean completed;
-    // si es autoevaluacion o corregida por profesor
-    private boolean autoCorrected;
-
+    private boolean autoCorrected;// si es autoevaluacion (test)
     private String feedback;
-
+    private String textAnswer; // comentario breve al hacer la entrega de tarea
+    private String fileName;
+    @Lob // Large Object,+ byte[]  --> guarda archivo BLOB (Binary Large Object) - PDF, img, etc
+    private byte[] fileData;
 }

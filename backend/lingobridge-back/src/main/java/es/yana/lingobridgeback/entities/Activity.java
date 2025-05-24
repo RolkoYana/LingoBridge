@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 /*
     profesores crean actividades y se muestran en el frontend
@@ -28,11 +29,10 @@ public class Activity {
 
     private LocalDate dueDate;
     @ManyToOne
+    @JoinColumn(name = "course_id")
     private Course course;
 
-    @ManyToOne
-    @JoinColumn(name = "student_id")
-    private AppUser student;
-
+    @OneToMany(mappedBy = "activity", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Question> questions;
 
 }

@@ -18,5 +18,6 @@ public class Option {
     private boolean correct; // esta es la opción correcta
 
     @ManyToOne
+    @JoinColumn(name = "question_id")
     private Question question;
 }
