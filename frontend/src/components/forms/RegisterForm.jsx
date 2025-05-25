@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Form, Row, Col, Button } from "react-bootstrap";
-import { register } from "../../api/api.js"  
+import { register } from "../../api/api.js";
 
 const RegisterForm = ({ onSuccess }) => {
   const [name, setName] = useState("");
@@ -20,18 +20,17 @@ const RegisterForm = ({ onSuccess }) => {
     }
 
     try {
-      // 👇 usamos roles como Set en backend, por eso array con un solo valor
       const userData = {
         name,
         surname,
         username,
         email,
-        roles: [role], // 👈 así espera el backend
+        roles: [role],
         password,
         passwordConfirm,
       };
 
-      await register(userData); // 👈 usamos función API
+      await register(userData);
       alert("Usuario registrado correctamente");
       onSuccess();
     } catch (err) {
@@ -42,26 +41,30 @@ const RegisterForm = ({ onSuccess }) => {
 
   return (
     <Form onSubmit={handleSubmit}>
-      <Row>
+      <Row className="mb-3"> 
         <Col md={6}>
-          <Form.Group className="mb-3" controlId="name">
+          <Form.Group controlId="name" className="mb-3"> 
             <Form.Label>Nombre</Form.Label>
             <Form.Control
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
+              className="form-control-themed"
+              placeholder="Tu nombre" 
             />
           </Form.Group>
         </Col>
         <Col md={6}>
-          <Form.Group className="mb-3" controlId="surname">
+          <Form.Group controlId="surname" className="mb-3">
             <Form.Label>Apellido</Form.Label>
             <Form.Control
               type="text"
               value={surname}
               onChange={(e) => setSurname(e.target.value)}
               required
+              className="form-control-themed"
+              placeholder="Tu apellido" 
             />
           </Form.Group>
         </Col>
@@ -74,6 +77,8 @@ const RegisterForm = ({ onSuccess }) => {
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           required
+          className="form-control-themed"
+          placeholder="Ej: tu_usuario123" 
         />
       </Form.Group>
 
@@ -84,29 +89,35 @@ const RegisterForm = ({ onSuccess }) => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
+          className="form-control-themed"
+          placeholder="ejemplo@correo.com" 
         />
       </Form.Group>
 
-      <Row>
+      <Row className="mb-3">
         <Col md={6}>
-          <Form.Group className="mb-3" controlId="password">
+          <Form.Group controlId="password" className="mb-3">
             <Form.Label>Contraseña</Form.Label>
             <Form.Control
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              className="form-control-themed"
+              placeholder="Crea una contraseña" 
             />
           </Form.Group>
         </Col>
         <Col md={6}>
-          <Form.Group className="mb-3" controlId="confirmPassword">
+          <Form.Group controlId="confirmPassword" className="mb-3">
             <Form.Label>Confirmar contraseña</Form.Label>
             <Form.Control
               type="password"
               value={passwordConfirm}
               onChange={(e) => setPasswordConfirm(e.target.value)}
               required
+              className="form-control-themed"
+              placeholder="Confirma tu contraseña" 
             />
           </Form.Group>
         </Col>
@@ -114,13 +125,17 @@ const RegisterForm = ({ onSuccess }) => {
 
       <Form.Group className="mb-4" controlId="role">
         <Form.Label>Rol</Form.Label>
-        <Form.Select value={role} onChange={(e) => setRole(e.target.value)}>
+        <Form.Select
+          value={role}
+          onChange={(e) => setRole(e.target.value)}
+          className="form-control-themed"
+        >
           <option value="STUDENT">Alumno</option>
           <option value="TEACHER">Profesor</option>
         </Form.Select>
       </Form.Group>
 
-      <Button type="submit" variant="primary" className="w-100">
+      <Button type="submit" variant="primary" className="w-100 py-2">
         Registrarse
       </Button>
     </Form>
