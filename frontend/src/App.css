@@ -1,21 +1,178 @@
+/* Estilos generales para el root */
 #root {
-    padding: 0;
-    margin: 0;
-  }
-  
-  footer a {
-    color: #343a40;
-    text-decoration: none;
-  }
-  footer a:hover {
-    text-decoration: underline;
-  }
-  
-  footer input.form-control {
-    border-radius: 0.5rem;
-  }
-  
-  footer button {
-    border-radius: 1.5rem;
-    padding: 0.4rem 1.5rem;
-  }
+  padding: 0;
+  margin: 0;
+}
+
+/* Colores por defecto (Modo Claro) */
+:root {
+  --primary-bg: #ffffff;
+  --secondary-bg: #f8f9fa;
+  --primary-text: #212529;
+  --secondary-text: #6c757d;
+  --card-bg: #ffffff;
+  --border-color: #dee2e6;
+  --accordion-bg: #ffffff;
+  --accordion-btn-color: #212529;
+  --accordion-btn-bg: #f8f9fa;
+  --accordion-border-color: #dee2e6;
+  --link-color: #0d6efd;
+  --link-hover-color: #0a58ca;
+  --accordion-icon-filter-light: none;
+}
+
+/* Modo Oscuro */
+body[data-theme="dark"] {
+  --primary-bg: #212529;
+  --secondary-bg: #343a40;
+  --primary-text: #f8f9fa;
+  --secondary-text: #adb5bd;
+  --card-bg: #2c3034;
+  --border-color: #495057;
+  --accordion-bg: #2c3034;
+  --accordion-btn-color: #f8f9fa;
+  --accordion-btn-bg: #343a40;
+  --accordion-border-color: #495057;
+  --link-color: #6daff7;
+  --link-hover-color: #9ecdfa;
+  --accordion-icon-filter-dark: invert(1) grayscale(100%) brightness(150%);
+}
+
+/* Estilos base que usan las variables */
+body {
+  background-color: var(--primary-bg);
+  color: var(--primary-text);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+section {
+  background-color: var(--secondary-bg);
+  color: var(--primary-text);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.card {
+  background-color: var(--card-bg);
+  color: var(--primary-text);
+  border-color: var(--border-color);
+  transition: background-color 0.3s ease, color 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.accordion-item {
+  background-color: var(--accordion-bg);
+  border-color: var(--accordion-border-color);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.accordion-button {
+  background-color: var(--accordion-btn-bg) !important;
+  color: var(--accordion-btn-color) !important;
+  border-color: var(--accordion-border-color);
+  transition: background-color 0.3s ease, color 0.3s ease,
+    border-color 0.3s ease;
+}
+
+/* reglas para las flechas */
+.accordion-button::after {
+  filter: var(--accordion-icon-filter-light) !important;
+  transition: transform 0.2s ease-in-out, filter 0.3s ease;
+}
+
+body[data-theme="dark"] .accordion-button::after {
+  filter: var(
+    --accordion-icon-filter-dark
+  ) !important; /* Flecha en modo oscuro */
+}
+
+.accordion-button:not(.collapsed)::after {
+  filter: var(--accordion-icon-filter-light) !important;
+}
+
+body[data-theme="dark"] .accordion-button:not(.collapsed)::after {
+  filter: var(
+    --accordion-icon-filter-dark
+  ) !important; /* Flecha abierta en modo oscuro */
+}
+
+.accordion-body {
+  background-color: var(--accordion-bg) !important;
+  color: var(--primary-text) !important;
+}
+
+a {
+  color: var(--link-color);
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: var(--link-hover-color);
+}
+
+.btn-primary {
+  --bs-btn-bg: #0d6efd;
+  --bs-btn-color: #fff;
+  --bs-btn-hover-bg: #0a58ca;
+  --bs-btn-hover-border-color: #0a58ca;
+  transition: all 0.3s ease;
+}
+
+body[data-theme="dark"] .btn-primary {
+  --bs-btn-bg: #6daff7;
+  --bs-btn-color: #212529;
+  --bs-btn-hover-bg: #9ecdfa;
+  --bs-btn-hover-border-color: #9ecdfa;
+}
+
+.btn-outline-primary {
+  --bs-btn-color: #0d6efd;
+  --bs-btn-border-color: #0d6efd;
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: #0d6efd;
+  --bs-btn-hover-border-color: #0d6efd;
+  transition: all 0.3s ease;
+}
+
+body[data-theme="dark"] .btn-outline-primary {
+  --bs-btn-color: #6daff7;
+  --bs-btn-border-color: #6daff7;
+  --bs-btn-hover-color: #212529;
+  --bs-btn-hover-bg: #6daff7;
+  --bs-btn-hover-border-color: #6daff7;
+}
+
+/* Estilos para el footer */
+footer {
+  background-color: var(--secondary-bg) !important;
+  color: var(--primary-text) !important;
+  border-top-color: var(--border-color) !important;
+  transition: background-color 0.3s ease, color 0.3s ease,
+    border-color 0.3s ease;
+}
+
+footer p,
+footer div,
+footer span {
+  color: var(--primary-text) !important;
+  transition: color 0.3s ease;
+}
+
+footer a {
+  color: var(--secondary-text);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+footer a:hover {
+  color: var(--primary-text);
+  text-decoration: underline;
+}
+
+footer input.form-control {
+  border-radius: 0.5rem;
+}
+
+footer button {
+  border-radius: 1.5rem;
+  padding: 0.4rem 1.5rem;
+}

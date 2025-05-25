@@ -1,10 +1,10 @@
 import Navbar from "../components/Navbar";
-import Banner from "../components/Banner";
-import Courses from "../components/Courses";
+import Banner from "../components/home/Banner";
+import Courses from "../components/home/Courses";
 import Teachers from "../components/Teachers";
-import Feedbacks from "../components/Feedbacks";
-import Faq from "../components/Faq";
-import Footer from "../components/Footer";
+import Feedbacks from "../components/home/Feedbacks";
+import Faq from "../components/home/Faq";
+import Footer from "../components/home/Footer";
 
 const HomePage = () => {
   return (

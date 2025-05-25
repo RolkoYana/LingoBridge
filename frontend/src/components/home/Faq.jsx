@@ -2,11 +2,11 @@ import React from "react";
 
 const Faq = () => {
   return (
-    <section className="py-5 bg-light">
+    <section className="py-5"> {/* Eliminado bg-light */}
       <div className="container">
-        <h2 className="text-center mb-4">Preguntas frecuentes</h2>
+        <h2 className="text-center mb-5 display-5 fw-bold">Preguntas frecuentes</h2>
 
-        <div className="accordion" id="faqAccordion">
+        <div className="accordion accordion-flush" id="faqAccordion"> {/* accordion-flush para sin bordes exteriores */}
           {/* Pregunta 1 */}
           <div className="accordion-item">
             <h2 className="accordion-header" id="headingOne">
@@ -117,8 +117,8 @@ const Faq = () => {
         </div>
 
         {/* Botón final */}
-        <div className="text-start mt-4">
-          <button className="btn btn-primary">Leer más FAQ</button>
+        <div className="text-center mt-5"> {/* Centrar el botón y añadir más margen */}
+          <button className="btn btn-primary btn-lg">Leer más FAQ</button>
         </div>
       </div>
     </section>

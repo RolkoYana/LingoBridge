@@ -1,37 +1,35 @@
-import React, { useState } from "react";
+import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import logo from "../assets/logo.jpg";
 import { FaMoon, FaSun } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { useTheme } from '../context/ThemeContext.jsx'; // Importa el hook del contexto
 
 const Navbar = () => {
-  const [darkMode, setDarkMode] = useState(false);
-
-  const toggleTheme = () => {
-    setDarkMode(!darkMode);
-    document.body.classList.toggle("bg-dark");
-    document.body.classList.toggle("text-white");
-  };
+  const { theme, toggleTheme } = useTheme(); // Usa el hook para obtener el tema y la función toggle
 
   const isLoggedIn = !!localStorage.getItem("token");
 
   return (
     <nav
       className={`navbar navbar-expand-lg ${
-        darkMode ? "navbar-dark bg-dark" : "navbar-light bg-white"
+        theme === "dark" ? "navbar-dark bg-dark" : "navbar-light bg-white"
       } py-2`}
     >
       <div className="container">
-        <a className="navbar-brand" href="#">
+        <Link className="navbar-brand" to="/"> {/* Usar Link para navegación interna */}
           <img src={logo} alt="Logo" height="40" />
-        </a>
+        </Link>
 
         <button
           className="navbar-toggler"
           type="button"
           data-bs-toggle="collapse"
           data-bs-target="#navbarNavDropdown"
+          aria-controls="navbarNavDropdown" // Mejorar accesibilidad
+          aria-expanded="false" // Mejorar accesibilidad
+          aria-label="Toggle navigation" // Mejorar accesibilidad
         >
           <span className="navbar-toggler-icon"></span>
         </button>
@@ -39,9 +37,9 @@ const Navbar = () => {
         <div className="collapse navbar-collapse" id="navbarNavDropdown">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <a className="nav-link active" href="#">
+              <Link className="nav-link active" to="/quienes-somos"> {/* Usar Link */}
                 Quiénes somos
-              </a>
+              </Link>
             </li>
 
             <li className="nav-item dropdown">
@@ -51,29 +49,30 @@ const Navbar = () => {
                 id="idiomasDropdown"
                 role="button"
                 data-bs-toggle="dropdown"
+                aria-expanded="false" // Mejorar accesibilidad
               >
                 Idiomas
               </a>
-              <ul className="dropdown-menu">
+              <ul className="dropdown-menu" aria-labelledby="idiomasDropdown"> {/* Mejorar accesibilidad */}
                 <li>
-                  <a className="dropdown-item" href="#">
+                  <Link className="dropdown-item" to="/idiomas/ingles">
                     Inglés
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a className="dropdown-item" href="#">
+                  <Link className="dropdown-item" to="/idiomas/espanol">
                     Español
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a className="dropdown-item" href="#">
+                  <Link className="dropdown-item" to="/idiomas/aleman">
                     Alemán
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a className="dropdown-item" href="#">
+                  <Link className="dropdown-item" to="/idiomas/frances">
                     Francés
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </li>
@@ -85,32 +84,33 @@ const Navbar = () => {
                 id="cursosDropdown"
                 role="button"
                 data-bs-toggle="dropdown"
+                aria-expanded="false" // Mejorar accesibilidad
               >
                 Cursos
               </a>
-              <ul className="dropdown-menu">
+              <ul className="dropdown-menu" aria-labelledby="cursosDropdown"> {/* Mejorar accesibilidad */}
                 <li>
-                  <a className="dropdown-item" href="#">
+                  <Link className="dropdown-item" to="/cursos/intensivo">
                     Intensivo
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a className="dropdown-item" href="#">
+                  <Link className="dropdown-item" to="/cursos/flexible">
                     Flexible
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a className="dropdown-item" href="#">
+                  <Link className="dropdown-item" to="/cursos/grupal">
                     Grupal
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </li>
 
             <li className="nav-item">
-              <a className="nav-link" href="#">
+              <Link className="nav-link" to="/trabajo-con-nosotros">
                 Trabajo con nosotros
-              </a>
+              </Link>
             </li>
           </ul>
 
@@ -132,8 +132,9 @@ const Navbar = () => {
           onClick={toggleTheme}
           className="btn border-0 bg-transparent ms-3"
           title="Cambiar modo"
+          aria-label="Cambiar modo de tema" // Mejorar accesibilidad
         >
-          {darkMode ? <FaSun /> : <FaMoon />}
+          {theme === "dark" ? <FaSun className="text-warning" /> : <FaMoon className="text-dark" />} {/* Iconos con color que contrasta */}
         </button>
       </div>
     </nav>

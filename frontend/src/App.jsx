@@ -1,5 +1,6 @@
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { ThemeProvider } from "./context/ThemeContext.jsx";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
@@ -15,42 +16,44 @@ import StudentTaskDelivery from "./components/student/course/StudentTaskDelivery
 function App() {
   return (
     <Router>
-      <Routes>
-        {/* pagina principal */}
-        <Route path="/" element={<HomePage />} />
+      <ThemeProvider>
+        <Routes>
+          {/* pagina principal */}
+          <Route path="/" element={<HomePage />} />
 
-        {/* autenticacion */}
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
+          {/* autenticacion */}
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
 
-        {/* panel de admin */}
-        <Route path="/admin" element={<AdminPage />} />
+          {/* panel de admin */}
+          <Route path="/admin" element={<AdminPage />} />
 
-        {/* panel de estudiante */}
-        <Route path="/student" element={<StudentPage />} />
+          {/* panel de estudiante */}
+          <Route path="/student" element={<StudentPage />} />
 
-        {/* panel de profesor */}
-        <Route path="/teacher" element={<TeacherPage />} />
-        <Route path="/teacher/create-course" element={<CreateCourseForm />} />
+          {/* panel de profesor */}
+          <Route path="/teacher" element={<TeacherPage />} />
+          <Route path="/teacher/create-course" element={<CreateCourseForm />} />
 
-        {/* pagina de curso para alumno*/}
-        <Route path="/student/course/:id" element={<StudentCoursePage />} />
+          {/* pagina de curso para alumno*/}
+          <Route path="/student/course/:id" element={<StudentCoursePage />} />
 
-        {/* pagina de curso para profesor */}
-        <Route path="/teacher/course/:id" element={<TeacherCoursePage />} />
+          {/* pagina de curso para profesor */}
+          <Route path="/teacher/course/:id" element={<TeacherCoursePage />} />
 
-        {/* Ruta para el test del estudiante */}
-        <Route
-          path="/student/course/:courseId/test/:activityId"
-          element={<StudentTestPage />}
-        />
+          {/* Ruta para el test del estudiante */}
+          <Route
+            path="/student/course/:courseId/test/:activityId"
+            element={<StudentTestPage />}
+          />
 
-        {/* Ruta para la tarea del estudiante */}
-        <Route
-          path="/student/course/:courseId/task/:activityId"
-          element={<StudentTaskDelivery />}
-        />
-      </Routes>
+          {/* Ruta para la tarea del estudiante */}
+          <Route
+            path="/student/course/:courseId/task/:activityId"
+            element={<StudentTaskDelivery />}
+          />
+        </Routes>
+      </ThemeProvider>
     </Router>
   );
 }
