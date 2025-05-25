@@ -1,5 +1,5 @@
 import React from "react";
-import bannerImage from "../assets/banner.jpg"; // Renombrado de 'logo' a 'bannerImage' para claridad
+import bannerImage from "../../assets/banner.jpg"; // Renombrado de 'logo' a 'bannerImage' para claridad
 
 const Banner = () => {
   return (

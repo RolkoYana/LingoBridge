@@ -1,10 +1,10 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
-import logo from "../assets/logo.jpg";
+import logo from "../../assets/logo.jpg";
 import { FaMoon, FaSun } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { useTheme } from '../context/ThemeContext.jsx'; // Importa el hook del contexto
+import { useTheme } from '../../context/ThemeContext.jsx'; // Importa el hook del contexto
 
 const Navbar = () => {
   const { theme, toggleTheme } = useTheme(); // Usa el hook para obtener el tema y la función toggle

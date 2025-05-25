@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import TeacherCard from "./home/TeacherCard";
-import imgPilar from "../assets/teachers/Pilar_espaniol.jpg";
-import imgDaniel from "../assets/teachers/Daniel_aleman.jpg";
-import imgSophie from "../assets/teachers/Sophie_frances.jpg";
-import imgAlex from "../assets/teachers/Alex_ingles.jpg";
-import imgGabriel from "../assets/teachers/Gabriel_frances.jpg";
-import imgAna from "../assets/teachers/Anna_ingles.jpg";
+import TeacherCard from "../home/TeacherCard";
+import imgPilar from "../../assets/teachers/Pilar_espaniol.jpg";
+import imgDaniel from "../../assets/teachers/Daniel_aleman.jpg";
+import imgSophie from "../../assets/teachers/Sophie_frances.jpg";
+import imgAlex from "../../assets/teachers/Alex_ingles.jpg";
+import imgGabriel from "../../assets/teachers/Gabriel_frances.jpg";
+import imgAna from "../../assets/teachers/Anna_ingles.jpg";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 const teachers = [

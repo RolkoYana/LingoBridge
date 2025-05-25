@@ -1,8 +1,8 @@
 import React from "react";
 import CourseCard from "./CourseCard";
-import intensive from "../assets/courses/intensivo.jpg";
-import flexible from "../assets/courses/flexible.jpg";
-import group from "../assets/courses/grupal.jpg";
+import intensive from "../../assets/courses/intensivo.jpg"
+import flexible from "../../assets/courses/flexible.jpg";
+import group from "../../assets/courses/grupal.jpg";
 import { FaBookOpen, FaCalendarAlt, FaUsers } from "react-icons/fa"; // Nuevos iconos para características
 
 const Courses = () => {

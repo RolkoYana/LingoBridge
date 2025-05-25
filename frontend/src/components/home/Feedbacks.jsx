@@ -1,7 +1,7 @@
 import React from "react";
-import imgNoel from "../assets/feedbacks/noel.jpg";
-import imgJulia from "../assets/feedbacks/julia.jpg";
-import imgNatalia from "../assets/feedbacks/natalia.jpg";
+import imgNoel from "../../assets/feedbacks/noel.jpg";
+import imgJulia from "../../assets/feedbacks/julia.jpg";
+import imgNatalia from "../../assets/feedbacks/natalia.jpg";
 import { FaStar } from "react-icons/fa"; // Importar el icono de estrella
 
 const Feedbacks = () => {
