@@ -82,6 +82,25 @@ public class CourseDto {
         this.teacherUsername = course.getTeacher().getUsername();
     }
 
+    // Constructor para cursos pendientes (admin)
+    public CourseDto(Course course, boolean includeTeacher) {
+        this.id = course.getId();
+        this.name = course.getName();
+        this.description = course.getDescription();
+        this.approved = course.isApproved();
+        this.completed = course.isCompleted();
+        this.type = course.getType();
+
+        if (includeTeacher && course.getTeacher() != null) {
+            this.teacher = new UserDto(
+                    course.getTeacher().getId(),
+                    course.getTeacher().getName(),
+                    course.getTeacher().getSurname(),
+                    course.getTeacher().getUsername()
+            );
+        }
+    }
+
 
 
 

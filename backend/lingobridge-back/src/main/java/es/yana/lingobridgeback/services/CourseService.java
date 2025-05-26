@@ -148,5 +148,20 @@ public class CourseService {
         courseRepository.save(course);
     }
 
+    // Contar todos los cursos
+    public Long countAllCourses() {
+        return courseRepository.count();
+    }
+
+    // Contar cursos completados
+    public Long countCompletedCourses() {
+        return courseRepository.countByCompleted(true);
+    }
+
+    // Contar cursos pendientes (no aprobados)
+    public Long countPendingCourses() {
+        return courseRepository.countByApproved(false);
+    }
+
 
 }

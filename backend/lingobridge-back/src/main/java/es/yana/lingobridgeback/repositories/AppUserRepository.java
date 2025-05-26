@@ -22,4 +22,12 @@ public interface AppUserRepository extends JpaRepository<AppUser, Long> {
 
     @Query(value = "SELECT * FROM users WHERE roles LIKE %:role%", nativeQuery = true)
     List<AppUser> findByRole(@Param("role") String role);
+
+    // para estadisticas
+    @Query(value = "SELECT COUNT(*) FROM users WHERE roles LIKE %:role%", nativeQuery = true)
+    Long countByRole(@Param("role") String role);
+
+
 }
+
+

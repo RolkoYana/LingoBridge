@@ -93,9 +93,12 @@ public class CourseController {
     // cursos pendientes de aprobacion
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/admin/pending-courses")
-    public ResponseEntity<List<Course>> getPendingCourses(){
+    public ResponseEntity<List<CourseDto>> getPendingCourses(){
         List<Course> pendingCourses = courseService.getPendingApprovalCourse();
-        return ResponseEntity.ok(pendingCourses);
+        List<CourseDto> courseDtos = pendingCourses.stream()
+                .map(course -> new CourseDto(course, true)) // true = incluir teacher
+                .toList();
+        return ResponseEntity.ok(courseDtos);
     }
 
     // aprobar curso (admin)
@@ -204,6 +207,7 @@ public class CourseController {
                     case GERMAN -> "Alemán";
                 }).toList();
 
+        // Datos por idioma (existentes)
         Map<Language, Long> coursesPerLangMap = courseService.countCoursesByLanguage();
         List<Long> coursesPerLanguage = languages.stream()
                 .map(lang -> coursesPerLangMap.getOrDefault(lang, 0L))
@@ -219,10 +223,25 @@ public class CourseController {
                 .map(lang -> studentsPerLangMap.getOrDefault(lang, 0L))
                 .toList();
 
-        statistics.put("languages", languageNames);  // ["ENGLISH", "SPANISH", ...]
+        // NUEVOS: Datos totales (sin totalUsers)
+        Long totalTeachers = appUserService.countAllTeachers();
+        Long totalStudents = appUserService.countAllStudents();
+        Long totalCourses = courseService.countAllCourses();
+        Long completedCourses = courseService.countCompletedCourses();
+        Long pendingCourses = courseService.countPendingCourses();
+
+        // Datos por idioma
+        statistics.put("languages", languageNames);
         statistics.put("coursesPerLanguage", coursesPerLanguage);
         statistics.put("teachersPerLanguage", teachersPerLanguage);
         statistics.put("studentsPerLanguage", studentsPerLanguage);
+
+        // Datos totales
+        statistics.put("totalTeachers", totalTeachers);
+        statistics.put("totalStudents", totalStudents);
+        statistics.put("totalCourses", totalCourses);
+        statistics.put("completedCourses", completedCourses);
+        statistics.put("pendingCourses", pendingCourses);
 
         return ResponseEntity.ok(statistics);
     }

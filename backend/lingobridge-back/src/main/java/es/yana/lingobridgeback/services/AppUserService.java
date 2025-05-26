@@ -173,6 +173,17 @@ public class AppUserService {
                 .collect(Collectors.groupingBy(AppUser::getLanguageTaught, Collectors.counting()));
     }
 
+    // para estadisticas
+    // Contar todos los profesores
+    public Long countAllTeachers() {
+        return userRepository.countByRole("TEACHER");
+    }
+
+    // Contar todos los estudiantes
+    public Long countAllStudents() {
+        return userRepository.countByRole("STUDENT");
+    }
+
 
 
 
