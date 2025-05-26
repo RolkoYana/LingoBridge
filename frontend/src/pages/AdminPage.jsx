@@ -3,25 +3,22 @@ import { Container, Row, Col } from "react-bootstrap";
 import AdminSidebar from "../components/admin/AdminSidebar";
 import AdminHeader from "../components/admin/AdminHeader";
 import UserTable from "../components/admin/UserTable";
-import AdminStats from "../components/admin/AdminStats";
+import AdminStats from "../components/admin/AdminStats"; 
 import ActiveCourses from "../components/admin/ActiveCourses";
 import PendingCourses from "../components/admin/PendingCourses";
 import AllCourses from "../components/admin/AllCourses";
 
+import "../styles/AdminPanel.css"; 
+
 const AdminPage = () => {
-  const [activeSection, setActiveSection] = useState("cursos-activos"); // se ve el apartado de cursos activos por defecto al entrar a la pagina de admin
+  const [activeSection, setActiveSection] = useState("cursos-activos"); // cursos activos se ven por defecto al entral al panel de admin 
   const [userData, setUserData] = useState(null);
 
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
-    console.log("Usuario cargado desde localStorage:", storedUser);
 
     setUserData(storedUser);
   }, []);
-
-  console.log("userData antes de la validación:", userData);
-  console.log("Roles antes de la validación:", userData?.roles);
-  console.log("Es un array?:", Array.isArray(userData?.roles));
 
   if (!userData?.token || ![].concat(userData.roles).includes("ADMIN")) {
     return (
@@ -32,27 +29,25 @@ const AdminPage = () => {
   }
 
   return (
-    <Container fluid className="min-vh-100 bg-light">
-      <Row>
-        <Col xs={2} className="bg-secondary text-white p-0">
-          <AdminSidebar setActiveSection={setActiveSection} />{" "}
-          {/* sidebar envía el estado */}
-        </Col>
-        <Col xs={10} className="p-3">
-          <AdminHeader />
+    <div className="admin-dashboard-wrapper d-flex flex-column min-vh-100">
+      <AdminHeader /> 
 
-          {/* renderiza la sección correcta según `activeSection` */}
-          {activeSection === "inicio" && (
-            <h3>Bienvenido al Panel de Administración</h3>
-          )}
-          {activeSection === "todos-los-cursos" && <AllCourses />}
-          {activeSection === "cursos-activos" && <ActiveCourses />}
-          {activeSection === "cursos-pendientes" && <PendingCourses />}
-          {activeSection === "usuarios" && <UserTable />}
-          {activeSection === "estadisticas" && <AdminStats />}
-        </Col>
-      </Row>
-    </Container>
+      <Container fluid className="flex-grow-1 p-0"> 
+        <Row className="g-0"> 
+          <Col xs={12} md={3} lg={2} className="sidebar-col p-0"> 
+            <AdminSidebar setActiveSection={setActiveSection} activeSection={activeSection} />
+          </Col>
+
+          <Col xs={12} md={9} lg={10} className="main-content-col p-3"> 
+            {activeSection === "estadisticas" && <AdminStats />}
+            {activeSection === "todos-los-usuarios" && <UserTable />}
+            {activeSection === "todos-los-cursos" && <AllCourses />}
+            {activeSection === "cursos-activos" && <ActiveCourses />}
+            {activeSection === "cursos-pendientes" && <PendingCourses />}
+          </Col>
+        </Row>
+      </Container>
+    </div>
   );
 };
 

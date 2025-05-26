@@ -1,0 +1,1814 @@
+/* ======= HEADER IMPROVEMENTS ======= */
+
+.admin-logo-circle {
+  width: 45px;
+  height: 45px;
+  background: linear-gradient(135deg, #0d6efd 0%, #6610f2 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  box-shadow: 0 2px 8px rgba(13, 110, 253, 0.3);
+}
+
+body[data-theme="dark"] .admin-logo-circle {
+  background: linear-gradient(135deg, #6daff7 0%, #a855f7 100%);
+  color: #212529;
+}
+
+.admin-search-group .input-group-text {
+  background-color: transparent;
+  border-right: none;
+  padding-left: 1rem;
+}
+
+.admin-search-group .form-control {
+  border-left: none;
+  padding-left: 0.5rem;
+}
+
+.admin-search-group .form-control:focus {
+  border-left: none;
+  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+}
+
+.admin-dropdown-menu {
+  border: none;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  border-radius: 0.75rem;
+  padding: 0.5rem 0;
+  min-width: 220px;
+}
+
+.admin-dropdown-menu .dropdown-header {
+  padding: 1rem;
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 0.5rem;
+}
+
+.admin-dropdown-menu .dropdown-item {
+  padding: 0.75rem 1.25rem;
+  display: flex;
+  align-items: center;
+  transition: all 0.2s ease;
+}
+
+.admin-dropdown-menu .dropdown-item:hover {
+  background-color: var(--table-hover-color);
+  padding-left: 1.5rem;
+}
+
+/* ======= SIDEBAR IMPROVEMENTS ======= */
+
+.sidebar-header {
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.admin-logo-mini {
+  width: 35px;
+  height: 35px;
+  background: linear-gradient(135deg, #0d6efd 0%, #6610f2 100%);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+body[data-theme="dark"] .admin-logo-mini {
+  background: linear-gradient(135deg, #6daff7 0%, #a855f7 100%);
+  color: #212529;
+}
+
+.sidebar-section {
+  position: relative;
+}
+
+.sidebar-section-title {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--secondary-text);
+  padding: 0 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.sidebar-nav-link {
+  color: var(--admin-sidebar-text-light) !important;
+  padding: 0.875rem 1rem !important;
+  border-radius: 0.75rem !important;
+  margin: 0.125rem 0.5rem !important;
+  position: relative;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+body[data-theme="dark"] .sidebar-nav-link {
+  color: var(--admin-sidebar-text-dark) !important;
+}
+
+.sidebar-nav-link:hover {
+  background-color: var(--admin-sidebar-link-hover-light);
+  transform: translateX(4px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+body[data-theme="dark"] .sidebar-nav-link:hover {
+  background-color: var(--admin-sidebar-link-hover-dark);
+}
+
+.sidebar-nav-link.active {
+  background: linear-gradient(135deg, #0d6efd 0%, #6610f2 100%) !important;
+  color: white !important;
+  font-weight: 600;
+  transform: translateX(4px);
+  box-shadow: 0 4px 12px rgba(13, 110, 253, 0.3);
+}
+
+body[data-theme="dark"] .sidebar-nav-link.active {
+  background: linear-gradient(135deg, #6daff7 0%, #a855f7 100%) !important;
+  color: #212529 !important;
+}
+
+.sidebar-icon-wrapper {
+  width: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sidebar-link-text {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.active-indicator {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 20px;
+  background-color: white;
+  border-radius: 2px;
+  opacity: 0.8;
+}
+
+body[data-theme="dark"] .active-indicator {
+  background-color: #212529;
+}
+
+/* ======= RESPONSIVE IMPROVEMENTS ======= */
+
+@media (max-width: 767.98px) {
+  .admin-logo-circle {
+    width: 35px;
+    height: 35px;
+  }
+  
+  .sidebar-header {
+    text-align: center;
+    border-bottom: none;
+    padding-bottom: 0.5rem;
+  }
+  
+  .sidebar-section-title {
+    display: none;
+  }
+  
+  .sidebar-nav-link {
+    padding: 0.5rem 0.75rem !important;
+    margin: 0.125rem !important;
+    text-align: center;
+  }
+  
+  .sidebar-link-text {
+    font-size: 0.8rem;
+  }
+  
+  .admin-sidebar {
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+  
+  .sidebar-nav-link .d-flex {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+  }
+  
+  .sidebar-icon-wrapper {
+    margin-right: 0 !important;
+    margin-bottom: 0.25rem;
+  }
+}
+
+/* ======= ANIMATION IMPROVEMENTS ======= */
+
+.sidebar-nav-link {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sidebar-nav-link:hover,
+.sidebar-nav-link.active {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Animación de entrada para elementos del sidebar */
+.sidebar-section {
+  animation: slideInLeft 0.4s ease-out;
+}
+
+.sidebar-section:nth-child(1) { animation-delay: 0.1s; }
+.sidebar-section:nth-child(2) { animation-delay: 0.2s; }
+.sidebar-section:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ======= NOTIFICATION BADGE ======= */
+
+.position-relative .badge {
+  font-size: 0.65rem !important;
+  min-width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1) translate(-50%, -50%); }
+  50% { transform: scale(1.1) translate(-50%, -50%); }
+  100% { transform: scale(1) translate(-50%, -50%); }
+}
+
+/* ======= ALL COURSES COMPONENT STYLES ======= */
+
+.courses-management {
+  animation: fadeInUp 0.5s ease-out;
+}
+
+.course-description {
+  line-height: 1.4;
+  font-size: 0.9rem;
+  color: var(--secondary-text);
+  max-width: 300px;
+}
+
+.course-type-text {
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.btn-action {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.btn-action:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.btn-outline-info.btn-action:hover {
+  background-color: #0dcaf0;
+  border-color: #0dcaf0;
+  color: white;
+}
+
+.btn-outline-warning.btn-action:hover {
+  background-color: #ffc107;
+  border-color: #ffc107;
+  color: #212529;
+}
+
+.btn-outline-danger.btn-action:hover {
+  background-color: #dc3545;
+  border-color: #dc3545;
+  color: white;
+}
+
+/* Header statistics badges */
+.card-header .badge {
+  font-size: 0.8rem;
+  font-weight: 500;
+  border-radius: 1rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Search and filter controls */
+.form-control-themed:focus,
+.form-select:focus {
+  border-color: #86cfda;
+  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+}
+
+/* Table enhancements for courses */
+.admin-table-container .table td {
+  padding: 1rem 0.75rem;
+}
+
+.admin-table-container .table .fw-bold.text-primary {
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
+}
+
+/* Empty state styling */
+.admin-table-container tbody td[colspan] {
+  padding: 3rem 1rem;
+  background-color: var(--card-bg);
+}
+
+.admin-table-container tbody td[colspan] .opacity-50 {
+  opacity: 0.3 !important;
+  color: var(--secondary-text);
+}
+
+/* Loading state */
+.spinner-border {
+  width: 3rem;
+  height: 3rem;
+}
+
+/* Responsive improvements for courses table */
+@media (max-width: 768px) {
+  .card-header .d-flex.gap-3 {
+    flex-direction: column;
+    gap: 0.5rem !important;
+  }
+  
+  .card-header .badge {
+    font-size: 0.7rem;
+    padding: 0.25em 0.5em;
+  }
+  
+  .course-description {
+    max-width: none;
+    font-size: 0.8rem;
+  }
+  
+  .btn-action {
+    width: 28px;
+    height: 28px;
+    font-size: 0.8rem;
+  }
+  
+  .table th {
+    font-size: 0.8rem;
+    padding: 0.75rem 0.5rem;
+  }
+  
+  .table td {
+    padding: 0.75rem 0.5rem;
+    font-size: 0.85rem;
+  }
+  
+  .bg-light.rounded-circle {
+    width: 30px !important;
+    height: 30px !important;
+    font-size: 0.75rem !important;
+  }
+}
+
+@media (max-width: 576px) {
+  .courses-management .row .col-md-8,
+  .courses-management .row .col-md-4 {
+    margin-bottom: 1rem;
+  }
+  
+  .table-responsive {
+    font-size: 0.8rem;
+  }
+  
+  .course-description {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    max-width: 150px;
+  }
+}
+
+/* ======= ACTIVE COURSES COMPONENT STYLES - FINAL ======= */
+
+.active-courses-management {
+  animation: fadeInUp 0.5s ease-out;
+}
+
+/* Header improvements for active courses - VERDE CLARO */
+.active-courses-management .card-header,
+.active-courses-header {
+  background: linear-gradient(135deg, #20c997 0%, #69db7c 100%) !important;
+  border: none !important;
+  padding: 1.5rem !important;
+}
+
+body[data-theme="dark"] .active-courses-management .card-header,
+body[data-theme="dark"] .active-courses-header {
+  background: linear-gradient(135deg, #20c997 0%, #51cf66 100%) !important;
+}
+
+/* Asegurar que todo el texto del header sea blanco */
+.active-courses-header h5,
+.active-courses-header small,
+.active-courses-header .opacity-75,
+.active-courses-header * {
+  color: white !important;
+}
+
+/* Stats badge principal - ESTILO PENDINGCOURSES PERO VERDE */
+.active-stats-badge {
+  background: rgba(33, 37, 41, 0.9) !important;
+  color: #20c997 !important;
+  border: 2px solid rgba(32, 201, 151, 0.3) !important;
+  font-weight: 600 !important;
+  backdrop-filter: blur(10px) !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
+  transition: all 0.3s ease !important;
+  border-radius: 1rem !important;
+  font-size: 1rem !important;
+  padding: 0.75rem 1.5rem !important;
+}
+
+.active-stats-badge:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+  background: rgba(33, 37, 41, 1) !important;
+}
+
+body[data-theme="dark"] .active-stats-badge {
+  background: rgba(33, 37, 41, 0.95) !important;
+  color: #69db7c !important;
+  border-color: rgba(105, 219, 124, 0.3) !important;
+}
+
+/* Refresh button - VERDE CLARO */
+.btn-refresh-courses {
+  background: linear-gradient(135deg, #20c997 0%, #69db7c 100%) !important;
+  border: none !important;
+  border-radius: 0.75rem !important;
+  font-weight: 500 !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  box-shadow: 0 4px 12px rgba(32, 201, 151, 0.2) !important;
+  color: white !important;
+  padding: 0.75rem 1.5rem !important;
+  font-size: 0.95rem !important;
+}
+
+.btn-refresh-courses:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 25px rgba(32, 201, 151, 0.35) !important;
+  background: linear-gradient(135deg, #1aa179 0%, #51cf66 100%) !important;
+  color: white !important;
+}
+
+.btn-refresh-courses:active {
+  transform: translateY(0) !important;
+  box-shadow: 0 4px 12px rgba(32, 201, 151, 0.4) !important;
+}
+
+.btn-refresh-courses:focus {
+  box-shadow: 0 0 0 0.2rem rgba(32, 201, 151, 0.5) !important;
+  color: white !important;
+}
+
+/* Search controls - VERDE CLARO */
+.active-search-group .input-group-text {
+  background-color: rgba(32, 201, 151, 0.1);
+  border-color: #20c997;
+  color: #20c997;
+}
+
+.active-search-group .form-control {
+  border-color: #20c997;
+}
+
+.active-search-group .form-control:focus {
+  border-color: #20c997;
+  box-shadow: 0 0 0 0.2rem rgba(32, 201, 151, 0.25);
+}
+
+/* Table styling - VERDE CLARO */
+.active-courses-table thead th {
+  background: linear-gradient(135deg, #e8f5f2 0%, #d1f2ea 100%);
+  border-color: #20c997;
+  color: #0d6b58;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+}
+
+body[data-theme="dark"] .active-courses-table thead th {
+  background: linear-gradient(135deg, #1a4c44 0%, #2a6052 100%);
+  color: #69db7c;
+}
+
+.active-course-row {
+  transition: all 0.3s ease;
+}
+
+.active-course-row:hover {
+  background-color: rgba(32, 201, 151, 0.05);
+  transform: translateX(2px);
+  box-shadow: 0 2px 8px rgba(32, 201, 151, 0.1);
+}
+
+body[data-theme="dark"] .active-course-row:hover {
+  background-color: rgba(105, 219, 124, 0.1);
+}
+
+/* Course ID styling - VERDE CLARO */
+.active-course-id {
+  width: 35px;
+  height: 35px;
+  background: linear-gradient(135deg, #20c997 0%, #69db7c 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 600;
+  font-size: 0.9rem;
+  box-shadow: 0 2px 6px rgba(32, 201, 151, 0.3);
+}
+
+body[data-theme="dark"] .active-course-id {
+  background: linear-gradient(135deg, #20c997 0%, #51cf66 100%);
+}
+
+/* Course information styling */
+.active-course-info {
+  padding: 0.25rem 0;
+}
+
+.active-course-name {
+  font-weight: 600;
+  color: #20c997;
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
+  line-height: 1.3;
+}
+
+body[data-theme="dark"] .active-course-name {
+  color: #69db7c;
+}
+
+.active-course-description {
+  font-size: 0.85rem;
+  color: var(--secondary-text);
+  line-height: 1.4;
+  font-style: italic;
+}
+
+/* Teacher information styling */
+.active-teacher-info {
+  padding: 0.25rem 0;
+}
+
+.teacher-name {
+  font-weight: 600;
+  color: var(--text-color);
+  font-size: 0.9rem;
+  margin-bottom: 0.1rem;
+}
+
+.teacher-username {
+  font-size: 0.8rem;
+  color: var(--secondary-text);
+  font-family: 'Courier New', monospace;
+  background-color: rgba(108, 117, 125, 0.1);
+  padding: 0.1rem 0.4rem;
+  border-radius: 0.25rem;
+  display: inline-block;
+}
+
+body[data-theme="dark"] .teacher-username {
+  background-color: rgba(108, 117, 125, 0.2);
+}
+
+/* Footer styling - VERDE CLARO */
+.active-footer {
+  background-color: rgba(32, 201, 151, 0.05);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-top: 1rem;
+}
+
+body[data-theme="dark"] .active-footer {
+  background-color: rgba(105, 219, 124, 0.1);
+}
+
+/* Empty state styling - VERDE CLARO */
+.active-courses-table tbody td[colspan] {
+  padding: 4rem 2rem;
+  background: linear-gradient(135deg, rgba(32, 201, 151, 0.05) 0%, rgba(105, 219, 124, 0.05) 100%);
+  border-radius: 1rem;
+}
+
+body[data-theme="dark"] .active-courses-table tbody td[colspan] {
+  background: linear-gradient(135deg, rgba(32, 201, 151, 0.1) 0%, rgba(81, 207, 102, 0.1) 100%);
+}
+
+.active-courses-table tbody td[colspan] .opacity-50 {
+  color: #20c997 !important;
+  opacity: 0.6 !important;
+}
+
+/* Pulse animation - VERDE CLARO */
+@keyframes activePulse {
+  0% { box-shadow: 0 0 0 0 rgba(32, 201, 151, 0.4); }
+  50% { box-shadow: 0 0 0 10px rgba(32, 201, 151, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(32, 201, 151, 0); }
+}
+
+.active-course-id {
+  animation: activePulse 3s infinite;
+}
+
+/* Responsive improvements */
+@media (max-width: 768px) {
+  .active-stats-badge {
+    font-size: 0.9rem !important;
+    padding: 0.5rem 1rem !important;
+    margin-bottom: 0.5rem;
+  }
+  
+  .btn-refresh-courses {
+    padding: 0.6rem 1.2rem !important;
+    font-size: 0.9rem !important;
+    width: 100%;
+    margin-top: 1rem;
+  }
+  
+  .active-course-name {
+    font-size: 0.9rem;
+  }
+  
+  .active-course-description {
+    font-size: 0.8rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  .teacher-name {
+    font-size: 0.85rem;
+  }
+  
+  .teacher-username {
+    font-size: 0.75rem;
+  }
+  
+  .active-course-id {
+    width: 30px;
+    height: 30px;
+    font-size: 0.8rem;
+  }
+  
+  .active-footer {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.5rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .active-courses-management .row .col-md-8,
+  .active-courses-management .row .col-md-4 {
+    margin-bottom: 1rem;
+  }
+  
+  .active-courses-management .card-header .d-flex.gap-3 {
+    flex-direction: column;
+    gap: 0.5rem !important;
+    text-align: center;
+  }
+  
+  .active-stats-badge {
+    font-size: 0.85rem !important;
+    padding: 0.5rem 1rem !important;
+  }
+  
+  .active-teacher-info {
+    font-size: 0.8rem;
+  }
+  
+  .teacher-username {
+    display: block;
+    margin-top: 0.2rem;
+  }
+}
+
+/* Loading state */
+.active-courses-management .spinner-border {
+  color: #20c997;
+}
+
+/* Hover effects - VERDE CLARO */
+.active-courses-table tbody tr:hover .active-course-name {
+  color: #69db7c !important;
+  transition: color 0.3s ease;
+}
+
+body[data-theme="dark"] .active-courses-table tbody tr:hover .active-course-name {
+  color: #51cf66 !important;
+}
+
+.active-courses-table tbody tr:hover .teacher-name {
+  color: #20c997 !important;
+  transition: color 0.3s ease;
+}
+
+body[data-theme="dark"] .active-courses-table tbody tr:hover .teacher-name {
+  color: #69db7c !important;
+}
+
+/* Fade in animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ======= COMPLETE COURSE BUTTON STYLES ======= */
+
+.btn-complete-course {
+  background: linear-gradient(135deg, #dc3545 0%, #e74c3c 100%) !important;
+  border: none !important;
+  color: white !important;
+  font-weight: 500 !important;
+  border-radius: 0.5rem !important;
+  padding: 0.5rem 1rem !important;
+  font-size: 0.85rem !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  box-shadow: 0 2px 8px rgba(220, 53, 69, 0.2) !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  min-width: 110px !important;
+  justify-content: center !important;
+}
+
+.btn-complete-course:hover:not(:disabled) {
+  background: linear-gradient(135deg, #c82333 0%, #dc3545 100%) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 20px rgba(220, 53, 69, 0.4) !important;
+  color: white !important;
+}
+
+.btn-complete-course:active {
+  transform: translateY(0) !important;
+  box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3) !important;
+}
+
+.btn-complete-course:focus {
+  box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.5) !important;
+  color: white !important;
+}
+
+.btn-complete-course:disabled {
+  opacity: 0.8 !important;
+  cursor: not-allowed !important;
+  transform: none !important;
+}
+
+.btn-complete-course.completing {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%) !important;
+  animation: completeSuccess 0.6s ease !important;
+}
+
+@keyframes completeSuccess {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+body[data-theme="dark"] .btn-complete-course {
+  background: linear-gradient(135deg, #e74c3c 0%, #f39c12 100%) !important;
+}
+
+body[data-theme="dark"] .btn-complete-course:hover:not(:disabled) {
+  background: linear-gradient(135deg, #dc3545 0%, #e67e22 100%) !important;
+  color: white !important;
+}
+
+body[data-theme="dark"] .btn-complete-course.completing {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%) !important;
+}
+
+@media (max-width: 768px) {
+  .btn-complete-course {
+    padding: 0.4rem 0.8rem !important;
+    font-size: 0.8rem !important;
+    min-width: 100px !important;
+  }
+}
+
+@media (max-width: 576px) {
+  .btn-complete-course {
+    padding: 0.35rem 0.7rem !important;
+    font-size: 0.75rem !important;
+    min-width: 90px !important;
+  }
+}
+
+/* ======= ACTIVE COURSES HEADER FINAL FIX ======= */
+
+/* Forzar el gradiente verde en el header específicamente */
+.active-courses-header,
+.active-courses-management .active-courses-header {
+  background: linear-gradient(135deg, #198754 0%, #20c997 100%) !important;
+  border: none !important;
+  padding: 1.5rem !important;
+}
+
+body[data-theme="dark"] .active-courses-header,
+body[data-theme="dark"] .active-courses-management .active-courses-header {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%) !important;
+}
+
+/* Asegurar que todo el texto del header sea blanco */
+.active-courses-header h5,
+.active-courses-header small,
+.active-courses-header .opacity-75,
+.active-courses-header * {
+  color: white !important;
+}
+
+
+/* ======= APPROVE COURSE BUTTON STYLES ======= */
+
+.btn-approve-course {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%) !important;
+  border: none !important;
+  color: white !important;
+  font-weight: 500 !important;
+  border-radius: 0.5rem !important;
+  padding: 0.5rem 1rem !important;
+  font-size: 0.85rem !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  box-shadow: 0 2px 8px rgba(40, 167, 69, 0.2) !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  min-width: 100px !important;
+  justify-content: center !important;
+}
+
+.btn-approve-course:hover:not(:disabled) {
+  background: linear-gradient(135deg, #218838 0%, #1aa179 100%) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4) !important;
+  color: white !important;
+}
+
+.btn-approve-course:active {
+  transform: translateY(0) !important;
+  box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3) !important;
+}
+
+.btn-approve-course:focus {
+  box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.5) !important;
+  color: white !important;
+}
+
+.btn-approve-course:disabled {
+  opacity: 0.8 !important;
+  cursor: not-allowed !important;
+  transform: none !important;
+}
+
+.btn-approve-course.approving {
+  background: linear-gradient(135deg, #198754 0%, #20c997 100%) !important;
+  animation: approveSuccess 0.6s ease !important;
+}
+
+@keyframes approveSuccess {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+/* ======= REJECT COURSE BUTTON STYLES ======= */
+
+.btn-reject-course {
+  background: linear-gradient(135deg, #dc3545 0%, #e74c3c 100%) !important;
+  border: none !important;
+  color: white !important;
+  font-weight: 500 !important;
+  border-radius: 0.5rem !important;
+  padding: 0.5rem 1rem !important;
+  font-size: 0.85rem !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  box-shadow: 0 2px 8px rgba(220, 53, 69, 0.2) !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  min-width: 100px !important;
+  justify-content: center !important;
+}
+
+.btn-reject-course:hover:not(:disabled) {
+  background: linear-gradient(135deg, #c82333 0%, #dc3545 100%) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 20px rgba(220, 53, 69, 0.4) !important;
+  color: white !important;
+}
+
+.btn-reject-course:active {
+  transform: translateY(0) !important;
+  box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3) !important;
+}
+
+.btn-reject-course:focus {
+  box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.5) !important;
+  color: white !important;
+}
+
+.btn-reject-course:disabled {
+  opacity: 0.8 !important;
+  cursor: not-allowed !important;
+  transform: none !important;
+}
+
+.btn-reject-course.rejecting {
+  background: linear-gradient(135deg, #6c757d 0%, #495057 100%) !important;
+  animation: rejectSuccess 0.6s ease !important;
+}
+
+@keyframes rejectSuccess {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+/* ======= PENDING COURSES COMPONENT STYLES ======= */
+
+.pending-courses-management {
+  animation: fadeInUp 0.5s ease-out;
+}
+
+/* Header improvements for pending courses */
+.pending-courses-management .card-header {
+  background: linear-gradient(135deg, #ffc107 0%, #ffb300 100%) !important;
+  border: none;
+  padding: 1.5rem;
+  color: #212529 !important;
+}
+
+body[data-theme="dark"] .pending-courses-management .card-header {
+  background: linear-gradient(135deg, #ffc107 0%, #ffb300 100%) !important;
+  color: #212529 !important;
+}
+
+/* Stats badge for pending courses */
+.pending-stats-badge {
+  background: rgba(33, 37, 41, 0.9) !important;
+  color: #ffc107 !important;
+  border: 2px solid rgba(255, 193, 7, 0.3) !important;
+  font-weight: 600 !important;
+  backdrop-filter: blur(10px) !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
+  transition: all 0.3s ease !important;
+  border-radius: 1rem !important;
+  font-size: 1rem !important;
+  padding: 0.75rem 1.5rem !important;
+}
+
+.pending-stats-badge:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+  background: rgba(33, 37, 41, 1) !important;
+}
+
+/* Refresh button for pending courses */
+.btn-refresh-pending {
+  background: linear-gradient(135deg, #ffc107 0%, #ffb300 100%) !important;
+  border: none !important;
+  border-radius: 0.75rem !important;
+  font-weight: 500 !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  box-shadow: 0 4px 12px rgba(255, 193, 7, 0.2) !important;
+  color: #212529 !important;
+  padding: 0.75rem 1.5rem !important;
+  font-size: 0.95rem !important;
+}
+
+.btn-refresh-pending:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 25px rgba(255, 193, 7, 0.35) !important;
+  background: linear-gradient(135deg, #e0a800 0%, #d39e00 100%) !important;
+  color: #212529 !important;
+}
+
+/* Search controls for pending courses */
+.pending-search-group .input-group-text {
+  background-color: rgba(255, 193, 7, 0.1);
+  border-color: #ffc107;
+  color: #ffc107;
+}
+
+.pending-search-group .form-control {
+  border-color: #ffc107;
+}
+
+.pending-search-group .form-control:focus {
+  border-color: #ffc107;
+  box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.25);
+}
+
+/* Table styling for pending courses */
+.pending-courses-table thead th {
+  background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+  border-color: #ffc107;
+  color: #856404;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+}
+
+body[data-theme="dark"] .pending-courses-table thead th {
+  background: linear-gradient(135deg, #664d03 0%, #997404 100%);
+  color: #ffc107;
+}
+
+.pending-course-row {
+  transition: all 0.3s ease;
+}
+
+.pending-course-row:hover {
+  background-color: rgba(255, 193, 7, 0.05);
+  transform: translateX(2px);
+  box-shadow: 0 2px 8px rgba(255, 193, 7, 0.1);
+}
+
+body[data-theme="dark"] .pending-course-row:hover {
+  background-color: rgba(255, 193, 7, 0.1);
+}
+
+/* Course ID styling for pending */
+.pending-course-id {
+  width: 35px;
+  height: 35px;
+  background: linear-gradient(135deg, #ffc107 0%, #ffb300 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #212529;
+  font-weight: 600;
+  font-size: 0.9rem;
+  box-shadow: 0 2px 6px rgba(255, 193, 7, 0.3);
+}
+
+/* Course information styling for pending */
+.pending-course-info {
+  padding: 0.25rem 0;
+}
+
+.pending-course-name {
+  font-weight: 600;
+  color: #856404;
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
+  line-height: 1.3;
+}
+
+body[data-theme="dark"] .pending-course-name {
+  color: #ffc107;
+}
+
+.pending-course-description {
+  font-size: 0.85rem;
+  color: var(--secondary-text);
+  line-height: 1.4;
+  max-width: 300px;
+}
+
+/* Actions container */
+.admin-table-actions {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Footer styling for pending */
+.pending-footer {
+  background-color: rgba(255, 193, 7, 0.05);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-top: 1rem;
+}
+
+body[data-theme="dark"] .pending-footer {
+  background-color: rgba(255, 193, 7, 0.1);
+}
+
+/* Empty state styling for pending courses */
+.pending-courses-table tbody td[colspan] {
+  padding: 4rem 2rem;
+  background: linear-gradient(135deg, rgba(255, 193, 7, 0.05) 0%, rgba(255, 179, 0, 0.05) 100%);
+  border-radius: 1rem;
+}
+
+body[data-theme="dark"] .pending-courses-table tbody td[colspan] {
+  background: linear-gradient(135deg, rgba(255, 193, 7, 0.1) 0%, rgba(255, 179, 0, 0.1) 100%);
+}
+
+.pending-courses-table tbody td[colspan] .opacity-50 {
+  color: #ffc107 !important;
+  opacity: 0.6 !important;
+}
+
+/* Pulse animation for pending status */
+@keyframes pendingPulse {
+  0% { box-shadow: 0 0 0 0 rgba(255, 193, 7, 0.4); }
+  50% { box-shadow: 0 0 0 10px rgba(255, 193, 7, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(255, 193, 7, 0); }
+}
+
+.pending-course-id {
+  animation: pendingPulse 3s infinite;
+}
+
+/* Responsive improvements for pending courses */
+@media (max-width: 768px) {
+  .pending-stats-badge {
+    font-size: 0.9rem !important;
+    padding: 0.5rem 1rem !important;
+    margin-bottom: 0.5rem;
+  }
+  
+  .btn-refresh-pending {
+    padding: 0.6rem 1.2rem !important;
+    font-size: 0.9rem !important;
+    width: 100%;
+    margin-top: 1rem;
+  }
+  
+  .btn-approve-course,
+  .btn-reject-course {
+    padding: 0.4rem 0.8rem !important;
+    font-size: 0.8rem !important;
+    min-width: 90px !important;
+  }
+  
+  .pending-course-name {
+    font-size: 0.9rem;
+  }
+  
+  .pending-course-description {
+    font-size: 0.8rem;
+    max-width: none;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  .pending-course-id {
+    width: 30px;
+    height: 30px;
+    font-size: 0.8rem;
+  }
+  
+  .admin-table-actions {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .pending-courses-management .row .col-md-8,
+  .pending-courses-management .row .col-md-4 {
+    margin-bottom: 1rem;
+  }
+  
+  .pending-courses-management .card-header .d-flex {
+    flex-direction: column;
+    gap: 0.5rem !important;
+    text-align: center;
+  }
+  
+  .btn-approve-course,
+  .btn-reject-course {
+    padding: 0.35rem 0.7rem !important;
+    font-size: 0.75rem !important;
+    min-width: 85px !important;
+  }
+}
+
+/* Loading state for pending courses */
+.pending-courses-management .spinner-border {
+  color: #ffc107;
+}
+
+/* Hover effects for better interactivity in pending courses */
+.pending-courses-table tbody tr:hover .pending-course-name {
+  color: #ffb300;
+  transition: color 0.3s ease;
+}
+
+body[data-theme="dark"] .pending-courses-table tbody tr:hover .pending-course-name {
+  color: #ffd43b;
+}
+
+/* ======= TEACHER INFO IN PENDING COURSES ======= */
+
+.pending-teacher-info {
+  padding: 0.25rem 0;
+}
+
+.pending-teacher-info .teacher-name {
+  font-weight: 600;
+  color: var(--text-color);
+  font-size: 0.9rem;
+  margin-bottom: 0.1rem;
+}
+
+.pending-teacher-info .teacher-username {
+  font-size: 0.8rem;
+  color: var(--secondary-text);
+  font-family: 'Courier New', monospace;
+  background-color: rgba(108, 117, 125, 0.1);
+  padding: 0.1rem 0.4rem;
+  border-radius: 0.25rem;
+  display: inline-block;
+}
+
+body[data-theme="dark"] .pending-teacher-info .teacher-username {
+  background-color: rgba(108, 117, 125, 0.2);
+}
+
+/* Hover effects for teacher info in pending courses */
+.pending-courses-table tbody tr:hover .pending-teacher-info .teacher-name {
+  color: #ffc107;
+  transition: color 0.3s ease;
+}
+
+body[data-theme="dark"] .pending-courses-table tbody tr:hover .pending-teacher-info .teacher-name {
+  color: #ffd43b;
+}
+
+/* Responsive adjustments for teacher column */
+@media (max-width: 768px) {
+  .pending-teacher-info .teacher-name {
+    font-size: 0.85rem;
+  }
+  
+  .pending-teacher-info .teacher-username {
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .pending-teacher-info {
+    font-size: 0.8rem;
+  }
+  
+  .pending-teacher-info .teacher-username {
+    display: block;
+    margin-top: 0.2rem;
+  }
+}
+
+/* ======= COMPLETE DASHBOARD STYLES - ADMIN STATS ======= */
+
+.dashboard-container {
+  padding: 0;
+  background-color: var(--bg-color, #f8fafc);
+  min-height: 100vh;
+}
+
+body[data-theme="dark"] .dashboard-container {
+  background-color: var(--bg-color, #0f172a);
+}
+
+/* Header */
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding: 1rem 0;
+}
+
+.dashboard-title h4 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text-color, #1e293b);
+  margin: 0;
+}
+
+.dashboard-title p {
+  color: var(--secondary-text, #64748b);
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.refresh-btn {
+  border-radius: 0.5rem !important;
+  padding: 0.5rem 0.75rem !important;
+  border: 1px solid #e2e8f0 !important;
+  color: #64748b !important;
+  background: white !important;
+  transition: all 0.2s ease !important;
+}
+
+.refresh-btn:hover {
+  background: #f1f5f9 !important;
+  border-color: #cbd5e1 !important;
+  transform: rotate(180deg) !important;
+  color: #3b82f6 !important;
+}
+
+body[data-theme="dark"] .refresh-btn {
+  background: var(--card-bg) !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  color: var(--text-color) !important;
+}
+
+/* Mini Cards - Tarjetas pequeñas de totales */
+.dashboard-card-mini {
+  border: none !important;
+  border-radius: 0.75rem !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+  background: white !important;
+  transition: all 0.3s ease !important;
+  height: 100% !important;
+  overflow: hidden !important;
+}
+
+.dashboard-card-mini:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+}
+
+body[data-theme="dark"] .dashboard-card-mini {
+  background: var(--card-bg) !important;
+  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+}
+
+.mini-card-content {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.mini-card-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  color: white;
+  flex-shrink: 0;
+}
+
+.dashboard-icon-primary {
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+}
+
+.dashboard-icon-blue {
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+}
+
+.dashboard-icon-success {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+}
+
+.dashboard-icon-warning {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+}
+
+.mini-card-info {
+  flex: 1;
+}
+
+.mini-card-value {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-color, #1e293b);
+  line-height: 1;
+  margin-bottom: 0.25rem;
+}
+
+.mini-card-label {
+  font-size: 0.75rem;
+  color: var(--secondary-text, #64748b);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Status Cards - Tarjetas de estado de cursos */
+.dashboard-card-status {
+  border: none !important;
+  border-radius: 0.75rem !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+  background: white !important;
+  transition: all 0.3s ease !important;
+  height: 100% !important;
+  overflow: hidden !important;
+  position: relative !important;
+}
+
+.dashboard-card-status::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  z-index: 1;
+}
+
+.status-active::before {
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+}
+
+.status-completed::before {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+}
+
+.status-pending::before {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+}
+
+.dashboard-card-status:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+}
+
+body[data-theme="dark"] .dashboard-card-status {
+  background: var(--card-bg) !important;
+  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+}
+
+.status-card-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.status-info {
+  flex: 1;
+}
+
+.status-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-color, #1e293b);
+  line-height: 1;
+  margin-bottom: 0.25rem;
+}
+
+.status-label {
+  font-size: 0.85rem;
+  color: var(--secondary-text, #64748b);
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.status-trend {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.trend-up {
+  color: #10b981;
+}
+
+.trend-down {
+  color: #ef4444;
+}
+
+.status-trend span {
+  color: inherit;
+}
+
+.status-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  background: rgba(0, 0, 0, 0.05);
+  color: var(--secondary-text, #64748b);
+}
+
+body[data-theme="dark"] .status-icon {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* Chart Cards */
+.dashboard-card {
+  border: none !important;
+  border-radius: 0.75rem !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+  background: white !important;
+  transition: all 0.3s ease !important;
+  height: 100% !important;
+  overflow: hidden !important;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+}
+
+body[data-theme="dark"] .dashboard-card {
+  background: var(--card-bg) !important;
+  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+}
+
+.chart-card-header {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%) !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
+  padding: 1rem !important;
+}
+
+body[data-theme="dark"] .chart-card-header {
+  background: linear-gradient(135deg, #343a40 0%, #495057 100%) !important;
+  border-bottom-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.chart-card-header h6 {
+  color: var(--text-color) !important;
+  font-weight: 600 !important;
+  margin: 0 !important;
+}
+
+.chart-card .card-body {
+  padding: 1.5rem !important;
+}
+
+/* Chart Containers */
+.donut-chart-container {
+  position: relative;
+  height: 200px;
+  margin-bottom: 1rem;
+}
+
+.donut-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.donut-percentage {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-color, #1e293b);
+  line-height: 1;
+}
+
+.donut-label {
+  font-size: 0.75rem;
+  color: var(--secondary-text, #64748b);
+  margin-top: 0.25rem;
+}
+
+.bar-chart-container {
+  height: 250px;
+  margin-top: 1rem;
+}
+
+.chart-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--text-color, #64748b);
+}
+
+.legend-color {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+/* Loading and Error States */
+.dashboard-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  color: var(--secondary-text, #64748b);
+}
+
+.dashboard-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  color: var(--secondary-text, #64748b);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .dashboard-header {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+  
+  .dashboard-title h4 {
+    font-size: 1.5rem;
+  }
+  
+  .mini-card-value {
+    font-size: 1.1rem;
+  }
+  
+  .status-value {
+    font-size: 1.25rem;
+  }
+  
+  .mini-card-icon {
+    width: 36px;
+    height: 36px;
+    font-size: 0.9rem;
+  }
+  
+  .donut-chart-container {
+    height: 160px;
+  }
+  
+  .bar-chart-container {
+    height: 200px;
+  }
+}
+
+@media (max-width: 576px) {
+  .dashboard-container {
+    padding: 0 0.5rem;
+  }
+  
+  .mini-card-content {
+    gap: 0.5rem;
+  }
+  
+  .mini-card-icon {
+    width: 32px;
+    height: 32px;
+    font-size: 0.8rem;
+  }
+  
+  .mini-card-value {
+    font-size: 1rem;
+  }
+  
+  .mini-card-label {
+    font-size: 0.7rem;
+  }
+  
+  .status-value {
+    font-size: 1.1rem;
+  }
+  
+  .chart-card .card-body {
+    padding: 1rem !important;
+  }
+  
+  .donut-chart-container {
+    height: 140px;
+  }
+  
+  .bar-chart-container {
+    height: 180px;
+  }
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dashboard-container {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.dashboard-card-mini,
+.dashboard-card-status,
+.dashboard-card {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.dashboard-card-mini:nth-child(1) { animation-delay: 0.1s; }
+.dashboard-card-mini:nth-child(2) { animation-delay: 0.2s; }
+.dashboard-card-mini:nth-child(3) { animation-delay: 0.3s; }
+.dashboard-card-mini:nth-child(4) { animation-delay: 0.4s; }
+
+.dashboard-card-status:nth-child(1) { animation-delay: 0.5s; }
+.dashboard-card-status:nth-child(2) { animation-delay: 0.6s; }
+.dashboard-card-status:nth-child(3) { animation-delay: 0.7s; }
+
+/* Hover Effects */
+.mini-card-icon,
+.status-icon {
+  transition: transform 0.2s ease;
+}
+
+.dashboard-card-mini:hover .mini-card-icon,
+.dashboard-card-status:hover .status-icon {
+  transform: scale(1.1);
+}
+
+.dashboard-card:hover .chart-card-header {
+  background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%) !important;
+}
+
+body[data-theme="dark"] .dashboard-card:hover .chart-card-header {
+  background: linear-gradient(135deg, #495057 0%, #6c757d 100%) !important;
+}
+
+/* Dark Theme Specific */
+body[data-theme="dark"] .mini-card-value,
+body[data-theme="dark"] .status-value,
+body[data-theme="dark"] .donut-percentage {
+  color: var(--text-color, #f8fafc);
+}
+
+body[data-theme="dark"] .mini-card-label,
+body[data-theme="dark"] .status-label,
+body[data-theme="dark"] .donut-label {
+  color: var(--secondary-text, #94a3b8);
+}
+
+/* Chart responsiveness improvements */
+@media (max-width: 992px) {
+  .bar-chart-container {
+    height: 220px;
+  }
+  
+  .donut-chart-container {
+    height: 180px;
+  }
+}
+
+/* Loading spinner in stats context */
+.dashboard-container .spinner-border {
+  color: #6366f1 !important;
+}
