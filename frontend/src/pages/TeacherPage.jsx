@@ -1,74 +1,110 @@
 import React, { useState, useEffect } from "react";
-import { Container, Row, Col, Modal, Button } from "react-bootstrap";
+import { Container } from "react-bootstrap";
+import { FaBars } from "react-icons/fa";
 import TeacherSidebar from "../components/teacher/TeacherSidebar";
 import TeacherHeader from "../components/teacher/TeacherHeader";
 import TeacherCourses from "../components/teacher/TeacherCourses";
 import TeacherStudents from "../components/teacher/TeacherStudents";
 import TeacherTaskList from "../components/teacher/TeacherTaskList";
 import TeacherMessages from "../components/teacher/TeacherMessages";
-import CreateCourseForm from "../components/forms/CreateCourseForm";
+import "../styles/TeacherPanel.css";
 
 const TeacherPage = () => {
   const [activeSection, setActiveSection] = useState("mis-cursos");
   const [userData, setUserData] = useState(null);
-  const [showModal, setShowModal] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
     setUserData(storedUser);
   }, []);
 
+  // Manejar resize de ventana
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 768) {
+        setSidebarOpen(false);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
+
+  const closeSidebar = () => {
+    setSidebarOpen(false);
+  };
+
   if (!userData?.token || ![].concat(userData.roles).includes("TEACHER")) {
-    return <p className="text-center text-danger mt-5">Acceso denegado.</p>;
+    return (
+      <div className="d-flex justify-content-center align-items-center min-vh-100">
+        <div className="text-center">
+          <h3 className="text-danger">Acceso denegado</h3>
+          <p className="text-muted">No tienes permisos para acceder a esta página.</p>
+        </div>
+      </div>
+    );
   }
 
   return (
-    <Container fluid className="min-vh-100 bg-light">
-      <Row>
-        <Col xs={2} className="bg-dark text-white p-0">
-          <TeacherSidebar setActiveSection={setActiveSection} />
-        </Col>
+    <div className="teacher-panel-container">
+      {/* Botón menú móvil - solo hamburguesa */}
+      <button 
+        className="mobile-menu-toggle d-md-none"
+        onClick={toggleSidebar}
+        style={{ display: sidebarOpen ? 'none' : 'block' }}
+        aria-label="Abrir menú"
+        aria-expanded={sidebarOpen}
+      >
+        <FaBars size={20} />
+      </button>
 
-        <Col md={10} className="p-4">
+      {/* Overlay móvil */}
+      {sidebarOpen && (
+        <div 
+          className="mobile-overlay d-md-none" 
+          onClick={closeSidebar}
+          aria-hidden="true"
+        />
+      )}
+
+      {/* Sidebar */}
+      <div className={`teacher-sidebar ${sidebarOpen ? 'show' : ''}`}>
+        <TeacherSidebar 
+          setActiveSection={setActiveSection} 
+          activeSection={activeSection}
+          onItemClick={closeSidebar}
+        />
+      </div>
+
+      {/* Contenido principal */}
+      <div className="main-content">
+        <Container fluid className="p-4">
           <TeacherHeader />
 
-          <Row className="align-items-start mt-3">
-            <Col md={10}>
-              {activeSection === "inicio" && <h3>Bienvenido al Panel</h3>}
-              {activeSection === "mis-cursos" && <TeacherCourses />}
-              {activeSection === "mis-alumnos" && <TeacherStudents />}
-              {activeSection === "tareas-entregadas" && (
-                <TeacherTaskList teacherUsername={userData.username} />
-              )}
-              {activeSection === "mensajes" && <TeacherMessages />}
-            </Col>
-
-            <Col md={2}>
-              <div className="d-flex justify-content-end">
-                <Button variant="success" onClick={() => setShowModal(true)}>
-                  Crear Curso
-                </Button>
+          <div className="mt-3">
+            {activeSection === "inicio" && (
+              <div className="content-card p-4">
+                <h3>Bienvenido al Panel del Profesor</h3>
+                <p className="text-muted">
+                  Selecciona una opción del menú lateral para comenzar.
+                </p>
               </div>
-            </Col>
-          </Row>
-
-          {/* Modal con el formulario paracrear un curso */}
-          <Modal
-            show={showModal}
-            onHide={() => setShowModal(false)}
-            size="lg"
-            centered
-          >
-            <Modal.Header closeButton>
-              <Modal.Title>Crear un nuevo curso</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <CreateCourseForm onSuccess={() => setShowModal(false)} />
-            </Modal.Body>
-          </Modal>
-        </Col>
-      </Row>
-    </Container>
+            )}
+            {activeSection === "mis-cursos" && <TeacherCourses />}
+            {activeSection === "mis-alumnos" && <TeacherStudents />}
+            {activeSection === "tareas-entregadas" && (
+              <TeacherTaskList teacherUsername={userData.username} />
+            )}
+            {activeSection === "mensajes" && <TeacherMessages />}
+          </div>
+        </Container>
+      </div>
+    </div>
   );
 };
 
