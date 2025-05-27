@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Table, Card, Badge, Button, Form, InputGroup, Row, Col, Spinner } from "react-bootstrap";
+import { Table, Button, Form, InputGroup, Row, Col, Spinner, Badge } from "react-bootstrap";
 import { FaClock, FaSearch, FaSyncAlt, FaExclamationTriangle } from "react-icons/fa";
 import ApproveCourse from "./ApproveCourse";
 import RejectCourse from "./RejectCourse";
@@ -48,31 +48,35 @@ const PendingCourses = () => {
   }
 
   return (
-    <div className="pending-courses-management">
-      <Card className="admin-card mb-4">
-        <Card.Header className="bg-warning text-dark">
-          <Row className="align-items-center">
-            <Col>
-              <h5 className="mb-0 d-flex align-items-center">
-                <FaClock className="me-2" />
-                Cursos Pendientes
-              </h5>
-              <small className="opacity-75">Cursos esperando aprobación</small>
-            </Col>
-            <Col xs="auto">
-              <Badge bg="dark" text="light" className="px-4 py-2 pending-stats-badge fs-6">
-                <FaExclamationTriangle className="me-2" />
-                Pendientes: {courses.length}
-              </Badge>
-            </Col>
-          </Row>
-        </Card.Header>
+    <div className="unified-section">
+      {/* Header de la sección */}
+      <div className="section-header">
+        <Row className="align-items-center">
+          <Col>
+            <h2 className="section-title">
+              <FaClock className="header-icon me-3" />
+              Cursos Pendientes
+            </h2>
+            <p className="section-subtitle">
+              Cursos esperando aprobación del administrador
+            </p>
+          </Col>
+          <Col xs="auto">
+            <Badge bg="warning" text="dark" className="px-4 py-2 fs-6">
+              <FaExclamationTriangle className="me-2" />
+              Pendientes: {courses.length}
+            </Badge>
+          </Col>
+        </Row>
+      </div>
 
-        <Card.Body>
+      {/* Contenido de la sección */}
+      <div className="section-content">
+        <div className="p-4">
           {/* Control de búsqueda */}
           <Row className="mb-4">
             <Col md={8}>
-              <InputGroup className="pending-search-group">
+              <InputGroup>
                 <InputGroup.Text>
                   <FaSearch />
                 </InputGroup.Text>
@@ -81,15 +85,13 @@ const PendingCourses = () => {
                   placeholder="Buscar por nombre, descripción o profesor..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="form-control-themed"
                 />
               </InputGroup>
             </Col>
             <Col md={4} className="d-flex justify-content-end">
               <Button 
-                variant="warning" 
+                className="btn-admin-warning d-flex align-items-center gap-2"
                 onClick={loadCourses}
-                className="btn-refresh-pending d-flex align-items-center gap-2"
               >
                 <FaSyncAlt />
                 Actualizar Lista
@@ -98,88 +100,85 @@ const PendingCourses = () => {
           </Row>
 
           {/* Tabla de cursos pendientes */}
-          <div className="admin-table-container">
-            <Table striped hover responsive className="mb-0 pending-courses-table">
-              <thead className="table-warning">
+          <div className="table-responsive">
+            <Table className="admin-table mb-0">
+              <thead>
                 <tr>
                   <th width="80">
-                    <div className="d-flex align-items-center justify-content-center">
-                      <FaClock className="me-1" />
-                      ID
-                    </div>
+                    <FaClock className="me-1" />
+                    ID
                   </th>
                   <th>Curso</th>
                   <th>Descripción</th>
                   <th>Profesor</th>
-                  <th width="200">Acciones</th>
+                  <th width="240">Acciones</th>
                 </tr>
               </thead>
               <tbody>
                 {filteredCourses.length === 0 ? (
                   <tr>
-                    <td colSpan="5" className="text-center text-muted py-5">
-                      <FaClock size={48} className="mb-3 opacity-50" />
-                      <p className="mb-0 fs-5 fw-semibold">
-                        {searchTerm 
-                          ? "No se encontraron cursos pendientes con el término de búsqueda" 
-                          : "No hay cursos pendientes de aprobación"}
-                      </p>
-                      <small className="text-muted mt-2 d-block">
-                        Los cursos aparecerán aquí cuando los profesores los envíen para aprobación
-                      </small>
+                    <td colSpan="5" className="text-center">
+                      <div className="empty-section">
+                        <FaClock size={48} className="empty-icon" />
+                        <h5 className="empty-title">
+                          {searchTerm 
+                            ? "No se encontraron cursos pendientes" 
+                            : "No hay cursos pendientes"}
+                        </h5>
+                        <p className="empty-text">
+                          {searchTerm 
+                            ? "No se encontraron cursos pendientes con el término de búsqueda" 
+                            : "Los cursos aparecerán aquí cuando los profesores los envíen para aprobación"}
+                        </p>
+                      </div>
                     </td>
                   </tr>
                 ) : (
                   filteredCourses.map((course) => (
-                    <tr key={course.id} className="pending-course-row">
+                    <tr key={course.id}>
                       <td>
                         <div className="d-flex justify-content-center">
-                          <div className="pending-course-id">
+                          <div className="bg-warning bg-opacity-10 text-warning rounded-circle d-flex align-items-center justify-content-center"
+                               style={{ width: "35px", height: "35px", fontSize: "0.85rem", fontWeight: "600" }}>
                             {course.id}
                           </div>
                         </div>
                       </td>
                       <td>
-                        <div className="pending-course-info">
-                          <div className="pending-course-name">{course.name}</div>
-                        </div>
+                        <div className="fw-bold text-warning">{course.name}</div>
                       </td>
                       <td>
-                        <div className="pending-course-description">
+                        <div>
                           {course.description && course.description.length > 100 
                             ? `${course.description.substring(0, 100)}...` 
                             : course.description || <em className="text-muted">Sin descripción</em>}
                         </div>
                       </td>
                       <td>
-                        <div className="pending-teacher-info">
-                          {course.teacher ? (
-                            <>
-                              <div className="teacher-name">
-                                {course.teacher.name} {course.teacher.surname}
-                              </div>
-                              <div className="teacher-username">
-                                @{course.teacher.username}
-                              </div>
-                            </>
-                          ) : course.user ? (
-                            <>
-                              <div className="teacher-name">
-                                {course.user.name} {course.user.surname}
-                              </div>
-                              <div className="teacher-username">
-                                @{course.user.username}
-                              </div>
-                            </>
-                          ) : (
-                            <span className="text-muted">
-                              <em>No asignado</em>
-                            </span>
-                          )}
-                        </div>
+                        {course.teacher ? (
+                          <div>
+                            <div className="fw-medium">
+                              {course.teacher.name} {course.teacher.surname}
+                            </div>
+                            <div className="text-muted small">
+                              @{course.teacher.username}
+                            </div>
+                          </div>
+                        ) : course.user ? (
+                          <div>
+                            <div className="fw-medium">
+                              {course.user.name} {course.user.surname}
+                            </div>
+                            <div className="text-muted small">
+                              @{course.user.username}
+                            </div>
+                          </div>
+                        ) : (
+                          <span className="text-muted fst-italic">No asignado</span>
+                        )}
                       </td>
                       <td>
-                        <div className="d-flex justify-content-center gap-2 admin-table-actions">
+                        <div className="admin-actions-inline">
                           <ApproveCourse courseId={course.id} onApprove={removeCourse} />
                           <RejectCourse courseId={course.id} onReject={removeCourse} />
                         </div>
@@ -191,9 +190,9 @@ const PendingCourses = () => {
             </Table>
           </div>
 
-          {/* Footer simplificado */}
+          {/* Footer */}
           {filteredCourses.length > 0 && (
-            <div className="d-flex justify-content-end align-items-center mt-4 pt-3 border-top pending-footer">
+            <div className="d-flex justify-content-end align-items-center mt-4 pt-3 border-top">
               <small className="text-muted">
                 Última actualización: {new Date().toLocaleString('es-ES', {
                   day: '2-digit',
@@ -205,8 +204,8 @@ const PendingCourses = () => {
               </small>
             </div>
           )}
-        </Card.Body>
-      </Card>
+        </div>
+      </div>
     </div>
   );
 };

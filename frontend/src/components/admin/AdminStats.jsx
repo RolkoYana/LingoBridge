@@ -128,13 +128,14 @@ const AdminStats = () => {
       data: [activeCoursesCount, completedCourses, pendingCourses],
       backgroundColor: ['#3b82f6', '#10b981', '#f59e0b'],
       borderWidth: 0,
-      cutout: '70%',
+      cutout: '65%', // Reducido de 70% a 65% para mayor estabilidad
     }],
   });
 
   const chartOptions = {
     responsive: true,
     maintainAspectRatio: false,
+    animation: false, // ← AÑADIDO: Deshabilitado para evitar problemas
     plugins: {
       legend: {
         display: true,
@@ -178,9 +179,14 @@ const AdminStats = () => {
   const donutOptions = {
     responsive: true,
     maintainAspectRatio: false,
+    animation: false, // ← AÑADIDO: Clave para solucionar el problema del círculo
     plugins: {
       legend: { display: false },
       tooltip: {
+        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        titleColor: '#fff',
+        bodyColor: '#fff',
+        cornerRadius: 8,
         callbacks: {
           label: function(context) {
             const total = context.dataset.data.reduce((a, b) => a + b, 0);

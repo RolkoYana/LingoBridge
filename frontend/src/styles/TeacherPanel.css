@@ -569,6 +569,130 @@
 }
 
 /* ==========================================
+   ESTILOS PARA FORMULARIO DE CREAR CURSO - UNIFICADO
+   ========================================== */
+
+/* Secciones del formulario unificado */
+.form-section {
+  background: rgba(248, 249, 250, 0.3);
+  border-radius: 12px;
+  padding: 24px;
+  border: 1px solid rgba(226, 232, 240, 0.5);
+  margin-bottom: 24px;
+}
+
+.form-section-header {
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(226, 232, 240, 0.4);
+}
+
+.form-section-title {
+  color: var(--text-dark);
+  font-weight: 600;
+  margin: 0;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+}
+
+.form-section-subtitle {
+  color: var(--text-light);
+  margin: 4px 0 0 0;
+  font-size: 0.85rem;
+}
+
+/* Labels y campos del formulario */
+.form-label-custom {
+  font-weight: 600;
+  color: var(--text-dark);
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+}
+
+.form-control-custom {
+  border: 2px solid var(--border-light);
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 0.9rem;
+  transition: var(--transition);
+  background-color: white;
+}
+
+.form-control-custom:focus {
+  border-color: var(--sidebar-accent);
+  box-shadow: 0 0 0 0.2rem rgba(52, 144, 220, 0.1);
+  background-color: white;
+}
+
+.form-control-custom::placeholder {
+  color: #9ca3af;
+  font-style: italic;
+}
+
+/* Texto de ayuda */
+.form-text-custom {
+  font-size: 0.8rem;
+  color: var(--text-light);
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+}
+
+/* Botones del formulario */
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border-light);
+}
+
+.btn-teacher-primary {
+  background: linear-gradient(135deg, var(--sidebar-accent), #2980b9);
+  border: none;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-weight: 600;
+  transition: var(--transition);
+  box-shadow: 0 2px 4px rgba(52, 144, 220, 0.2);
+  color: white;
+  display: flex;
+  align-items: center;
+}
+
+.btn-teacher-primary:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(52, 144, 220, 0.3);
+  background: linear-gradient(135deg, #2980b9, #1d4ed8);
+  color: white;
+}
+
+.btn-teacher-primary:disabled {
+  opacity: 0.7;
+  transform: none;
+  cursor: not-allowed;
+}
+
+.btn-secondary-custom {
+  border: 2px solid var(--border-light);
+  color: var(--text-light);
+  background: white;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-weight: 600;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+}
+
+.btn-secondary-custom:hover:not(:disabled) {
+  border-color: var(--text-light);
+  color: var(--text-dark);
+  background: var(--soft-gray);
+}
+
+/* ==========================================
    ESTILOS PARA TEACHERHEADER INTEGRADO Y SIMPLE
    ========================================== */
 .teacher-header-integrated {
@@ -1154,5 +1278,27 @@
   
   .tab-btn {
     justify-content: center;
+  }
+}
+
+/* Responsive para formularios */
+@media (max-width: 768px) {
+  .form-section {
+    padding: 20px 16px;
+  }
+  
+  .form-actions {
+    flex-direction: column-reverse;
+    gap: 8px;
+  }
+  
+  .btn-teacher-primary,
+  .btn-secondary-custom {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .form-section-title {
+    font-size: 1rem;
   }
 }

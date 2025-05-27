@@ -1,109 +1,120 @@
 import React, { useState, useEffect } from "react";
-import { Row, Col, Form, InputGroup, Dropdown, Badge } from "react-bootstrap";
-import { FaUserCircle, FaBell, FaSearch, FaCog } from "react-icons/fa";
+import { Row, Col, Dropdown, Badge } from "react-bootstrap";
+import { FaUserCircle, FaBell, FaChevronDown, FaGraduationCap } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
-const AdminHeader = () => {
-  const [user, setUser] = useState({ name: "Admin" });
-  const [notifications] = useState(3); // ejemplo de notificaciones
+const AdminHeader = ({ name }) => {
+  const [user, setUser] = useState({ name: name || "Admin" });
+  const [notifications] = useState(5); // ejemplo de notificaciones
   const navigate = useNavigate();
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
       try {
-        setUser(JSON.parse(storedUser));
+        const parsedUser = JSON.parse(storedUser);
+        setUser({ ...parsedUser, name: name || parsedUser.name || "Admin" });
       } catch (e) {
         console.error("Error al parsear user:", e);
+        setUser({ name: name || "Admin" });
       }
+    } else {
+      setUser({ name: name || "Admin" });
     }
-  }, []);
+  }, [name]);
 
   const handleLogout = () => {
     localStorage.clear();
     navigate("/login");
   };
 
-  return (
-    <Row className="admin-header align-items-center py-3 px-4 shadow-sm">
-      <Col xs={12} md={4} className="mb-2 mb-md-0">
-        <div className="d-flex align-items-center">
-          <div className="admin-logo-circle me-3">
-            <FaCog size={24} className="admin-icon-color" />
-          </div>
-          <div>
-            <h5 className="mb-0">
-              ¡Bienvenido, <strong>{user?.name || "Admin"}</strong>!
-            </h5>
-            <small className="text-muted">Panel de Administración</small>
-          </div>
-        </div>
-      </Col>
-      
-      <Col xs={12} md={5} className="mb-2 mb-md-0">
-        <InputGroup className="admin-search-group">
-          <InputGroup.Text className="bg-transparent border-end-0">
-            <FaSearch className="text-muted" />
-          </InputGroup.Text>
-          <Form.Control 
-            type="text" 
-            placeholder="Buscar usuarios, cursos..." 
-            className="admin-search-input form-control-themed border-start-0" 
-          />
-        </InputGroup>
-      </Col>
-      
-      <Col xs={12} md={3} className="text-md-end">
-        <div className="d-flex align-items-center justify-content-md-end gap-3">
-          {/* Notificaciones con badge */}
-          <div className="position-relative">
-            <FaBell size={20} className="admin-icon-color" style={{ cursor: "pointer" }} />
-            {notifications > 0 && (
-              <Badge 
-                bg="danger" 
-                pill 
-                className="position-absolute top-0 start-100 translate-middle"
-                style={{ fontSize: "0.7rem" }}
-              >
-                {notifications}
-              </Badge>
-            )}
-          </div>
-          
-          <Dropdown align="end">
-            <Dropdown.Toggle
-              as="div"
-              style={{ cursor: "pointer" }}
-              id="dropdown-user"
-              className="admin-icon-color d-flex align-items-center"
-            >
-              <FaUserCircle size={32} />
-            </Dropdown.Toggle>
+  const getCurrentDate = () => {
+    const today = new Date();
+    const options = { 
+      weekday: 'long', 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric' 
+    };
+    return today.toLocaleDateString('es-ES', options);
+  };
 
-            <Dropdown.Menu className="admin-dropdown-menu shadow">
-              <Dropdown.Header>
-                <div className="text-center">
-                  <FaUserCircle size={40} className="mb-2 text-primary" />
-                  <div className="fw-bold">{user?.name || "Admin"}</div>
-                  <small className="text-muted">Administrador</small>
+  return (
+    <div className="admin-header-integrated">
+      <Row className="align-items-center">
+        {/* Saludo y fecha */}
+        <Col xs={12} md={8} className="mb-2 mb-md-0">
+          <div>
+            <h4 className="greeting-text mb-1">
+              ¡Buenas noches, <span className="user-name">{user?.name || "Admin"}</span>!
+            </h4>
+            <p className="subtitle-text mb-0">
+              {getCurrentDate()}
+            </p>
+          </div>
+        </Col>
+        
+        {/* Notificaciones y usuario */}
+        <Col xs={12} md={4}>
+          <div className="d-flex align-items-center justify-content-md-end gap-3">
+            {/* Notificaciones */}
+            <div className="notification-container">
+              <button className="notification-btn" title="Notificaciones">
+                <FaBell size={20} />
+                {notifications > 0 && (
+                  <Badge 
+                    bg="danger" 
+                    pill 
+                    className="notification-badge"
+                  >
+                    {notifications}
+                  </Badge>
+                )}
+              </button>
+            </div>
+            
+            {/* Dropdown de usuario */}
+            <Dropdown align="end" className="user-dropdown">
+              <Dropdown.Toggle
+                as="div"
+                className="user-menu-toggle"
+                id="dropdown-user"
+              >
+                <div className="d-flex align-items-center">
+                  <FaUserCircle size={28} className="user-avatar me-2" />
+                  <div className="user-info d-none d-sm-block">
+                    <div className="user-name-small">{user?.name || "Admin"}</div>
+                    <div className="user-role">Administrador</div>
+                  </div>
+                  <FaChevronDown size={12} className="dropdown-arrow ms-2" />
                 </div>
-              </Dropdown.Header>
-              <Dropdown.Divider />
-              <Dropdown.Item href="#perfil">
-                <FaUserCircle className="me-2" /> Perfil
-              </Dropdown.Item>
-              <Dropdown.Item href="#configuracion">
-                <FaCog className="me-2" /> Configuración
-              </Dropdown.Item>
-              <Dropdown.Divider />
-              <Dropdown.Item onClick={handleLogout} className="text-danger">
-                Cerrar sesión
-              </Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
-        </div>
-      </Col>
-    </Row>
+              </Dropdown.Toggle>
+
+              <Dropdown.Menu className="user-dropdown-menu">
+                <Dropdown.Header>
+                  <div className="text-center">
+                    <FaUserCircle size={40} className="mb-2 text-primary" />
+                    <div className="fw-bold">{user?.name || "Admin"}</div>
+                    <small className="text-muted">Administrador del Sistema</small>
+                  </div>
+                </Dropdown.Header>
+                <Dropdown.Divider />
+                <Dropdown.Item className="dropdown-item-custom">
+                  <FaUserCircle className="me-2" /> Mi Perfil
+                </Dropdown.Item>
+                <Dropdown.Item className="dropdown-item-custom">
+                  <FaGraduationCap className="me-2" /> Configuración
+                </Dropdown.Item>
+                <Dropdown.Divider />
+                <Dropdown.Item onClick={handleLogout} className="dropdown-item-logout">
+                  Cerrar sesión
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          </div>
+        </Col>
+      </Row>
+    </div>
   );
 };
 

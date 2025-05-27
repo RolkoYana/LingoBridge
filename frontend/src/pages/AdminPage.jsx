@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container } from "react-bootstrap";
+import { FaBars } from "react-icons/fa";
 import AdminSidebar from "../components/admin/AdminSidebar";
 import AdminHeader from "../components/admin/AdminHeader";
 import UserTable from "../components/admin/UserTable";
@@ -7,46 +8,95 @@ import AdminStats from "../components/admin/AdminStats";
 import ActiveCourses from "../components/admin/ActiveCourses";
 import PendingCourses from "../components/admin/PendingCourses";
 import AllCourses from "../components/admin/AllCourses";
-
-import "../styles/AdminPanel.css"; 
+import "../styles/AdminPanel.css";
 
 const AdminPage = () => {
-  const [activeSection, setActiveSection] = useState("cursos-activos"); // cursos activos se ven por defecto al entral al panel de admin 
+  const [activeSection, setActiveSection] = useState("cursos-activos");
   const [userData, setUserData] = useState(null);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
-
     setUserData(storedUser);
   }, []);
 
+  // Manejar resize de ventana
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 768) {
+        setSidebarOpen(false);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
+
+  const closeSidebar = () => {
+    setSidebarOpen(false);
+  };
+
   if (!userData?.token || ![].concat(userData.roles).includes("ADMIN")) {
     return (
-      <p className="text-center text-danger mt-5">
-        Acceso denegado. Debes iniciar sesión como administrador.
-      </p>
+      <div className="d-flex justify-content-center align-items-center min-vh-100">
+        <div className="text-center">
+          <h3 className="text-danger">Acceso denegado</h3>
+          <p className="text-muted">Debes iniciar sesión como administrador.</p>
+        </div>
+      </div>
     );
   }
 
   return (
-    <div className="admin-dashboard-wrapper d-flex flex-column min-vh-100">
-      <AdminHeader /> 
+    <div className="admin-panel-container">
+      {/* Botón menú móvil */}
+      <button 
+        className="mobile-menu-toggle d-md-none"
+        onClick={toggleSidebar}
+        style={{ display: sidebarOpen ? 'none' : 'block' }}
+        aria-label="Abrir menú"
+        aria-expanded={sidebarOpen}
+      >
+        <FaBars size={20} />
+      </button>
 
-      <Container fluid className="flex-grow-1 p-0"> 
-        <Row className="g-0"> 
-          <Col xs={12} md={3} lg={2} className="sidebar-col p-0"> 
-            <AdminSidebar setActiveSection={setActiveSection} activeSection={activeSection} />
-          </Col>
+      {/* Overlay móvil */}
+      {sidebarOpen && (
+        <div 
+          className="mobile-overlay d-md-none" 
+          onClick={closeSidebar}
+          aria-hidden="true"
+        />
+      )}
 
-          <Col xs={12} md={9} lg={10} className="main-content-col p-3"> 
+      {/* Sidebar */}
+      <div className={`admin-sidebar ${sidebarOpen ? 'show' : ''}`}>
+        <AdminSidebar 
+          setActiveSection={setActiveSection} 
+          activeSection={activeSection}
+          onItemClick={closeSidebar}
+        />
+      </div>
+
+      {/* Contenido principal */}
+      <div className="admin-main-content">
+        <Container fluid className="p-4">
+          <AdminHeader name={userData?.name || "Administrador"} />
+
+          {/* Contenido de las secciones */}
+          <div className="section-container">
             {activeSection === "estadisticas" && <AdminStats />}
             {activeSection === "todos-los-usuarios" && <UserTable />}
             {activeSection === "todos-los-cursos" && <AllCourses />}
             {activeSection === "cursos-activos" && <ActiveCourses />}
             {activeSection === "cursos-pendientes" && <PendingCourses />}
-          </Col>
-        </Row>
-      </Container>
+          </div>
+        </Container>
+      </div>
     </div>
   );
 };

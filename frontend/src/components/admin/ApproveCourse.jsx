@@ -18,12 +18,13 @@ const ApproveCourse = ({ courseId, onApprove }) => {
       
       // Esperar un momento para mostrar el éxito antes de remover
       setTimeout(() => {
-        alert(data.message);
+        // Usar una notificación más elegante en lugar de alert
+        console.log("Curso aprobado:", data.message);
         onApprove(courseId); // elimina el curso aprobado de `PendingCourses`
       }, 800);
       
     } catch (error) {
-      alert("Error al aprobar el curso: " + error.message);
+      console.error("Error al aprobar el curso:", error.message);
       setLoading(false);
     }
   };
@@ -32,12 +33,13 @@ const ApproveCourse = ({ courseId, onApprove }) => {
     <Button 
       onClick={approveCourse}
       disabled={loading || approved}
-      className={`btn-approve-course ${approved ? 'approving' : ''}`}
-      title={loading ? "Aprobando curso..." : "Aprobar curso"}
+      className={`btn-admin-success ${approved ? 'btn-success-completed' : ''}`}
+      size="sm"
+      title={loading ? "Aprobando curso..." : approved ? "Curso aprobado" : "Aprobar curso"}
     >
       {loading ? (
         <>
-          <FaSpinner className="me-1" style={{ animation: 'spin 1s linear infinite' }} />
+          <FaSpinner className="me-1 fa-spin" />
           Aprobando...
         </>
       ) : approved ? (

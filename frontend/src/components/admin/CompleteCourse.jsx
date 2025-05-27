@@ -21,12 +21,13 @@ const CompleteCourse = ({ courseId, onComplete }) => {
       
       // Esperar un momento para mostrar el éxito antes de remover
       setTimeout(() => {
-        alert("Curso finalizado correctamente.");
+        // Usar una notificación más elegante en lugar de alert
+        console.log("Curso finalizado correctamente");
         onComplete(courseId); // elimina el curso de la tabla de cursos activos
       }, 800);
       
     } catch (error) {
-      alert("Error al finalizar el curso.");
+      console.error("Error al finalizar el curso:", error.message);
       setLoading(false);
     }
   };
@@ -35,12 +36,13 @@ const CompleteCourse = ({ courseId, onComplete }) => {
     <Button 
       onClick={completeCourse} 
       disabled={loading || completed}
-      className={`btn-complete-course ${completed ? 'completing' : ''}`}
-      title={loading ? "Finalizando curso..." : "Finalizar curso"}
+      className={`btn-admin-primary btn-action-extended ${completed ? 'btn-primary-completed' : ''}`}
+      size="sm"
+      title={loading ? "Finalizando curso..." : completed ? "Curso finalizado" : "Finalizar curso"}
     >
       {loading ? (
         <>
-          <FaSpinner className="me-1" style={{ animation: 'spin 1s linear infinite' }} />
+          <FaSpinner className="me-1 fa-spin" />
           Finalizando...
         </>
       ) : completed ? (

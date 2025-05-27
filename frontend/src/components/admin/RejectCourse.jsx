@@ -18,12 +18,13 @@ const RejectCourse = ({ courseId, onReject }) => {
       
       // Esperar un momento para mostrar el éxito antes de remover
       setTimeout(() => {
-        alert(data.message);
+        // Usar una notificación más elegante en lugar de alert
+        console.log("Curso rechazado:", data.message);
         onReject(courseId); // elimina el curso rechazado de `PendingCourses`
       }, 800);
       
     } catch (error) {
-      alert("Error al rechazar el curso: " + error.message);
+      console.error("Error al rechazar el curso:", error.message);
       setLoading(false);
     }
   };
@@ -32,12 +33,13 @@ const RejectCourse = ({ courseId, onReject }) => {
     <Button 
       onClick={rejectCourse}
       disabled={loading || rejected}
-      className={`btn-reject-course ms-2 ${rejected ? 'rejecting' : ''}`}
-      title={loading ? "Rechazando curso..." : "Rechazar curso"}
+      className={`btn-admin-danger ${rejected ? 'btn-danger-completed' : ''}`}
+      size="sm"
+      title={loading ? "Rechazando curso..." : rejected ? "Curso rechazado" : "Rechazar curso"}
     >
       {loading ? (
         <>
-          <FaSpinner className="me-1" style={{ animation: 'spin 1s linear infinite' }} />
+          <FaSpinner className="me-1 fa-spin" />
           Rechazando...
         </>
       ) : rejected ? (

@@ -1,4 +1,3 @@
-// src/components/admin/AdminSidebar.jsx
 import React from "react";
 import { Nav } from "react-bootstrap";
 import {
@@ -11,7 +10,14 @@ import {
   FaGraduationCap,
 } from "react-icons/fa";
 
-const AdminSidebar = ({ setActiveSection, activeSection }) => {
+const AdminSidebar = ({ setActiveSection, activeSection, onItemClick }) => {
+  
+  const handleSectionChange = (section) => {
+    setActiveSection(section);
+    // Cerrar sidebar en móvil al seleccionar
+    if (onItemClick) onItemClick();
+  };
+
   const menuSections = [
     {
       title: "Gestión de Usuarios",
@@ -20,6 +26,7 @@ const AdminSidebar = ({ setActiveSection, activeSection }) => {
           id: "todos-los-usuarios",
           label: "Todos los Usuarios",
           icon: FaUsers,
+          onClick: () => handleSectionChange("todos-los-usuarios")
         }
       ]
     },
@@ -30,16 +37,19 @@ const AdminSidebar = ({ setActiveSection, activeSection }) => {
           id: "todos-los-cursos",
           label: "Todos los Cursos",
           icon: FaBook,
+          onClick: () => handleSectionChange("todos-los-cursos")
         },
         {
           id: "cursos-activos",
           label: "Cursos Activos",
           icon: FaChalkboardTeacher,
+          onClick: () => handleSectionChange("cursos-activos")
         },
         {
           id: "cursos-pendientes",
           label: "Cursos Pendientes",
           icon: FaClipboardList,
+          onClick: () => handleSectionChange("cursos-pendientes")
         }
       ]
     },
@@ -50,25 +60,28 @@ const AdminSidebar = ({ setActiveSection, activeSection }) => {
           id: "estadisticas",
           label: "Estadísticas",
           icon: FaChartLine,
+          onClick: () => handleSectionChange("estadisticas")
         }
       ]
     }
   ];
 
   return (
-    <Nav className="admin-sidebar flex-column p-3">
-      <div className="sidebar-header mb-4">
+    <div className="h-100">
+      {/* Header del sidebar */}
+      <div className="sidebar-header">
         <div className="d-flex align-items-center">
-          <div className="admin-logo-mini me-2">
+          <div className="admin-logo-mini">
             <FaGraduationCap size={20} />
           </div>
-          <h5 className="sidebar-title mb-0">Administración</h5>
+          <h5 className="sidebar-title">Administración</h5>
         </div>
       </div>
 
+      {/* Menú por secciones */}
       {menuSections.map((section, sectionIndex) => (
-        <div key={sectionIndex} className="sidebar-section mb-3">
-          <div className="sidebar-section-title mb-2">
+        <div key={sectionIndex} className="sidebar-section">
+          <div className="sidebar-section-title">
             {section.title}
           </div>
           
@@ -77,26 +90,33 @@ const AdminSidebar = ({ setActiveSection, activeSection }) => {
             return (
               <Nav.Item key={item.id}>
                 <Nav.Link
-                  href={`#${item.id}`}
-                  onClick={() => setActiveSection(item.id)}
                   className={`sidebar-nav-link ${activeSection === item.id ? "active" : ""}`}
+                  onClick={item.onClick}
+                  role="button"
+                  tabIndex="0"
+                  aria-label={item.label}
+                  aria-current={activeSection === item.id ? 'page' : undefined}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      item.onClick();
+                    }
+                  }}
                 >
                   <div className="d-flex align-items-center">
-                    <div className="sidebar-icon-wrapper me-3">
+                    <div className="sidebar-icon-wrapper">
                       <IconComponent size={18} />
                     </div>
                     <span className="sidebar-link-text">{item.label}</span>
                   </div>
-                  {activeSection === item.id && (
-                    <div className="active-indicator"></div>
-                  )}
                 </Nav.Link>
               </Nav.Item>
             );
           })}
         </div>
       ))}
-    </Nav>
+
+    </div>
   );
 };
 
