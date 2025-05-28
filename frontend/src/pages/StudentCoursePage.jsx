@@ -1,51 +1,165 @@
-import React from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { useParams } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
-import { FaHome } from "react-icons/fa";
 import StudentCourseHeader from "../components/student/course/StudentCourseHeader";
 import StudentCourseMaterial from "../components/student/course/StudentCourseMaterial";
 import StudentCourseActivities from "../components/student/course/StudentCourseActivities";
+import StudentCourseSidebar from "../components/student/course/StudentCourseSidebar";
+import "../styles/StudentCourse.css";
 
 const StudentCoursePage = () => {
-  const { id } = useParams(); // obtiene el ID desde la URL
-  const navigate = useNavigate(); 
+  const { id } = useParams();
+  // Cambiar el estado por defecto a "activities" en lugar de "home"
+  const [activeSection, setActiveSection] = useState("activities");
 
-  const goToStudentPage = () => {
-    navigate("/student"); // Redirige a la página de cursos
+  // Función para renderizar el contenido según la sección activa
+  const renderContent = () => {
+    switch (activeSection) {
+      case "material":
+        return (
+          <div className="single-section-content">
+            <div className="course-card material-card">
+              <div className="card-header">
+                <h3 className="card-title">📚 Material del Curso</h3>
+                <p className="card-subtitle">Recursos y contenido disponible</p>
+              </div>
+              <div className="card-content">
+                <StudentCourseMaterial courseId={id} />
+              </div>
+            </div>
+          </div>
+        );
+      
+      case "activities":
+        return (
+          <div className="single-section-content">
+            <div className="course-card activities-card">
+              <div className="card-header">
+                <h3 className="card-title">✏️ Actividades</h3>
+                <p className="card-subtitle">Tareas y evaluaciones pendientes</p>
+              </div>
+              <div className="card-content">
+                <StudentCourseActivities courseId={id} />
+              </div>
+            </div>
+          </div>
+        );
+      
+      case "grades":
+        return (
+          <div className="single-section-content">
+            <div className="course-card grades-card">
+              <div className="card-header">
+                <h3 className="card-title">📊 Calificaciones</h3>
+                <p className="card-subtitle">Tus calificaciones y evaluaciones</p>
+              </div>
+              <div className="card-content">
+                <div className="coming-soon">
+                  <h5>Próximamente</h5>
+                  <p>La sección de calificaciones estará disponible pronto.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      
+      case "progress":
+        return (
+          <div className="single-section-content">
+            <div className="course-card progress-card">
+              <div className="card-header">
+                <h3 className="card-title">📈 Mi Progreso</h3>
+                <p className="card-subtitle">Seguimiento de tu avance</p>
+              </div>
+              <div className="card-content">
+                <div className="coming-soon">
+                  <h5>Próximamente</h5>
+                  <p>La sección de progreso estará disponible pronto.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      
+      case "messages":
+        return (
+          <div className="single-section-content">
+            <div className="course-card messages-card">
+              <div className="card-header">
+                <h3 className="card-title">💬 Mensajes</h3>
+                <p className="card-subtitle">Comunicación con el profesor</p>
+              </div>
+              <div className="card-content">
+                <div className="coming-soon">
+                  <h5>Próximamente</h5>
+                  <p>La sección de mensajes estará disponible pronto.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      
+      case "home":
+      default:
+        return (
+          <Row className="course-content-row">
+            {/* Material del Curso */}
+            <Col xs={12} lg={6} className="content-column">
+              <div className="course-card material-card">
+                <div className="card-header">
+                  <h3 className="card-title">📚 Material del Curso</h3>
+                  <p className="card-subtitle">Recursos y contenido disponible</p>
+                </div>
+                <div className="card-content">
+                  <StudentCourseMaterial courseId={id} />
+                </div>
+              </div>
+            </Col>
+
+            {/* Actividades */}
+            <Col xs={12} lg={6} className="content-column">
+              <div className="course-card activities-card">
+                <div className="card-header">
+                  <h3 className="card-title">✏️ Actividades</h3>
+                  <p className="card-subtitle">Tareas y evaluaciones pendientes</p>
+                </div>
+                <div className="card-content">
+                  <StudentCourseActivities courseId={id} />
+                </div>
+              </div>
+            </Col>
+          </Row>
+        );
+    }
   };
 
   return (
-    <Container fluid className="min-vh-100 bg-light">
-      <Row className="justify-content-between align-items-center mb-4">
-        {/* Columna para el Header - Curso y Profesor, más ancha */}
-        <Col xs={10} md={10} className="p-0">
-          <StudentCourseHeader courseId={id} />
-        </Col>
+    <div className="student-course-layout">
+      {/* Sidebar */}
+      <div className="course-sidebar">
+        <StudentCourseSidebar 
+          setActiveSection={setActiveSection}
+          activeSection={activeSection}
+        />
+      </div>
 
-        {/* Columna para el ícono de Home, más estrecha */}
-        <Col xs={2} md={2} className="text-end">
-          <FaHome
-            size={40} // Aumentamos el tamaño del ícono
-            style={{ cursor: "pointer", color: "#007bff" }} // Ajustamos el color
-            onClick={goToStudentPage} // Redirige a la página de cursos
-          />
-        </Col>
-      </Row>
+      {/* Main Content */}
+      <div className="course-main-content">
+        {/* Header del curso */}
+        <div className="course-header-section">
+          <Container fluid>
+            <StudentCourseHeader courseId={id} />
+          </Container>
+        </div>
 
-      <Row>
         {/* Contenido principal */}
-        <Col xs={12} className="p-4">
-          <Row className="d-flex justify-content-between">
-            <Col xs={12} md={6} className="mb-4">
-              <StudentCourseMaterial courseId={id} />
-            </Col>
-            <Col xs={12} md={6}>
-              <StudentCourseActivities courseId={id} />
-            </Col>
-          </Row>
-        </Col>
-      </Row>
-    </Container>
+        <div className="course-body">
+          <Container fluid>
+            {renderContent()}
+          </Container>
+        </div>
+      </div>
+    </div>
   );
 };
 
