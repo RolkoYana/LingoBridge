@@ -1,0 +1,19 @@
+<changelist name="Uncommitted_changes_before_rebase_[Changes]" date="1745164205084" recycled="false" toDelete="true">
+  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_rebase_[Changes]/shelved.patch" />
+  <option name="DESCRIPTION" value="Uncommitted changes before rebase [Changes]" />
+  <binary>
+    <option name="BEFORE_PATH" value="../frontend/src/assets/banner.jpg" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="../frontend/src/assets/courses/flexible.jpg" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="../frontend/src/assets/courses/intensivo.jpg" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="../frontend/src/assets/feedbacks/julia.jpg" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="../frontend/src/assets/courses/grupal.jpg" />
+  </binary>
+</changelist>
