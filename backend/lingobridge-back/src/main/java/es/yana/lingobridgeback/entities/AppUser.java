@@ -1,5 +1,6 @@
 package es.yana.lingobridgeback.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import es.yana.lingobridgeback.converters.RoleConverter;
 import es.yana.lingobridgeback.enums.Language;
 import es.yana.lingobridgeback.enums.Role;
@@ -31,14 +32,12 @@ public class AppUser {
     private String email;
     @Column(nullable = false)
     private String password;
-
     @Convert(converter = RoleConverter.class) // convierte la Set<Role> en una cadena antes de guardar en BD
     @Column(name = "roles", nullable = false)
     private Set<Role> roles = new HashSet<>();
-
     @OneToMany(mappedBy = "teacher")
     private Set<Course> courseGiven;
-
+    @JsonIgnore
     @ManyToMany(mappedBy = "students")
     private Set<Course> coursesEnrolled;
 
