@@ -40,6 +40,7 @@ public class SecurityConfig {
                     CorsConfiguration config = new CorsConfiguration();
                     config.setAllowCredentials(true); // para enviar cookies o headers  de auth
                     config.addAllowedOrigin("http://localhost:5173");
+                    config.addAllowedOrigin("https://lingobridge.es");
                     config.addAllowedMethod("*");
                     config.addAllowedHeader("*");
                     return config;

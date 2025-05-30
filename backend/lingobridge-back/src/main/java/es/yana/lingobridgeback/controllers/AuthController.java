@@ -31,7 +31,7 @@ import java.util.*;
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = {"https://lingobridge.es", "http://localhost:5173"})
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;
