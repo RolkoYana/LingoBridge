@@ -12,19 +12,15 @@ import java.util.*;
 public interface AppUserRepository extends JpaRepository<AppUser, Long> {
     Optional<AppUser> findByEmail(String email);
     Optional<AppUser> findByUsername(String username);
-//    @Query("SELECT u FROM AppUser u WHERE u.roles LIKE :role")
-//    List<AppUser> findByRole(@Param("role") String role);
     AppUser save(AppUser user);
     @Query("SELECT DISTINCT s FROM Course c JOIN c.students s WHERE c.teacher.username = :teacherUsername")
     List<AppUser> findStudentsByTeacher(@Param("teacherUsername") String teacherUsername);
-//    @Query("SELECT u FROM AppUser u WHERE :role MEMBER OF u.roles")
-//    List<AppUser> findByRole(@Param("role") Role role);
 
-    @Query(value = "SELECT * FROM users WHERE roles LIKE %:role%", nativeQuery = true)
+    @Query("SELECT u FROM AppUser u WHERE :role MEMBER OF u.roles")
     List<AppUser> findByRole(@Param("role") String role);
 
     // para estadisticas
-    @Query(value = "SELECT COUNT(*) FROM users WHERE roles LIKE %:role%", nativeQuery = true)
+    @Query("SELECT COUNT(u) FROM AppUser u WHERE :role MEMBER OF u.roles")
     Long countByRole(@Param("role") String role);
 
 
