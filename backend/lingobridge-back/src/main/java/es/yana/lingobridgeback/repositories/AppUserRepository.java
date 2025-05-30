@@ -17,11 +17,11 @@ public interface AppUserRepository extends JpaRepository<AppUser, Long> {
     List<AppUser> findStudentsByTeacher(@Param("teacherUsername") String teacherUsername);
 
     @Query("SELECT u FROM AppUser u WHERE :role MEMBER OF u.roles")
-    List<AppUser> findByRole(@Param("role") String role);
+    List<AppUser> findByRole(@Param("role") Role role);
 
     // para estadisticas
     @Query("SELECT COUNT(u) FROM AppUser u WHERE :role MEMBER OF u.roles")
-    Long countByRole(@Param("role") String role);
+    Long countByRole(@Param("role") Role role);
 
 
 }
