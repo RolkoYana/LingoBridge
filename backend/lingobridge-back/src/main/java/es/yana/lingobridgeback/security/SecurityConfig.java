@@ -17,6 +17,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 
+import java.util.List;
+
 @EnableWebSecurity
 @EnableMethodSecurity //(prePostEnabled = true) // para habilitar seguridad de los metodos
 @Configuration
@@ -38,10 +40,9 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(request -> {
                     CorsConfiguration config = new CorsConfiguration();
                     config.setAllowCredentials(true); // para enviar cookies o headers  de auth
-                    config.addAllowedOrigin("http://localhost:5173");
-                    config.addAllowedOrigin("https://lingobridge.es");
-                    config.addAllowedMethod("*");
-                    config.addAllowedHeader("*");
+                    config.setAllowedOrigins(List.of("http://localhost:5173", "https://lingobridge.es"));
+                    config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+                    config.setAllowedHeaders(List.of("*"));
                     return config;
                 }))
                 .csrf(csrf -> csrf.disable())
