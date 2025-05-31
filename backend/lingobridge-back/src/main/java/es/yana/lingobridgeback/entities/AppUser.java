@@ -32,8 +32,10 @@ public class AppUser {
     private String email;
     @Column(nullable = false)
     private String password;
-    @Convert(converter = RoleConverter.class) // convierte la Set<Role> en una cadena antes de guardar en BD
-    @Column(name = "roles", nullable = false)
+    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role")
     private Set<Role> roles = new HashSet<>();
     @OneToMany(mappedBy = "teacher")
     private Set<Course> courseGiven;

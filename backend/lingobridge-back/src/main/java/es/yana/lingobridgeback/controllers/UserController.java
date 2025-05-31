@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = {"https://lingobridge.es", "http://localhost:5173"})
 public class UserController {
 
     private final AppUserService userService;

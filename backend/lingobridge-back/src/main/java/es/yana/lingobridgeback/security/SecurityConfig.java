@@ -11,13 +11,15 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 
+import java.util.List;
+
+@EnableWebSecurity
 @EnableMethodSecurity //(prePostEnabled = true) // para habilitar seguridad de los metodos
 @Configuration
 @RequiredArgsConstructor
@@ -25,7 +27,6 @@ public class SecurityConfig {
 
     private final JwtAuthFilter jwtAuthFilter;
     private final JwtAuthEntryPoint jwtAuthEntryPoint;
-    private final CustomUserDetailsService userDetailsService;
 
     @Bean
     public AuthenticationManager authenticationManager(
@@ -39,9 +40,9 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(request -> {
                     CorsConfiguration config = new CorsConfiguration();
                     config.setAllowCredentials(true); // para enviar cookies o headers  de auth
-                    config.addAllowedOrigin("http://localhost:5173");
-                    config.addAllowedMethod("*");
-                    config.addAllowedHeader("*");
+                    config.setAllowedOrigins(List.of("http://localhost:5173", "https://lingobridge.es"));
+                    config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+                    config.setAllowedHeaders(List.of("*"));
                     return config;
                 }))
                 .csrf(csrf -> csrf.disable())

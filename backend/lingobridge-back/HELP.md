@@ -1,5 +1,8 @@
-# application.properties
+CORS = Cross-Origin Resource Sharing (Compartir recursos entre diferentes orígenes)
+Por defecto, los navegadores BLOQUEAN peticiones entre diferentes dominios por seguridad.
 
-* ${VARIABLE:valor_por_defecto} - Si la variable de entorno existe, la usa; si no, usa el valor por defecto
-* Desarrollo local: Usará tus valores actuales (después de los :)
-* Railway: Usará las variables de entorno que Railway proporciona automáticamente
+El problema sin CORS:
+Frontend: https://lingobridge.es
+Backend:  https://kind-inspiration-production-xxxx.up.railway.app
+
+Navegador: "¡PROHIBIDO! Son dominios diferentes"

@@ -63,11 +63,11 @@ public class AppUserService {
     }
 
     public List<AppUser> findAllStudents() {
-        return userRepository.findByRole("STUDENT");
+        return userRepository.findByRole(Role.STUDENT);
     }
 
     public List<AppUser> findAllTeachers() {
-        return userRepository.findByRole("TEACHER");
+        return userRepository.findByRole(Role.TEACHER);
     }
 
     public AppUser findByUsernameOrEmail(String input){
@@ -176,12 +176,12 @@ public class AppUserService {
     // para estadisticas
     // Contar todos los profesores
     public Long countAllTeachers() {
-        return userRepository.countByRole("TEACHER");
+        return userRepository.countByRole(Role.TEACHER);
     }
 
     // Contar todos los estudiantes
     public Long countAllStudents() {
-        return userRepository.countByRole("STUDENT");
+        return userRepository.countByRole(Role.STUDENT);
     }
 
 
