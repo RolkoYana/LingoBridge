@@ -7,7 +7,6 @@ import org.springframework.web.servlet.config.annotation.*;
     CLASE PARA COMUNICACION ENTRE FRONT Y BACK
  */
 @Configuration
-@EnableWebMvc // activa configuraciones web de Spring
 public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry){
