@@ -1,5 +1,5 @@
-const API_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8080/api";
-
+const API_URL =
+  import.meta.env.VITE_API_BASE_URL || "http://localhost:8080/api";
 
 // manejar solicitudes con fetch
 const handleResponse = async (response) => {
@@ -25,23 +25,42 @@ export const register = async (userData) => {
 
 // hacer login y recibir el token JWT
 export const login = async (username, password) => {
-  const response = await fetch(`${API_URL}/auth/login`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ username, password }),
-  });
+  try {
+    const response = await fetch(`${API_URL}/auth/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ username, password }),
+    });
 
-  const data = await handleResponse(response);
+    // Si la respuesta no es ok (status 400, 401, 500, etc.)
+    if (!response.ok) {
+      let errorMessage = "Credenciales incorrectas";
+      try {
+        const errorData = await response.json();
+        errorMessage = errorData.message || errorData.error || errorMessage;
+      } catch (parseError) {
+        // Si no puede parsear JSON, usar mensaje por defecto
+      }
 
-  if (data.token) {
-    localStorage.setItem("token", data.token);
-    localStorage.setItem("username", data.username);
-    localStorage.setItem("user", JSON.stringify({ name: data.name }));
+      // Lanzar error con mensaje específico
+      throw new Error(errorMessage);
+    }
+
+    const data = await response.json();
+
+    if (data.token) {
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("username", data.username);
+      localStorage.setItem("user", JSON.stringify({ name: data.name }));
+    }
+
+    return data;
+  } catch (error) {
+    // Re-lanzar el error para que sea capturado en el componente
+    throw error;
   }
-
-  return data;
 };
 
 export const fetchWithAuth = async (url, options = {}, expectBlob = false) => {

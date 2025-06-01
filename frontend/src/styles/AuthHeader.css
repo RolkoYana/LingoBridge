@@ -1,0 +1,43 @@
+/* ********* ESTILOS PARA LA PÁGINA DE AUTENTICACIÓN ********* */
+
+.auth-header-container {
+  background-color: transparent;
+}
+
+.auth-header-row {
+  max-width: var(--content-max-width);
+  margin-left: auto;
+  margin-right: auto;
+  justify-content: flex-start;
+  padding: 1rem 1rem;
+  position: relative;
+}
+
+.auth-header-row .col-auto:last-child {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+@media (max-width: 767.98px) {
+  .auth-header-row {
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+
+  .auth-header-row .col-auto:last-child {
+    position: static;
+    transform: none;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .auth-header-row .col-auto {
+    width: 100%;
+    justify-content: center;
+  }
+}

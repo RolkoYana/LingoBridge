@@ -2,20 +2,20 @@ import React from "react";
 
 const Faq = () => {
   return (
-    <section className="py-5"> {/* Eliminado bg-light */}
+    <section className="py-5">
       <div className="container">
         <h2 className="text-center mb-5 display-5 fw-bold">Preguntas frecuentes</h2>
 
-        <div className="accordion accordion-flush" id="faqAccordion"> {/* accordion-flush para sin bordes exteriores */}
+        <div className="accordion accordion-flush" id="faqAccordion">
           {/* Pregunta 1 */}
           <div className="accordion-item">
             <h2 className="accordion-header" id="headingOne">
               <button
-                className="accordion-button"
+                className="accordion-button collapsed"
                 type="button"
                 data-bs-toggle="collapse"
                 data-bs-target="#collapseOne"
-                aria-expanded="true"
+                aria-expanded="false"
                 aria-controls="collapseOne"
               >
                 ¿Qué material didáctico voy a recibir?
@@ -23,7 +23,7 @@ const Faq = () => {
             </h2>
             <div
               id="collapseOne"
-              className="accordion-collapse collapse show"
+              className="accordion-collapse collapse"
               aria-labelledby="headingOne"
               data-bs-parent="#faqAccordion"
             >
@@ -117,7 +117,7 @@ const Faq = () => {
         </div>
 
         {/* Botón final */}
-        <div className="text-center mt-5"> {/* Centrar el botón y añadir más margen */}
+        <div className="text-center mt-5">
           <button className="btn btn-primary btn-lg">Leer más FAQ</button>
         </div>
       </div>

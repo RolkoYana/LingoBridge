@@ -3,25 +3,23 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import logo from "../../assets/logo.jpg";
 import { FaMoon, FaSun } from "react-icons/fa";
-import { Link } from "react-router-dom";
-import { useTheme } from "../../context/ThemeContext.jsx"; // Importa el hook del contexto
+import { Link, useLocation } from "react-router-dom";
+import { useTheme } from "../../context/ThemeContext.jsx";
 
 const Navbar = () => {
-  const { theme, toggleTheme } = useTheme(); // Usa el hook para obtener el tema y la función toggle
-
+  const { theme, toggleTheme } = useTheme();
+  const location = useLocation(); 
   const isLoggedIn = !!localStorage.getItem("token");
 
   return (
     <nav
       className={`navbar navbar-expand-lg ${
         theme === "dark" ? "navbar-dark bg-dark" : "navbar-light bg-white"
-      } py-2`}
+      } py-3`}
     >
       <div className="container">
         <Link className="navbar-brand" to="/">
-          {" "}
-          {/* Usar Link para navegación interna */}
-          <img src={logo} alt="Logo" height="40" />
+          <img src={logo} alt="Logo" height="60" />
         </Link>
 
         <button
@@ -29,9 +27,9 @@ const Navbar = () => {
           type="button"
           data-bs-toggle="collapse"
           data-bs-target="#navbarNavDropdown"
-          aria-controls="navbarNavDropdown" // Mejorar accesibilidad
-          aria-expanded="false" // Mejorar accesibilidad
-          aria-label="Toggle navigation" // Mejorar accesibilidad
+          aria-controls="navbarNavDropdown"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
         >
           <span className="navbar-toggler-icon"></span>
         </button>
@@ -39,14 +37,21 @@ const Navbar = () => {
         <div className="collapse navbar-collapse" id="navbarNavDropdown">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <Link className="nav-link active" to="/quienes-somos">
+              <Link 
+                className={`nav-link fs-5 px-3 ${
+                  location.pathname === "/quienes-somos" ? "active" : ""
+                }`} 
+                to="/quienes-somos"
+              >
                 Quiénes somos
               </Link>
             </li>
 
             <li className="nav-item dropdown">
               <a
-                className="nav-link dropdown-toggle"
+                className={`nav-link dropdown-toggle fs-5 px-3 ${
+                  location.pathname.startsWith("/idiomas") ? "active" : ""
+                }`}
                 href="#"
                 id="idiomasDropdown"
                 role="button"
@@ -81,7 +86,9 @@ const Navbar = () => {
 
             <li className="nav-item dropdown">
               <a
-                className="nav-link dropdown-toggle"
+                className={`nav-link dropdown-toggle fs-5 px-3 ${
+                  location.pathname.startsWith("/cursos") ? "active" : ""
+                }`}
                 href="#"
                 id="cursosDropdown"
                 role="button"
@@ -110,36 +117,40 @@ const Navbar = () => {
             </li>
 
             <li className="nav-item">
-              <Link className="nav-link" to="/trabajo-con-nosotros">
-                Trabajo con nosotros
+              <Link 
+                className={`nav-link fs-5 px-3 ${
+                  location.pathname === "/trabajo-con-nosotros" ? "active" : ""
+                }`} 
+                to="/trabajo-con-nosotros"
+              >
+                Trabaja con nosotros
               </Link>
             </li>
           </ul>
 
-          <div className="d-flex">
-            <Link to="/login" className="btn btn-outline-primary me-2">
+          <div className="d-flex align-items-center">
+            <Link to="/login" className="btn btn-outline-primary me-2 px-3 py-2">
               Iniciar sesión
             </Link>
-            <Link to="/register" className="btn btn-primary">
+            <Link to="/register" className="btn btn-primary px-3 py-2 me-3">
               Registrarse
             </Link>
+            
+            {/* Botón de modo oscuro */}
+            <button
+              onClick={toggleTheme}
+              className="btn border-0 bg-transparent p-2"
+              title="Cambiar modo"
+              aria-label="Cambiar modo de tema"
+            >
+              {theme === "dark" ? (
+                <FaSun className="text-warning fs-4" />
+              ) : (
+                <FaMoon className="text-dark fs-4" />
+              )}
+            </button>
           </div>
         </div>
-
-        {/* Botón de modo oscuro */}
-        <button
-          onClick={toggleTheme}
-          className="btn border-0 bg-transparent ms-3"
-          title="Cambiar modo"
-          aria-label="Cambiar modo de tema" // Mejorar accesibilidad
-        >
-          {theme === "dark" ? (
-            <FaSun className="text-warning" />
-          ) : (
-            <FaMoon className="text-dark" />
-          )}{" "}
-          {/* Iconos con color que contrasta */}
-        </button>
       </div>
     </nav>
   );
