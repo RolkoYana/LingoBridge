@@ -1,28 +1,18 @@
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { 
-  FaHome, 
-  FaClipboardList, 
-  FaStickyNote, 
   FaTasks,
-  FaChartLine,
-  FaComments,
+  FaStickyNote, 
   FaArrowLeft,
   FaBook
 } from "react-icons/fa";
+import "./StudentCourseSidebar.css"; // ← Agregar esta línea
 
 const StudentCourseSidebar = ({ setActiveSection, activeSection }) => {
   const navigate = useNavigate();
   const { id } = useParams();
 
   const menuItems = [
-    {
-      id: "home",
-      label: "Inicio del Curso",
-      icon: FaHome,
-      action: () => setActiveSection("home"),
-      isActive: activeSection === "home"
-    },
     {
       id: "activities",
       label: "Actividades",
@@ -36,27 +26,6 @@ const StudentCourseSidebar = ({ setActiveSection, activeSection }) => {
       icon: FaStickyNote,
       action: () => setActiveSection("material"),
       isActive: activeSection === "material"
-    },
-    {
-      id: "grades",
-      label: "Calificaciones",
-      icon: FaClipboardList,
-      action: () => setActiveSection("grades"),
-      isActive: activeSection === "grades"
-    },
-    {
-      id: "progress",
-      label: "Mi Progreso",
-      icon: FaChartLine,
-      action: () => setActiveSection("progress"),
-      isActive: activeSection === "progress"
-    },
-    {
-      id: "messages",
-      label: "Mensajes",
-      icon: FaComments,
-      action: () => setActiveSection("messages"),
-      isActive: activeSection === "messages"
     }
   ];
 
@@ -68,7 +37,6 @@ const StudentCourseSidebar = ({ setActiveSection, activeSection }) => {
           <FaBook className="logo-icon" />
           <span className="logo-text">Mi Curso</span>
         </div>
-        <div className="course-id">ID: {id}</div>
       </div>
 
       {/* Navigation Menu */}

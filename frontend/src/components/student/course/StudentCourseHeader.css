@@ -1,0 +1,483 @@
+/* ==========================================
+   HEADER DEL CURSO - DISEÑO COMPACTO Y OPTIMIZADO
+   ========================================== */
+
+/* Variables específicas del header */
+:root {
+  --header-primary: #3182ce;
+  --header-primary-hover: #2c5282;
+  --header-text: #2d3748;
+  --header-text-secondary: #4a5568;
+  --header-text-muted: #718096;
+  --header-bg: #ffffff;
+  --header-bg-secondary: #f7fafc;
+  --header-border: #e2e8f0;
+  --header-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  --header-shadow-hover: 0 4px 16px rgba(0,0,0,0.1);
+}
+
+/* Contenedor principal del header - más compacto */
+.course-header-card {
+  background: var(--header-bg);
+  border-radius: 12px;
+  padding: 16px 20px; /* Reducido de 20px a 16px verticalmente */
+  box-shadow: var(--header-shadow);
+  border: 1px solid var(--header-border);
+  transition: all 0.3s ease;
+}
+
+/* Layout principal - más compacto y eficiente */
+.header-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px; /* Reducido de 30px a 24px */
+}
+
+/* ==========================================
+   INFORMACIÓN DEL CURSO - OPTIMIZADA
+   ========================================== */
+.course-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.course-title-section {
+  display: flex;
+  align-items: center;
+  gap: 12px; /* Reducido de 15px a 12px */
+  margin-bottom: 8px; /* Reducido de 12px a 8px */
+}
+
+.course-icon-wrapper {
+  width: 42px; /* Reducido de 50px a 42px */
+  height: 42px;
+  background: linear-gradient(135deg, var(--header-primary) 0%, var(--header-primary-hover) 100%);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(49, 130, 206, 0.25);
+  transition: all 0.3s ease;
+}
+
+.course-icon-wrapper:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(49, 130, 206, 0.35);
+}
+
+.course-icon {
+  font-size: 20px; /* Reducido de 24px a 20px */
+  color: white;
+}
+
+.course-details {
+  flex: 1;
+  min-width: 0;
+}
+
+.course-title {
+  font-size: 20px; /* Reducido de 24px a 20px */
+  font-weight: 700;
+  color: var(--header-text);
+  margin: 0;
+  line-height: 1.2;
+  background: linear-gradient(135deg, var(--header-text) 0%, var(--header-primary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Descripción más compacta */
+.course-description {
+  margin-top: 6px; /* Reducido de 8px a 6px */
+  margin-bottom: 0; /* Eliminamos margin-bottom */
+}
+
+.course-description p {
+  font-size: 13px; /* Reducido de 14px a 13px */
+  color: var(--header-text-secondary);
+  margin: 0;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 1; /* Reducido de 2 líneas a 1 */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  padding: 8px 12px; /* Reducido padding */
+  background: rgba(49, 130, 206, 0.04);
+  border-radius: 6px;
+  border-left: 3px solid var(--header-primary);
+}
+
+/* Información rápida - más compacta */
+.course-quick-info {
+  display: flex;
+  gap: 12px; /* Reducido de 20px a 12px */
+  margin-top: 10px; /* Reducido de 15px a 10px */
+  flex-wrap: wrap;
+}
+
+.info-card {
+  display: flex;
+  align-items: center;
+  gap: 6px; /* Reducido de 8px a 6px */
+  padding: 6px 10px; /* Reducido padding */
+  background: linear-gradient(135deg, var(--header-bg-secondary) 0%, rgba(255, 255, 255, 0.8) 100%);
+  border-radius: 6px;
+  border: 1px solid var(--header-border);
+  min-width: 0;
+  transition: all 0.3s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.info-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(135deg, #ffffff 0%, var(--header-bg-secondary) 100%);
+}
+
+.info-card-icon {
+  width: 20px; /* Reducido de 24px a 20px */
+  height: 20px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--header-primary) 0%, var(--header-primary-hover) 100%);
+  color: white;
+  font-size: 10px; /* Reducido de 12px a 10px */
+  flex-shrink: 0;
+}
+
+.info-card-content {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.info-card-value {
+  font-size: 12px; /* Reducido de 13px a 12px */
+  font-weight: 600;
+  color: var(--header-text);
+  line-height: 1;
+  margin-bottom: 1px;
+}
+
+.info-card-label {
+  font-size: 10px; /* Reducido de 11px a 10px */
+  color: var(--header-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 500;
+}
+
+/* ==========================================
+   INFORMACIÓN DEL PROFESOR - COMPACTA
+   ========================================== */
+.teacher-info {
+  flex-shrink: 0;
+}
+
+.teacher-card {
+  background: linear-gradient(135deg, var(--header-bg-secondary) 0%, rgba(255, 255, 255, 0.9) 100%);
+  border: 1px solid var(--header-border);
+  border-radius: 10px;
+  padding: 12px 16px; /* Reducido padding */
+  text-align: center;
+  min-width: 140px; /* Reducido de 160px a 140px */
+  max-width: 180px; /* Reducido de 200px a 180px */
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.teacher-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px; /* Reducido de 3px a 2px */
+  background: linear-gradient(90deg, var(--header-primary) 0%, #38a169 100%);
+}
+
+.teacher-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--header-shadow-hover);
+  background: linear-gradient(135deg, #ffffff 0%, var(--header-bg-secondary) 100%);
+}
+
+.teacher-avatar {
+  width: 36px; /* Reducido de 40px a 36px */
+  height: 36px;
+  background: linear-gradient(135deg, var(--header-text-secondary) 0%, #475569 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 6px; /* Reducido margin-bottom de 8px a 6px */
+  box-shadow: 0 4px 12px rgba(74, 85, 104, 0.25);
+  transition: all 0.3s ease;
+}
+
+.teacher-card:hover .teacher-avatar {
+  transform: scale(1.05);
+  box-shadow: 0 6px 16px rgba(74, 85, 104, 0.35);
+}
+
+.teacher-avatar svg {
+  font-size: 16px; /* Reducido de 20px a 16px */
+  color: white;
+}
+
+.teacher-label {
+  font-size: 10px; /* Reducido de 11px a 10px */
+  font-weight: 600;
+  color: var(--header-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: block;
+  margin-bottom: 3px; /* Reducido de 4px a 3px */
+}
+
+.teacher-name {
+  font-size: 13px; /* Reducido de 14px a 13px */
+  font-weight: 600;
+  color: var(--header-text);
+  margin: 0 0 3px 0; /* Reducido margin-bottom de 4px a 3px */
+  line-height: 1.2;
+}
+
+.teacher-email {
+  font-size: 11px; /* Reducido de 12px a 11px */
+  color: var(--header-text-muted);
+  margin: 0;
+  word-break: break-word;
+  padding: 4px 8px; /* Reducido padding */
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 6px;
+  font-weight: 500;
+}
+
+/* ==========================================
+   ESTADOS DE CARGA Y ERROR
+   ========================================== */
+.course-header-loading,
+.course-header-error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px; /* Reducido de 20px a 16px */
+  color: var(--header-text-muted);
+  font-size: 13px; /* Reducido de 14px a 13px */
+  background: var(--header-bg-secondary);
+  border-radius: 8px;
+  border: 1px solid var(--header-border);
+}
+
+.course-header-error {
+  color: #dc3545;
+  background: rgba(220, 53, 69, 0.05);
+  border-color: rgba(220, 53, 69, 0.15);
+}
+
+/* ==========================================
+   RESPONSIVE DESIGN
+   ========================================== */
+
+/* Tablet (768px - 1023px) */
+@media (max-width: 1023px) {
+  .course-header-card {
+    padding: 14px 18px;
+  }
+  
+  .header-main {
+    gap: 20px;
+  }
+  
+  .course-title {
+    font-size: 18px;
+  }
+  
+  .course-icon-wrapper {
+    width: 38px;
+    height: 38px;
+  }
+  
+  .course-icon {
+    font-size: 18px;
+  }
+  
+  .teacher-card {
+    min-width: 130px;
+    max-width: 160px;
+    padding: 10px 14px;
+  }
+}
+
+/* Mobile (hasta 767px) */
+@media (max-width: 767px) {
+  .course-header-card {
+    padding: 12px 16px;
+  }
+  
+  .header-main {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  
+  .course-title-section {
+    width: 100%;
+    justify-content: flex-start;
+  }
+  
+  .course-title {
+    font-size: 17px;
+  }
+  
+  .course-icon-wrapper {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .course-icon {
+    font-size: 16px;
+  }
+  
+  .course-quick-info {
+    gap: 8px;
+    justify-content: flex-start;
+    width: 100%;
+  }
+  
+  .info-card {
+    padding: 5px 8px;
+    flex: 1;
+    min-width: 90px;
+  }
+  
+  .info-card-icon {
+    width: 18px;
+    height: 18px;
+    font-size: 9px;
+  }
+  
+  .teacher-card {
+    width: 100%;
+    max-width: none;
+    min-width: auto;
+    padding: 10px 12px;
+  }
+  
+  .teacher-avatar {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .teacher-avatar svg {
+    font-size: 14px;
+  }
+}
+
+/* Mobile pequeño (hasta 479px) */
+@media (max-width: 479px) {
+  .course-header-card {
+    padding: 10px 12px;
+  }
+  
+  .course-title-section {
+    gap: 10px;
+  }
+  
+  .course-title {
+    font-size: 16px;
+  }
+  
+  .course-icon-wrapper {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .course-icon {
+    font-size: 14px;
+  }
+  
+  .course-quick-info {
+    flex-direction: column;
+    gap: 6px;
+  }
+  
+  .info-card {
+    width: 100%;
+    min-width: auto;
+    padding: 4px 8px;
+  }
+  
+  .teacher-card {
+    padding: 8px 10px;
+  }
+  
+  .teacher-avatar {
+    width: 28px;
+    height: 28px;
+    margin-bottom: 4px;
+  }
+  
+  .teacher-avatar svg {
+    font-size: 12px;
+  }
+  
+  .teacher-name {
+    font-size: 12px;
+  }
+  
+  .teacher-email {
+    font-size: 10px;
+    padding: 3px 6px;
+  }
+  
+  .course-description p {
+    font-size: 12px;
+    padding: 6px 10px;
+  }
+}
+
+/* ==========================================
+   UTILIDADES Y ANIMACIONES
+   ========================================== */
+
+/* Animación suave para elementos interactivos */
+.course-header-card * {
+  transition: all 0.3s ease;
+}
+
+/* Mejora de accesibilidad en hover */
+@media (hover: hover) {
+  .info-card:hover,
+  .teacher-card:hover {
+    cursor: default;
+  }
+  
+  .course-icon-wrapper:hover {
+    cursor: pointer;
+  }
+}
+
+/* Animación de entrada suave */
+.course-header-card {
+  animation: fadeInUp 0.4s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
