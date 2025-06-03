@@ -1,0 +1,394 @@
+/* ==========================================
+   ESTILOS PARA STUDENT EVALUATIONS
+   ========================================== */
+
+/* Contenedor principal */
+.evaluations-container {
+  padding: 20px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Header principal */
+.evaluations-header {
+  margin-bottom: 30px;
+}
+
+.header-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.header-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-icon {
+  color: #f39c12;
+}
+
+.evaluations-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #2c3e50;
+  margin: 0 0 5px 0;
+}
+
+.evaluations-subtitle {
+  font-size: 16px;
+  color: #6c757d;
+  margin: 0;
+}
+
+/* Estadísticas */
+.evaluation-stats {
+  display: flex;
+  gap: 30px;
+}
+
+.stat-item {
+  text-align: center;
+  min-width: 70px;
+}
+
+.stat-number {
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.stat-number.primary { color: #3498db; }
+.stat-number.success { color: #28a745; }
+.stat-number.warning { color: #f39c12; }
+
+.stat-label {
+  font-size: 12px;
+  color: #6c757d;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Loading */
+.evaluations-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 60px 0;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #f39c12;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Estado vacío */
+.evaluations-empty {
+  text-align: center;
+  padding: 60px 20px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.empty-icon {
+  font-size: 64px;
+  margin-bottom: 20px;
+}
+
+.empty-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 12px;
+}
+
+.empty-text {
+  font-size: 16px;
+  color: #6c757d;
+  line-height: 1.5;
+}
+
+/* Contenedor de tabla */
+.table-container {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+}
+
+/* Tabla de evaluaciones */
+.evaluations-table {
+  margin: 0;
+  border: none;
+  table-layout: fixed;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* Headers */
+.evaluations-table thead th {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border: none;
+  border-bottom: 3px solid #f39c12;
+  font-weight: 700;
+  color: #2c3e50;
+  padding: 18px 16px;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+/* Anchos de columnas optimizados */
+.evaluations-table th:nth-child(1) { width: 20%; } /* Actividad */
+.evaluations-table th:nth-child(2) { width: 20%; } /* Curso */
+.evaluations-table th:nth-child(3) { width: 16%; } /* Calificación */
+.evaluations-table th:nth-child(4) { width: 20%; } /* Comentarios - Reducido */
+.evaluations-table th:nth-child(5) { width: 12%; } /* Fecha */
+.evaluations-table th:nth-child(6) { width: 12%; } /* Profesor - Aumentado */
+
+/* Filas */
+.evaluations-table tbody tr {
+  border-bottom: 1px solid #e9ecef;
+  transition: all 0.2s ease;
+}
+
+.evaluations-table tbody tr:hover {
+  background-color: rgba(243, 156, 18, 0.04);
+}
+
+.evaluations-table tbody tr.pending-evaluation {
+  background-color: rgba(255, 193, 7, 0.05);
+  border-left: 4px solid #ffc107;
+}
+
+.evaluations-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+/* Celdas */
+.evaluations-table tbody td {
+  padding: 16px 12px;
+  vertical-align: middle;
+  border: none;
+  text-align: center;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* Anchos específicos también para las celdas del body */
+.evaluations-table tbody td:nth-child(1) { width: 20%; text-align: left; font-weight: 600; }   /* Actividad */
+.evaluations-table tbody td:nth-child(2) { width: 20%; text-align: center; font-weight: 500; color: #2c3e50; } /* Curso */
+.evaluations-table tbody td:nth-child(3) { width: 16%; text-align: center; } /* Calificación */
+.evaluations-table tbody td:nth-child(4) { width: 20%; text-align: left; }   /* Comentarios - Reducido */
+.evaluations-table tbody td:nth-child(5) { width: 12%; text-align: center; } /* Fecha */
+.evaluations-table tbody td:nth-child(6) { width: 12%; text-align: center; }  /* Profesor - Aumentado */
+
+/* Estilos específicos de celdas */
+.activity-cell .activity-title {
+  font-weight: 600;
+  color: #2c3e50;
+  font-size: 15px;
+}
+
+.score-badge {
+  font-weight: 600;
+  padding: 6px 8px;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 15px;
+  font-size: 11px;
+  gap: 3px;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+.feedback-cell {
+  max-width: 100%;
+  position: relative;
+}
+
+.feedback-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  text-align: left;
+  width: 100%;
+}
+
+.feedback-icon {
+  color: #6c757d;
+  opacity: 0.7;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.feedback-text {
+  color: #2c3e50;
+  font-size: 14px;
+  line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 150px;
+  cursor: help;
+  flex: 1;
+}
+
+.feedback-text:hover {
+  background-color: rgba(0,0,0,0.8);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 1000;
+  white-space: normal;
+  max-width: 300px;
+  word-wrap: break-word;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  transform: translateY(-50%);
+  left: 50%;
+  margin-left: -150px;
+}
+
+.no-feedback {
+  color: #6c757d;
+  font-style: italic;
+  font-size: 13px;
+}
+
+.date-cell,
+.teacher-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.date-icon,
+.teacher-icon {
+  color: #6c757d;
+  opacity: 0.7;
+}
+
+.date-text,
+.teacher-name {
+  color: #2c3e50;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* ==========================================
+   RESPONSIVE
+   ========================================== */
+
+/* Tablet */
+@media (max-width: 992px) {
+  .header-main {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  
+  .evaluation-stats {
+    gap: 20px;
+  }
+  
+  .evaluations-table thead th,
+  .evaluations-table tbody td {
+    padding: 14px 12px;
+  }
+  
+  .feedback-cell {
+    max-width: 200px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .evaluations-container {
+    padding: 16px;
+  }
+  
+  .evaluations-title {
+    font-size: 24px;
+  }
+  
+  .evaluations-subtitle {
+    font-size: 14px;
+  }
+  
+  .evaluation-stats {
+    gap: 16px;
+  }
+  
+  .stat-number {
+    font-size: 20px;
+  }
+  
+  .stat-label {
+    font-size: 11px;
+  }
+  
+  .evaluations-table thead th,
+  .evaluations-table tbody td {
+    padding: 12px 8px;
+  }
+  
+  .feedback-cell {
+    max-width: 150px;
+  }
+  
+  .score-badge {
+    padding: 4px 8px;
+    font-size: 11px;
+  }
+  
+  .activity-title {
+    font-size: 14px;
+  }
+  
+  .course-name,
+  .feedback-text,
+  .date-text,
+  .teacher-name {
+    font-size: 13px;
+  }
+}
+
+/* Mobile pequeño */
+@media (max-width: 480px) {
+  .evaluations-container {
+    padding: 12px;
+  }
+  
+  .header-info {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .evaluation-stats {
+    gap: 12px;
+  }
+  
+  .stat-item {
+    min-width: 60px;
+  }
+}

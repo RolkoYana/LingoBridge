@@ -1,0 +1,105 @@
+/* ==========================================
+   ESTILOS PARA STUDENT SIDEBAR 
+   ========================================== */
+
+.student-sidebar {
+  background-color: var(--student-sidebar-bg);
+  min-height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 250px;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  overflow-y: auto;
+}
+
+/* Contenido del sidebar */
+.student-sidebar .nav {
+  padding: 20px 0;
+}
+
+.student-sidebar .nav-link {
+  color: var(--student-sidebar-text) !important;
+  padding: 14px 20px;
+  margin: 2px 12px;
+  border-radius: var(--border-radius);
+  transition: var(--transition);
+  font-weight: 500;
+  position: relative;
+  border-left: 3px solid transparent;
+  display: flex;
+  align-items: center;
+}
+
+.student-sidebar .nav-link:hover {
+  background-color: var(--student-sidebar-hover);
+  color: white !important;
+  border-left-color: var(--student-sidebar-accent);
+}
+
+.student-sidebar .nav-link:focus {
+  outline: 2px solid var(--student-sidebar-accent);
+  outline-offset: 2px;
+  background-color: var(--student-sidebar-hover);
+}
+
+.student-sidebar .nav-link.active {
+  background-color: var(--student-sidebar-hover);
+  color: white !important;
+  border-left-color: var(--student-sidebar-accent);
+  font-weight: 600;
+}
+
+/* Modo profesor destacado */
+.student-sidebar .nav-link.teacher-mode {
+  background-color: var(--student-accent-orange);
+  color: white !important;
+  font-weight: 600;
+  margin-top: 16px;
+  border-left-color: var(--student-accent-orange);
+}
+
+.student-sidebar .nav-link.teacher-mode:hover {
+  background-color: #d35400;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(230, 126, 34, 0.3);
+}
+
+/* Separador en el sidebar */
+.student-sidebar hr {
+  border-color: rgba(255, 255, 255, 0.1);
+  margin: 16px 20px;
+}
+
+/* Panel del estudiante al final */
+.student-sidebar .mt-auto {
+  margin-top: auto !important;
+  padding: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* ==========================================
+   RESPONSIVE PARA SIDEBAR
+   ========================================== */
+
+/* Mobile */
+@media (max-width: 767px) {
+  .student-sidebar {
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    width: 280px;
+  }
+  
+  .student-sidebar.show {
+    transform: translateX(0);
+    z-index: 1050;
+  }
+}
+
+/* Tablet */
+@media (min-width: 768px) and (max-width: 991px) {
+  .student-sidebar {
+    width: 200px;
+  }
+}

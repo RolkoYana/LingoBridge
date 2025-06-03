@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { Button, Row, Col, Badge } from "react-bootstrap";
-import { FaSearch, FaUserPlus, FaUser, FaGraduationCap, FaCheck } from "react-icons/fa";
 import { fetchWithAuth } from "../../api/api";
+import "./StudentAvailableCourses.css";
 
-const AvailableCourses = () => {
+const StudentAvailableCourses = () => {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [enrollingCourses, setEnrollingCourses] = useState(new Set());
 
-  // cargar cursos disponibles
   const loadCourses = () => {
     setLoading(true);
     fetchWithAuth("/student/available-courses")
       .then((data) => {
+        console.log("DEBUG - Datos recibidos:", data);
         setCourses(data);
       })
       .catch((err) => console.error("Error al cargar cursos:", err))
@@ -23,7 +22,6 @@ const AvailableCourses = () => {
     loadCourses();
   }, []);
 
-  // inscribirse en un curso
   const enrollInCourse = async (courseId) => {
     setEnrollingCourses(prev => new Set(prev).add(courseId));
     
@@ -33,13 +31,10 @@ const AvailableCourses = () => {
       });
       
       if (data) {
-        // Eliminar curso de la lista (ya no está disponible)
         setCourses((prevCourses) =>
           prevCourses.filter((course) => course.id !== courseId)
         );
         
-        // Mostrar mensaje de éxito más elegante
-        // Aquí podrías usar una librería de toast notifications
         alert("¡Inscripción exitosa! El curso se ha añadido a tus cursos.");
       } else {
         alert("Hubo un problema con la inscripción. Inténtalo de nuevo.");
@@ -56,15 +51,6 @@ const AvailableCourses = () => {
     }
   };
 
-  const getTypeVariant = (type) => {
-    switch (type.toUpperCase()) {
-      case 'INTENSIVO': return 'warning';
-      case 'GRUPAL': return 'info';
-      case 'FLEXIBLE': return 'success';
-      default: return 'secondary';
-    }
-  };
-
   const getLevelColor = (level) => {
     const colors = {
       'A1': '#28a745', 'A2': '#20c997',
@@ -76,47 +62,31 @@ const AvailableCourses = () => {
 
   if (loading) {
     return (
-      <div className="unified-section">
-        <div className="section-header">
-          <div className="d-flex align-items-center">
-            <FaSearch size={28} className="header-icon me-3" />
-            <div>
-              <h2 className="section-title">Cursos Disponibles</h2>
-              <p className="section-subtitle">Cargando cursos disponibles...</p>
-            </div>
-          </div>
+      <div className="courses-container">
+        <div className="courses-header">
+          <h2 className="courses-title">Cursos Disponibles</h2>
+          <p className="courses-subtitle">Cargando cursos disponibles...</p>
         </div>
-        <div className="section-content">
-          <div className="text-center py-5">
-            <div className="spinner-border text-primary" role="status">
-              <span className="visually-hidden">Cargando...</span>
-            </div>
-          </div>
+        <div className="courses-loading">
+          <div className="spinner"></div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="unified-section">
-      {/* Header integrado */}
-      <div className="section-header">
-        <div className="d-flex align-items-center">
-          <FaSearch size={28} className="header-icon me-3" />
-          <div>
-            <h2 className="section-title">Cursos Disponibles</h2>
-            <p className="section-subtitle">
-              {courses.length} curso{courses.length !== 1 ? 's' : ''} disponible{courses.length !== 1 ? 's' : ''} para inscripción
-            </p>
-          </div>
-        </div>
+    <div className="courses-container">
+      <div className="courses-header">
+        <h2 className="courses-title">Cursos Disponibles</h2>
+        <p className="courses-subtitle">
+          {courses.length} curso{courses.length !== 1 ? 's' : ''} disponible{courses.length !== 1 ? 's' : ''} para inscripción
+        </p>
       </div>
 
-      {/* Contenido principal */}
-      <div className="section-content p-4">
+      <div className="courses-content">
         {courses.length === 0 ? (
-          <div className="empty-section">
-            <FaGraduationCap size={64} className="empty-icon" />
+          <div className="courses-empty">
+            <div className="empty-icon">🎓</div>
             <h4 className="empty-title">No hay cursos disponibles</h4>
             <p className="empty-text">
               En este momento no hay cursos abiertos para inscripción. 
@@ -124,69 +94,84 @@ const AvailableCourses = () => {
             </p>
           </div>
         ) : (
-          <Row>
-            {courses.map((course) => (
-              <Col md={6} lg={4} key={course.id} className="mb-4">
-                <div className="available-course-card">
-                  <div className="course-header">
-                    <div className="course-title-section">
-                      <h5 className="course-title">{course.name}</h5>
-                      <div className="course-badges">
-                        {course.level && (
-                          <Badge 
-                            style={{ backgroundColor: getLevelColor(course.level) }}
-                            className="level-badge me-2"
-                          >
-                            {course.level}
-                          </Badge>
+          <div className="table-container">
+            <table className="courses-table">
+              <thead>
+                <tr>
+                  <th className="header-course">Curso</th>
+                  <th className="header-teacher">Profesor</th>
+                  <th className="header-type">Tipo</th>
+                  <th className="header-action">Acción</th>
+                </tr>
+              </thead>
+              <tbody>
+                {courses.map((course) => (
+                  <tr key={course.id} className="course-row">
+                    <td className="cell-course" data-label="Curso">
+                      <div className="course-info">
+                        <div className="course-title-container">
+                          <span className="course-name">{course.name}</span>
+                          {course.level && (
+                            <span 
+                              className="level-badge"
+                              style={{ backgroundColor: getLevelColor(course.level) }}
+                            >
+                              {course.level}
+                            </span>
+                          )}
+                        </div>
+                        {course.description && (
+                          <div className="course-description">{course.description}</div>
                         )}
-                        <Badge bg={getTypeVariant(course.type)} className="type-badge">
-                          {course.type.charAt(0).toUpperCase() + course.type.slice(1)}
-                        </Badge>
                       </div>
-                    </div>
-                  </div>
-                  
-                  <div className="course-info">
-                    <p className="course-description">{course.description}</p>
+                    </td>
                     
-                    <div className="teacher-info">
-                      <FaUser size={14} className="me-2 text-muted" />
-                      <span className="teacher-name">
-                        {course.teacher
-                          ? `${course.teacher.name} ${course.teacher.surname}`
-                          : "Profesor por asignar"}
+                    <td className="cell-teacher" data-label="Profesor">
+                      <div className="teacher-info">
+                        <div className="teacher-icon">👤</div>
+                        <span className="teacher-name">
+                          {course.teacher 
+                            ? `${course.teacher.name} ${course.teacher.surname}`
+                            : "Por asignar"
+                          }
+                        </span>
+                      </div>
+                    </td>
+                    
+                    <td className="cell-type" data-label="Tipo">
+                      <span className={`type-badge type-${course.type.toLowerCase()}`}>
+                        {course.type.charAt(0).toUpperCase() + course.type.slice(1)}
                       </span>
-                    </div>
-                  </div>
-                  
-                  <div className="course-actions">
-                    <Button
-                      className="btn-enroll w-100"
-                      onClick={() => enrollInCourse(course.id)}
-                      disabled={enrollingCourses.has(course.id)}
-                    >
-                      {enrollingCourses.has(course.id) ? (
-                        <>
-                          <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-                          Inscribiendo...
-                        </>
-                      ) : (
-                        <>
-                          <FaUserPlus className="me-2" />
-                          Inscribirse
-                        </>
-                      )}
-                    </Button>
-                  </div>
-                </div>
-              </Col>
-            ))}
-          </Row>
+                    </td>
+                    
+                    <td className="cell-action" data-label="Acción">
+                      <button
+                        className={`btn-enroll ${enrollingCourses.has(course.id) ? 'btn-loading' : ''}`}
+                        onClick={() => enrollInCourse(course.id)}
+                        disabled={enrollingCourses.has(course.id)}
+                      >
+                        {enrollingCourses.has(course.id) ? (
+                          <>
+                            <span className="btn-spinner"></span>
+                            Inscribiendo...
+                          </>
+                        ) : (
+                          <>
+                            <span className="btn-icon">📝</span>
+                            Inscribirse
+                          </>
+                        )}
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         )}
       </div>
     </div>
   );
 };
 
-export default AvailableCourses;
+export default StudentAvailableCourses;

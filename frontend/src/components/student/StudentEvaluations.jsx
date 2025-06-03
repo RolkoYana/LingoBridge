@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Table, Row, Col, Badge } from "react-bootstrap";
+import { Table, Badge } from "react-bootstrap";
 import { 
   FaStar, 
   FaBook, 
@@ -10,6 +10,7 @@ import {
   FaChartLine
 } from "react-icons/fa";
 import { fetchWithAuth } from "../../api/api";
+import "./StudentEvaluations.css";
 
 const StudentEvaluations = () => {
   const [evaluations, setEvaluations] = useState([]);
@@ -18,7 +19,6 @@ const StudentEvaluations = () => {
   useEffect(() => {
     const fetchEvaluations = async () => {
       try {
-        setLoading(true);
         const data = await fetchWithAuth("/student/activity-results");
         setEvaluations(data);
       } catch (error) {
@@ -41,7 +41,6 @@ const StudentEvaluations = () => {
   const getScoreIcon = (score) => {
     if (score >= 9) return <FaTrophy className="me-1" />;
     if (score >= 7) return <FaStar className="me-1" />;
-    if (score >= 5) return <FaChartLine className="me-1" />;
     return <FaChartLine className="me-1" />;
   };
 
@@ -55,78 +54,70 @@ const StudentEvaluations = () => {
   };
 
   // Calcular estadísticas
-  const evaluatedActivities = evaluations.filter(evaluation => evaluation.score !== null && evaluation.score !== undefined);
+  const evaluatedActivities = evaluations.filter(evaluation => 
+    evaluation.score !== null && evaluation.score !== undefined
+  );
+  
   const averageScore = evaluatedActivities.length > 0 
     ? (evaluatedActivities.reduce((sum, evaluation) => sum + evaluation.score, 0) / evaluatedActivities.length).toFixed(1)
     : 0;
   
   const excellentCount = evaluatedActivities.filter(evaluation => evaluation.score >= 9).length;
-  const goodCount = evaluatedActivities.filter(evaluation => evaluation.score >= 7 && evaluation.score < 9).length;
+  const goodCount = evaluatedActivities.filter(evaluation => 
+    evaluation.score >= 7 && evaluation.score < 9
+  ).length;
 
   if (loading) {
     return (
-      <div className="unified-section">
-        <div className="section-header">
-          <div className="d-flex align-items-center">
-            <FaStar size={28} className="header-icon me-3" />
-            <div>
-              <h2 className="section-title">Mis Evaluaciones</h2>
-              <p className="section-subtitle">Cargando tus evaluaciones...</p>
-            </div>
-          </div>
+      <div className="evaluations-container">
+        <div className="evaluations-header">
+          <h2 className="evaluations-title">Mis Evaluaciones</h2>
+          <p className="evaluations-subtitle">Cargando tus evaluaciones...</p>
         </div>
-        <div className="section-content">
-          <div className="text-center py-5">
-            <div className="spinner-border text-primary" role="status">
-              <span className="visually-hidden">Cargando...</span>
-            </div>
-          </div>
+        <div className="evaluations-loading">
+          <div className="spinner"></div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="unified-section">
-      {/* Header integrado */}
-      <div className="section-header">
-        <Row className="align-items-center">
-          <Col>
-            <div className="d-flex align-items-center">
-              <FaStar size={28} className="header-icon me-3" />
-              <div>
-                <h2 className="section-title">Mis Evaluaciones</h2>
-                <p className="section-subtitle">
-                  {evaluations.length} actividad{evaluations.length !== 1 ? 'es' : ''} 
-                  {evaluatedActivities.length > 0 && ` • ${evaluatedActivities.length} evaluada${evaluatedActivities.length !== 1 ? 's' : ''}`}
-                </p>
-              </div>
+    <div className="evaluations-container">
+      {/* Header con estadísticas */}
+      <div className="evaluations-header">
+        <div className="header-main">
+          <div className="header-info">
+            <FaStar size={28} className="header-icon" />
+            <div>
+              <h2 className="evaluations-title">Mis Evaluaciones</h2>
+              <p className="evaluations-subtitle">
+                {evaluations.length} actividad{evaluations.length !== 1 ? 'es' : ''}
+                {evaluatedActivities.length > 0 && ` • ${evaluatedActivities.length} evaluada${evaluatedActivities.length !== 1 ? 's' : ''}`}
+              </p>
             </div>
-          </Col>
-          <Col xs="auto">
-            <div className="evaluation-stats-header d-flex gap-4">
-              <div className="evaluation-stat-item">
-                <div className="stat-number text-primary">{averageScore}</div>
-                <div className="stat-label">Promedio</div>
-              </div>
-              <div className="evaluation-stat-item">
-                <div className="stat-number text-success">{excellentCount}</div>
-                <div className="stat-label">Excelentes</div>
-              </div>
-              <div className="evaluation-stat-item">
-                <div className="stat-number text-warning">{goodCount}</div>
-                <div className="stat-label">Buenas</div>
-              </div>
+          </div>
+          <div className="evaluation-stats">
+            <div className="stat-item">
+              <div className="stat-number primary">{averageScore}</div>
+              <div className="stat-label">Promedio</div>
             </div>
-          </Col>
-        </Row>
+            <div className="stat-item">
+              <div className="stat-number success">{excellentCount}</div>
+              <div className="stat-label">Excelentes</div>
+            </div>
+            <div className="stat-item">
+              <div className="stat-number warning">{goodCount}</div>
+              <div className="stat-label">Buenas</div>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Contenido principal */}
-      <div className="section-content">
+      <div className="evaluations-content">
         {evaluations.length === 0 ? (
-          <div className="empty-section">
-            <FaStar size={64} className="empty-icon" />
+          <div className="evaluations-empty">
+            <div className="empty-icon">📊</div>
             <h4 className="empty-title">No hay evaluaciones disponibles</h4>
             <p className="empty-text">
               Las evaluaciones de tus actividades aparecerán aquí una vez que los profesores las revisen.
@@ -139,7 +130,7 @@ const StudentEvaluations = () => {
                 <tr>
                   <th>Actividad</th>
                   <th>Curso</th>
-                  <th className="text-center">Calificación</th>
+                  <th>Calificación</th>
                   <th>Comentarios</th>
                   <th>Fecha</th>
                   <th>Profesor</th>
@@ -147,19 +138,21 @@ const StudentEvaluations = () => {
               </thead>
               <tbody>
                 {evaluations.map((evalItem) => (
-                  <tr key={evalItem.activityResultId} className={evalItem.score === null ? 'pending-evaluation' : ''}>
+                  <tr 
+                    key={evalItem.activityResultId} 
+                    className={evalItem.score === null ? 'pending-evaluation' : ''}
+                  >
                     <td>
                       <div className="activity-cell">
                         <div className="activity-title">{evalItem.activityTitle}</div>
                       </div>
                     </td>
+                    
                     <td>
-                      <div className="course-cell">
-                        <FaBook size={12} className="me-1 text-muted" />
-                        <span className="course-name">{evalItem.courseName}</span>
-                      </div>
+                      {evalItem.courseName}
                     </td>
-                    <td className="text-center">
+                    
+                    <td>
                       {evalItem.score !== null && evalItem.score !== undefined ? (
                         <Badge bg={getScoreColor(evalItem.score)} className="score-badge">
                           {getScoreIcon(evalItem.score)}
@@ -172,11 +165,12 @@ const StudentEvaluations = () => {
                         </Badge>
                       )}
                     </td>
+                    
                     <td>
                       <div className="feedback-cell">
                         {evalItem.feedback ? (
                           <div className="feedback-content">
-                            <FaCommentDots size={12} className="me-1 text-muted" />
+                            <FaCommentDots size={12} className="feedback-icon" />
                             <span className="feedback-text">{evalItem.feedback}</span>
                           </div>
                         ) : (
@@ -184,15 +178,17 @@ const StudentEvaluations = () => {
                         )}
                       </div>
                     </td>
+                    
                     <td>
                       <div className="date-cell">
-                        <FaCalendarAlt size={12} className="me-1 text-muted" />
+                        <FaCalendarAlt size={12} className="date-icon" />
                         <span className="date-text">{formatDate(evalItem.completedAt)}</span>
                       </div>
                     </td>
+                    
                     <td>
                       <div className="teacher-cell">
-                        <FaUserTie size={12} className="me-1 text-muted" />
+                        <FaUserTie size={12} className="teacher-icon" />
                         <span className="teacher-name">{evalItem.teacherName}</span>
                       </div>
                     </td>

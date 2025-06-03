@@ -1,0 +1,209 @@
+/* ==========================================
+   ESTILOS PARA PAGINA DE SETUDIANTE
+   ========================================== */
+
+/* Variables globales para toda la aplicación estudiantil */
+:root {
+  --student-sidebar-bg: #2c3e50;
+  --student-sidebar-hover: #34495e;
+  --student-sidebar-accent: #3498db;
+  --student-sidebar-text: #ecf0f1;
+  --student-sidebar-text-muted: #bdc3c7;
+  --student-accent-green: #27ae60;
+  --student-accent-orange: #e67e22;
+  --soft-gray: #f8f9fa;
+  --text-dark: #2c3e50;
+  --text-light: #7f8c8d;
+  --border-light: #e2e8f0;
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --border-radius: 8px;
+  --transition: all 0.3s ease;
+}
+
+/* ==========================================
+   LAYOUT PRINCIPAL
+   ========================================== */
+.student-panel-container {
+  min-height: 100vh;
+  background-color: var(--soft-gray);
+}
+
+/* ==========================================
+   CONTENIDO PRINCIPAL
+   ========================================== */
+.student-main-content {
+  margin-left: 250px;
+  min-height: 100vh;
+}
+
+/* ==========================================
+   BOTÓN MENÚ MÓVIL
+   ========================================== */
+.mobile-menu-toggle {
+  display: none !important;
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 999;
+  background: var(--student-sidebar-bg);
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-md);
+  width: 44px;
+  height: 44px;
+  transition: var(--transition);
+}
+
+.mobile-overlay {
+  display: none !important;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1049;
+}
+
+/* ==========================================
+   SECCIÓN UNIFICADA (COMPARTIDA)
+   ========================================== */
+.unified-section {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--border-light);
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+
+.section-header {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  padding: 24px 32px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.section-title {
+  color: var(--text-dark);
+  font-weight: 700;
+  font-size: 1.75rem;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.section-subtitle {
+  color: var(--text-light);
+  margin: 4px 0 0 0;
+  font-size: 0.95rem;
+}
+
+.header-icon {
+  color: var(--student-sidebar-accent);
+}
+
+.section-content {
+  padding: 0;
+}
+
+/* ==========================================
+   ESTADO VACÍO (COMPARTIDO)
+   ========================================== */
+.empty-section {
+  text-align: center;
+  padding: 60px 32px;
+  background: linear-gradient(135deg, #fafbfc 0%, #f1f3f5 100%);
+}
+
+.empty-icon {
+  color: #cbd5e0;
+  margin-bottom: 24px;
+}
+
+.empty-title {
+  color: var(--text-dark);
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.empty-text {
+  color: var(--text-light);
+  margin-bottom: 32px;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.5;
+}
+
+/* ==========================================
+   RESPONSIVE DESIGN
+   ========================================== */
+
+/* Mobile (hasta 767px) */
+@media (max-width: 767px) {
+  .mobile-menu-toggle {
+    display: block !important;
+  }
+  
+  .mobile-overlay {
+    display: block !important;
+  }
+  
+  .student-main-content {
+    margin-left: 0;
+  }
+  
+  /* Ajustar contenido para dar espacio al botón */
+  .student-main-content .container-fluid {
+    padding-left: 80px !important;
+    padding-right: 15px !important;
+  }
+  
+  .section-header {
+    padding: 20px 16px;
+  }
+  
+  .section-title {
+    font-size: 1.5rem;
+  }
+  
+  .section-content {
+    padding: 16px !important;
+  }
+  
+  .empty-section {
+    padding: 40px 20px;
+  }
+}
+
+/* Tablet (768px - 991px) */
+@media (min-width: 768px) and (max-width: 991px) {
+  .student-main-content {
+    margin-left: 200px;
+  }
+  
+  .mobile-menu-toggle,
+  .mobile-overlay {
+    display: none !important;
+  }
+  
+  .student-main-content .container-fluid {
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+  }
+}
+
+/* Desktop (992px+) */
+@media (min-width: 992px) {
+  .mobile-menu-toggle,
+  .mobile-overlay {
+    display: none !important;
+  }
+  
+  .student-main-content .container-fluid {
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+  }
+}
