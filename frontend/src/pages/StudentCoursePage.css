@@ -1,0 +1,343 @@
+/* ==========================================
+   ESTILOS PARA PAGINA DE CURSO DE ESTUDIANTE
+   ========================================== */
+:root {
+  /* Colores principales */
+  --primary-blue: #3182ce;
+  --primary-blue-hover: #2c5282;
+  --secondary-gray: #4a5568;
+  --success-green: #38a169;
+  --warning-yellow: #d69e2e;
+  --danger-red: #e53e3e;
+  --info-cyan: #00b4d8;
+
+  /* Colores de fondo */
+  --bg-main: #f7fafc;
+  --bg-white: #ffffff;
+  --bg-gray-50: #f7fafc;
+  --bg-gray-100: #edf2f7;
+  --bg-gray-200: #e2e8f0;
+
+  /* Colores de texto */
+  --text-primary: #2d3748;
+  --text-secondary: #4a5568;
+  --text-muted: #718096;
+  --text-white: #ffffff;
+
+  /* Bordes y sombras */
+  --border-color: #e2e8f0;
+  --border-color-hover: #cbd5e1;
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+  /* Espaciado y dimensiones */
+  --sidebar-width: 280px;
+  --header-height: 80px;
+  --border-radius: 12px;
+  --border-radius-sm: 8px;
+  --border-radius-lg: 16px;
+
+  /* Transiciones */
+  --transition-fast: 0.15s ease-in-out;
+  --transition-normal: 0.3s ease-in-out;
+  --transition-slow: 0.5s ease-in-out;
+}
+
+/* ==========================================
+   RESET Y CONFIGURACIÓN BASE
+   ========================================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  line-height: 1.6;
+}
+
+/* ==========================================
+   LAYOUT PRINCIPAL
+   ========================================== */
+.student-course-layout {
+  display: flex;
+  min-height: 100vh;
+  background-color: var(--bg-main);
+}
+
+/* ==========================================
+   CONTENIDO PRINCIPAL
+   ========================================== */
+.course-main-content {
+  flex: 1;
+  margin-left: var(--sidebar-width);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: calc(100% - var(--sidebar-width));
+}
+
+/* ==========================================
+   SECCIÓN HEADER (CONTENEDORA)
+   Los estilos del header real están en StudentCourseHeader.css
+   ========================================== */
+.course-header-section {
+  background: linear-gradient(135deg, var(--bg-white) 0%, var(--bg-gray-50) 100%);
+  border-bottom: 1px solid var(--border-color);
+  padding: 16px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  position: relative;
+  z-index: 100;
+  min-height: var(--header-height);
+}
+
+.course-header-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary-blue) 0%, var(--success-green) 100%);
+}
+
+.course-header-container {
+  width: 100%;
+  padding: 0 32px;
+  box-sizing: border-box;
+  height: auto;
+  overflow: visible;
+}
+
+/* ==========================================
+   CUERPO DEL CURSO
+   ========================================== */
+.course-body {
+  flex: 1;
+  padding: 24px 0;
+  width: 100%;
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+.course-body-container {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  padding: 0;
+  margin: 0;
+}
+
+.single-section-content {
+  padding: 0 32px;
+  max-width: 100%;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+/* ==========================================
+   TARJETAS DE CONTENIDO (GENÉRICAS)
+   ========================================== */
+
+/* --- Tarjeta Base --- */
+.course-card {
+  background: var(--bg-white);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  overflow: visible !important;
+  height: auto !important;
+  max-height: none !important;
+  min-height: auto !important;
+  display: flex;
+  flex-direction: column;
+  transition: var(--transition-normal);
+  max-width: none;
+  width: 100%;
+}
+
+.course-card:hover {
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+  transform: translateY(-2px);
+}
+
+/* --- Header de Tarjeta --- */
+.course-card .card-header {
+  background: linear-gradient(135deg, var(--bg-gray-50) 0%, var(--bg-gray-100) 100%);
+  border-bottom: 1px solid var(--border-color);
+  padding: 20px 24px;
+}
+
+.card-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.card-subtitle {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+/* --- Contenido de Tarjeta --- */
+.card-content {
+  padding: 24px;
+  overflow: visible;
+  height: auto;
+  max-height: none;
+  min-height: auto;
+}
+
+/* --- Bordes de Colores por Tipo --- */
+.material-card {
+  border-left: 4px solid var(--primary-blue);
+}
+
+.activities-card {
+  border-left: 4px solid var(--success-green);
+}
+
+/* ==========================================
+   RESPONSIVE DESIGN
+   ========================================== */
+
+/* --- Tablet (768px - 1023px) --- */
+@media (max-width: 1023px) {
+  :root {
+    --sidebar-width: 260px;
+    --header-height: 70px;
+  }
+
+  .course-main-content {
+    margin-left: var(--sidebar-width);
+    width: calc(100% - var(--sidebar-width));
+  }
+
+  .course-header-section {
+    padding: 12px 0;
+  }
+
+  .course-header-container {
+    padding: 0 24px;
+  }
+
+  .single-section-content {
+    padding: 0 24px;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+}
+
+/* --- Mobile (hasta 767px) --- */
+@media (max-width: 767px) {
+  :root {
+    --header-height: 60px;
+  }
+
+  .student-course-layout {
+    flex-direction: column;
+  }
+
+  .course-main-content {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  /* Header móvil */
+  .course-header-section {
+    padding: 12px 0;
+  }
+
+  .course-header-container {
+    padding: 0 16px;
+  }
+
+  /* Contenido móvil */
+  .single-section-content {
+    padding: 0 16px;
+  }
+
+  .course-body {
+    padding: 20px 0;
+  }
+}
+
+/* --- Mobile pequeño (hasta 479px) --- */
+@media (max-width: 479px) {
+  :root {
+    --header-height: 50px;
+  }
+
+  .course-header-section {
+    padding: 8px 0;
+  }
+
+  .course-header-container {
+    padding: 0 12px;
+  }
+
+  .single-section-content {
+    padding: 0 12px;
+  }
+
+  .course-body {
+    padding: 16px 0;
+  }
+
+  .card-content {
+    padding: 20px !important;
+  }
+}
+
+/* ==========================================
+   UTILIDADES Y ANIMACIONES
+   ========================================== */
+
+/* --- Z-index organizados --- */
+.course-header-section {
+  z-index: 100;
+}
+
+.course-body {
+  z-index: 10;
+}
+
+/* --- Animaciones básicas --- */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* --- Hover effects generales --- */
+@media (hover: hover) {
+  .course-card:hover {
+    cursor: default;
+  }
+}
+
+/* --- Estados de focus para accesibilidad --- */
+.course-card:focus {
+  outline: 2px solid var(--primary-blue);
+  outline-offset: 2px;
+}
+
+.course-card:focus:not(:focus-visible) {
+  outline: none;
+}
+
