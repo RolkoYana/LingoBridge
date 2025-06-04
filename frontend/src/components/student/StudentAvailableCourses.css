@@ -8,6 +8,80 @@
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
+/* ==========================================
+   ALERTAS BONITAS
+   ========================================== */
+.custom-alert {
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  margin-bottom: 24px;
+  padding: 20px;
+  position: relative;
+  animation: slideInDown 0.3s ease-out;
+}
+
+.custom-alert.alert-info {
+  background: linear-gradient(135deg, #d1ecf1 0%, #bee5eb 100%);
+  border-left: 5px solid #17a2b8;
+  color: #0c5460;
+}
+
+.custom-alert.alert-success {
+  background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+  border-left: 5px solid #28a745;
+  color: #155724;
+}
+
+.custom-alert.alert-danger {
+  background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+  border-left: 5px solid #dc3545;
+  color: #721c24;
+}
+
+.alert-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.alert-message {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.custom-alert .btn-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  opacity: 0.7;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.custom-alert .btn-close:hover {
+  opacity: 1;
+}
+
+/* Animación para las alertas */
+@keyframes slideInDown {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
 /* HEADER */
 .courses-header {
   margin-bottom: 30px;
@@ -324,6 +398,19 @@
     font-size: 12px;
     padding: 8px 12px;
   }
+  
+  .custom-alert {
+    margin-bottom: 20px;
+    padding: 16px;
+  }
+  
+  .alert-title {
+    font-size: 16px;
+  }
+  
+  .alert-message {
+    font-size: 14px;
+  }
 }
 
 /* ==========================================
@@ -332,6 +419,21 @@
 @media (max-width: 768px) {
   .courses-container {
     padding: 12px;
+  }
+
+  /* Alertas en móvil */
+  .custom-alert {
+    margin-bottom: 16px;
+    padding: 16px;
+    border-radius: 8px;
+  }
+  
+  .alert-title {
+    font-size: 16px;
+  }
+  
+  .alert-message {
+    font-size: 14px;
   }
 
   /* OCULTAR TABLA, MOSTRAR CARDS */
@@ -433,6 +535,19 @@
 @media (max-width: 480px) {
   .courses-container {
     padding: 8px;
+  }
+
+  .custom-alert {
+    margin-bottom: 12px;
+    padding: 14px;
+  }
+  
+  .alert-title {
+    font-size: 15px;
+  }
+  
+  .alert-message {
+    font-size: 13px;
   }
 
   .course-row {
