@@ -1,16 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { Nav } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { 
-  FaGraduationCap, 
-  FaUsers, 
-  FaTasks, 
-  FaEnvelope, 
+import {
+  FaGraduationCap,
+  FaUsers,
+  FaTasks,
+  FaEnvelope,
   FaUserGraduate,
-  FaBook
+  FaBook,
 } from "react-icons/fa";
+import "./TeacherSidebar.css";
 
-const TeacherSidebar = ({ setActiveSection, activeSection = "mis-cursos", onItemClick }) => {
+const TeacherSidebar = ({
+  setActiveSection,
+  activeSection = "mis-cursos",
+  onItemClick,
+}) => {
   const navigate = useNavigate();
   const [courses, setCourses] = useState([]);
 
@@ -37,31 +42,34 @@ const TeacherSidebar = ({ setActiveSection, activeSection = "mis-cursos", onItem
       key: "mis-cursos",
       label: "Mis cursos",
       icon: <FaBook className="me-2" />,
-      onClick: () => handleSectionChange("mis-cursos")
+      onClick: () => handleSectionChange("mis-cursos"),
     },
     {
-      key: "mis-alumnos", 
+      key: "mis-alumnos",
       label: "Mis alumnos",
       icon: <FaUsers className="me-2" />,
-      onClick: () => handleSectionChange("mis-alumnos")
+      onClick: () => handleSectionChange("mis-alumnos"),
     },
     {
       key: "tareas-entregadas",
-      label: "Tareas entregadas", 
+      label: "Tareas entregadas",
       icon: <FaTasks className="me-2" />,
-      onClick: () => handleSectionChange("tareas-entregadas")
+      onClick: () => handleSectionChange("tareas-entregadas"),
     },
     {
       key: "mensajes",
       label: "Mensajes",
       icon: <FaEnvelope className="me-2" />,
-      onClick: () => handleSectionChange("mensajes")
-    }
+      onClick: () => handleSectionChange("mensajes"),
+    },
   ];
 
   return (
-    <Nav className="flex-column h-100" role="navigation" aria-label="Menú principal del profesor">
-      
+    <Nav
+      className="flex-column h-100"
+      role="navigation"
+      aria-label="Menú principal del profesor"
+    >
       {/* Modo estudiante - Destacado */}
       <Nav.Link
         className="nav-link student-mode text-center mb-3 mt-4"
@@ -70,7 +78,7 @@ const TeacherSidebar = ({ setActiveSection, activeSection = "mis-cursos", onItem
         tabIndex="0"
         aria-label="Cambiar a modo estudiante"
         onKeyDown={(e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
+          if (e.key === "Enter" || e.key === " ") {
             e.preventDefault();
             handleStudentMode();
           }
@@ -88,15 +96,15 @@ const TeacherSidebar = ({ setActiveSection, activeSection = "mis-cursos", onItem
         <Nav.Link
           key={item.key}
           className={`nav-link d-flex align-items-center ${
-            activeSection === item.key ? 'active' : ''
+            activeSection === item.key ? "active" : ""
           }`}
           onClick={item.onClick}
           role="button"
           tabIndex="0"
           aria-label={item.label}
-          aria-current={activeSection === item.key ? 'page' : undefined}
+          aria-current={activeSection === item.key ? "page" : undefined}
           onKeyDown={(e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
+            if (e.key === "Enter" || e.key === " ") {
               e.preventDefault();
               item.onClick();
             }
@@ -106,13 +114,6 @@ const TeacherSidebar = ({ setActiveSection, activeSection = "mis-cursos", onItem
           <span>{item.label}</span>
         </Nav.Link>
       ))}
-
-      {/* Información adicional al final */}
-      <div className="mt-auto p-3 text-center">
-        <small className="text-white-50">
-          Panel del Profesor
-        </small>
-      </div>
     </Nav>
   );
 };

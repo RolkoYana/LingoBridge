@@ -6,6 +6,7 @@ import {
   FaBook
 } from "react-icons/fa";
 import { fetchWithAuth } from "../../api/api";
+import "./TeacherStudents.css";
 
 const TeacherStudents = () => {
   const [students, setStudents] = useState([]);

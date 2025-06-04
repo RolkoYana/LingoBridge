@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Card, ListGroup } from "react-bootstrap";
 import { fetchWithAuth } from "../../../api/api";
+import "./TeacherCourseMaterial.css";
 
 const TeacherCourseMaterial = ({ courseId, refresh, onRefreshHandled }) => {
   const [material, setMaterial] = useState([]);
@@ -66,41 +67,45 @@ const TeacherCourseMaterial = ({ courseId, refresh, onRefreshHandled }) => {
   };
 
   return (
-    <Card className="p-3 mb-3">
-      <h2>Material del Curso</h2>
-      {material.length === 0 ? (
-        <p>No hay materiales disponibles.</p>
-      ) : (
-        <ListGroup variant="flush">
-          {material.map((material) => (
-            <ListGroup.Item key={material.id}>
-              <h5>{material.title}</h5>
-              {material.youtubeLink ? (
-                <iframe
-                  width="560"
-                  height="315"
-                  src={getEmbedUrl(material.youtubeLink)}
-                  title={material.title}
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                />
-              ) : (
-                material.filename && ( 
-                  <button
-                    className="btn btn-link p-0"
-                    onClick={
-                      () => handleDownload(material.filename) 
-                    }
-                  >
-                    Descargar archivo
-                  </button>
-                )
-              )}
-            </ListGroup.Item>
-          ))}
-        </ListGroup>
-      )}
+    <Card className="teacher-course-material">
+      <Card.Header>
+        <h2>Material del Curso</h2>
+      </Card.Header>
+      <Card.Body>
+        {material.length === 0 ? (
+          <p>No hay materiales disponibles.</p>
+        ) : (
+          <ListGroup variant="flush">
+            {material.map((material) => (
+              <ListGroup.Item key={material.id} className="material-item">
+                <h5>{material.title}</h5>
+                {material.youtubeLink ? (
+                  <div className="video-container">
+                    <iframe
+                      width="100%"
+                      height="315"
+                      src={getEmbedUrl(material.youtubeLink)}
+                      title={material.title}
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    />
+                  </div>
+                ) : (
+                  material.filename && ( 
+                    <button
+                      className="btn btn-primary"
+                      onClick={() => handleDownload(material.filename)}
+                    >
+                      Descargar archivo
+                    </button>
+                  )
+                )}
+              </ListGroup.Item>
+            ))}
+          </ListGroup>
+        )}
+      </Card.Body>
     </Card>
   );
 };

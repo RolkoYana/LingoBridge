@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { FaPlus, FaEye, FaUsers, FaGraduationCap } from "react-icons/fa";
 import { fetchWithAuth } from "../../api/api";
 import CreateCourseForm from "../forms/CreateCourseForm";
+import "./TeacherCourses.css";
 
 const TeacherCourses = () => {
   const navigate = useNavigate();
@@ -33,12 +34,12 @@ const TeacherCourses = () => {
     fetchCourses(); // Recargar la lista
   };
 
-  const getTypeVariant = (type) => {
+  const getTypeClass = (type) => {
     switch (type.toUpperCase()) {
-      case 'INTENSIVO': return 'warning';
-      case 'GRUPAL': return 'info';
-      case 'FLEXIBLE': return 'success';
-      default: return 'secondary';
+      case 'INTENSIVO': return 'course-type-intensivo';
+      case 'GRUPAL': return 'course-type-grupal';
+      case 'FLEXIBLE': return 'course-type-flexible';
+      default: return 'course-type-default';
     }
   };
 
@@ -107,7 +108,7 @@ const TeacherCourses = () => {
               <tbody>
                 {courses.map((course) => (
                   <tr key={course.id}>
-                    <td>
+                    <td data-label="Curso">
                       <div className="course-info">
                         <div className="d-flex align-items-center mb-1">
                           <h6 className="mb-0 me-2">{course.name}</h6>
@@ -121,18 +122,18 @@ const TeacherCourses = () => {
                         <small className="text-muted">{course.description}</small>
                       </div>
                     </td>
-                    <td>
-                      <Badge bg={getTypeVariant(course.type)} className="type-badge">
+                    <td data-label="Modalidad">
+                      <span className={`course-type-badge ${getTypeClass(course.type)}`}>
                         {course.type.charAt(0).toUpperCase() + course.type.slice(1)}
-                      </Badge>
+                      </span>
                     </td>
-                    <td className="text-center">
+                    <td data-label="Alumnos" className="text-center">
                       <div className="d-flex align-items-center justify-content-center">
                         <FaUsers className="text-muted me-1" size={14} />
                         <span className="fw-bold">{course.numberOfStudents}</span>
                       </div>
                     </td>
-                    <td className="text-center">
+                    <td data-label="Acciones" className="text-center">
                       <Button
                         variant="outline-primary"
                         size="sm"

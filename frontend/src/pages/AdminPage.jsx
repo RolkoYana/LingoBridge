@@ -8,7 +8,7 @@ import AdminStats from "../components/admin/AdminStats";
 import ActiveCourses from "../components/admin/ActiveCourses";
 import PendingCourses from "../components/admin/PendingCourses";
 import AllCourses from "../components/admin/AllCourses";
-import "../styles/AdminPanel.css";
+import "../styles/admin/AdminPanel.css";
 
 const AdminPage = () => {
   const [activeSection, setActiveSection] = useState("cursos-activos");

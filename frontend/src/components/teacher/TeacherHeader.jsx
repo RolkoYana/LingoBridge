@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Row, Col, Dropdown, Badge } from "react-bootstrap";
-import { 
-  FaBell, 
-  FaUserCircle, 
+import {
+  FaBell,
+  FaUserCircle,
   FaSignOutAlt,
   FaCog,
-  FaChevronDown
+  FaChevronDown,
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import "./TeacherHeader.css";
 
 const TeacherHeader = () => {
   const [user, setUser] = useState({ name: "Profesor" });
@@ -36,59 +37,45 @@ const TeacherHeader = () => {
   }, []);
 
   const handleLogout = () => {
-    if (window.confirm('¿Estás seguro de que quieres cerrar sesión?')) {
+    if (window.confirm("¿Estás seguro de que quieres cerrar sesión?")) {
       localStorage.clear();
       navigate("/login");
     }
   };
 
-  const getGreeting = () => {
-    const hour = currentTime.getHours();
-    if (hour < 12) return "Buenos días";
-    if (hour < 18) return "Buenas tardes";
-    return "Buenas noches";
-  };
-
   const formatDate = () => {
-    return currentTime.toLocaleDateString('es-ES', {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
+    return currentTime.toLocaleDateString("es-ES", {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
     });
   };
 
   return (
     <div className="teacher-header-integrated">
-      {/* Una sola fila: Saludo + Notificaciones y Usuario */}
       <Row className="align-items-center">
         <Col>
           <div className="welcome-section">
             <h4 className="greeting-text mb-1">
-              {getGreeting()}, <span className="user-name">{user?.name || "Profesor"}</span>!
+              Hola,{" "}
+              <span className="user-name">{user?.name || "Profesor"}</span>!
             </h4>
-            <p className="date-text mb-0">
-              {formatDate()}
-            </p>
+            <p className="date-text mb-0">{formatDate()}</p>
           </div>
         </Col>
         <Col xs="auto">
           <div className="user-actions d-flex align-items-center">
-            
             {/* Notificaciones */}
             <div className="notification-container me-3">
-              <button 
+              <button
                 className="notification-btn"
                 aria-label={`${notifications} notificaciones pendientes`}
               >
                 <FaBell size={18} />
                 {notifications > 0 && (
-                  <Badge 
-                    bg="danger" 
-                    className="notification-badge"
-                    pill
-                  >
-                    {notifications > 9 ? '9+' : notifications}
+                  <Badge bg="danger" className="notification-badge" pill>
+                    {notifications > 9 ? "9+" : notifications}
                   </Badge>
                 )}
               </button>
@@ -96,7 +83,7 @@ const TeacherHeader = () => {
 
             {/* Menú de usuario */}
             <Dropdown align="end" className="user-dropdown">
-              <Dropdown.Toggle 
+              <Dropdown.Toggle
                 as="div"
                 className="user-menu-toggle"
                 id="user-dropdown"
@@ -108,7 +95,9 @@ const TeacherHeader = () => {
                     <FaUserCircle size={32} />
                   </div>
                   <div className="user-info d-none d-md-block me-2">
-                    <div className="user-name-small">{user?.name || "Profesor"}</div>
+                    <div className="user-name-small">
+                      {user?.name || "Profesor"}
+                    </div>
                     <div className="user-role">Profesor</div>
                   </div>
                   <FaChevronDown size={10} className="dropdown-arrow" />
@@ -121,31 +110,22 @@ const TeacherHeader = () => {
                     <FaUserCircle size={24} className="me-2" />
                     <div>
                       <div className="fw-bold">{user?.name || "Profesor"}</div>
-                      <small className="text-muted">{user?.email || "profesor@lingobride.com"}</small>
+                      <small className="text-muted">
+                        {user?.email || "profesor@lingobride.com"}
+                      </small>
                     </div>
                   </div>
                 </div>
-                
+
                 <Dropdown.Divider />
-                
+
                 <Dropdown.Item className="dropdown-item-custom">
                   <FaCog className="me-2" />
                   Configuración
                 </Dropdown.Item>
-                
-                <Dropdown.Item className="dropdown-item-custom">
-                  <FaBell className="me-2" />
-                  Notificaciones
-                  {notifications > 0 && (
-                    <Badge bg="danger" size="sm" className="ms-auto">
-                      {notifications}
-                    </Badge>
-                  )}
-                </Dropdown.Item>
-                
                 <Dropdown.Divider />
-                
-                <Dropdown.Item 
+
+                <Dropdown.Item
                   className="dropdown-item-logout"
                   onClick={handleLogout}
                 >

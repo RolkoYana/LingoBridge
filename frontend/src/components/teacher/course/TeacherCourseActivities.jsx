@@ -1,7 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { Card, ListGroup, Collapse, Spinner, Button, Form, Row, Col } from "react-bootstrap";
+import { Card, Collapse, Spinner, Button, Badge, Modal } from "react-bootstrap";
+import { 
+  FaTasks, 
+  FaChevronDown, 
+  FaChevronUp, 
+  FaEdit,
+  FaQuestionCircle,
+  FaFileAlt,
+  FaCalendarAlt,
+  FaExclamationTriangle,
+  FaClipboardList
+} from "react-icons/fa";
 import { fetchWithAuth } from "../../../api/api";
 import EditActivityForm from "../../forms/EditActivityForm";
+import "./TeacherCourseActivities.css";
 
 // Labels para tipo de actividad
 const activityTypeLabels = {
@@ -15,10 +27,10 @@ const TeacherCourseActivities = ({ courseId }) => {
   const [expandedActivityId, setExpandedActivityId] = useState(null);
   const [testDetails, setTestDetails] = useState({});
   const [loadingTestId, setLoadingTestId] = useState(null);
-
   const [editingActivityId, setEditingActivityId] = useState(null);
   const [editData, setEditData] = useState(null);
-  const [currentActivity, setCurrentActivity] = useState(null); // ← AGREGAR ESTO
+  const [currentActivity, setCurrentActivity] = useState(null);
+  const [showEditModal, setShowEditModal] = useState(false);
 
   // Cargar todas las actividades
   const fetchActivities = async () => {
@@ -65,7 +77,7 @@ const TeacherCourseActivities = ({ courseId }) => {
   // Abrir edición
   const handleEditClick = async (activity) => {
     setEditingActivityId(activity.id);
-    setCurrentActivity(activity); // ← GUARDAR LA ACTIVIDAD ACTUAL
+    setCurrentActivity(activity);
 
     if (activity.type === "TEST") {
       let data = testDetails[activity.id];
@@ -76,31 +88,27 @@ const TeacherCourseActivities = ({ courseId }) => {
     } else {
       setEditData(activity);
     }
-    // Asegurar que se expanda para ver el formulario
-    setExpandedActivityId(activity.id);
+    setShowEditModal(true);
   };
 
   // Guardar cambios usando EditActivityForm
   const handleSaveFromForm = async (updatedData) => {
     try {
       if (currentActivity.type === "TEST") {
-        // PUT test - Enviar estructura más completa
         const payload = {
           title: updatedData.title,
           description: updatedData.description,
           dueDate: updatedData.dueDate,
           questions: updatedData.questions?.map((q, qIndex) => ({
-            id: q.id || null, // Mantener ID si existe
+            id: q.id || null,
             text: q.text,
             options: q.options?.map((opt, oIndex) => ({
-              id: opt.id || null, // Mantener ID si existe
+              id: opt.id || null,
               text: opt.text,
               correct: opt.correct
             })) || []
           })) || []
         };
-
-        console.log("Enviando payload:", payload); // Para debug
 
         await fetchWithAuth(`/teacher/test/${editingActivityId}`, {
           method: "PUT",
@@ -108,7 +116,6 @@ const TeacherCourseActivities = ({ courseId }) => {
           body: JSON.stringify(payload),
         });
       } else {
-        // PUT actividad normal
         await fetchWithAuth(`/teacher/activity/${editingActivityId}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -119,12 +126,13 @@ const TeacherCourseActivities = ({ courseId }) => {
           }),
         });
       }
+      
       alert("Actividad actualizada correctamente");
+      setShowEditModal(false);
       setEditingActivityId(null);
       setEditData(null);
       setCurrentActivity(null);
       
-      // Actualizar el cache de testDetails
       if (currentActivity.type === "TEST") {
         setTestDetails(prev => ({ ...prev, [editingActivityId]: updatedData }));
       }
@@ -132,9 +140,7 @@ const TeacherCourseActivities = ({ courseId }) => {
       fetchActivities();
     } catch (error) {
       console.error("Error guardando cambios:", error);
-      console.error("Error details:", error.message);
       
-      // Mostrar mensaje más específico
       if (error.message.includes("401")) {
         alert("Tu sesión ha expirado. Por favor, inicia sesión nuevamente.");
       } else if (error.message.includes("constraint")) {
@@ -147,112 +153,197 @@ const TeacherCourseActivities = ({ courseId }) => {
 
   // Cancelar edición
   const handleCancelEdit = () => {
+    setShowEditModal(false);
     setEditingActivityId(null);
     setEditData(null);
     setCurrentActivity(null);
   };
 
-  return (
-    <Card className="p-4">
-      <h2>Actividades del Curso</h2>
+  const formatDate = (dateString) => {
+    return new Date(dateString).toLocaleDateString('es-ES', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric'
+    });
+  };
 
-      {loading ? (
+  if (loading) {
+    return (
+      <div className="activities-loading">
+        <Spinner animation="border" variant="primary" />
         <p>Cargando actividades...</p>
-      ) : activities.length === 0 ? (
-        <p>No hay actividades disponibles. Crea una nueva.</p>
-      ) : (
-        <ListGroup variant="flush">
-          {activities.map((activity) => (
-            <ListGroup.Item key={activity.id}>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  cursor: "pointer",
-                }}
-                onClick={() => toggleExpand(activity)}
-              >
-                <strong>{activity.title}</strong>
-                <Button
-                  variant="outline-primary"
-                  size="sm"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleEditClick(activity);
-                  }}
-                >
-                  Editar
-                </Button>
-              </div>
+      </div>
+    );
+  }
 
-              <Collapse in={expandedActivityId === activity.id}>
-                <div className="mt-2">
-                  {editingActivityId === activity.id && editData && currentActivity ? (
-                    // ← USAR EL COMPONENTE EditActivityForm
-                    <EditActivityForm
-                      activity={currentActivity}
-                      formData={editData}
-                      onSave={handleSaveFromForm}
-                      onCancel={handleCancelEdit}
-                    />
-                  ) : (
-                    <>
-                      <p>
-                        <strong>Descripción:</strong> {activity.description}
-                      </p>
-                      <p>
-                        <strong>Tipo:</strong>{" "}
-                        {activityTypeLabels[activity.type] || activity.type}
-                      </p>
-                      <p>
-                        <strong>Fecha límite:</strong> {activity.dueDate}
-                      </p>
+  return (
+    <div className="teacher-course-activities">
+      <Card className="activities-card">
+        <Card.Header className="activities-header">
+          <div className="header-content">
+            <FaTasks className="header-icon" />
+            <div>
+              <h4 className="header-title">Actividades del Curso</h4>
+              <p className="header-subtitle">
+                {activities.length} actividad{activities.length !== 1 ? 'es' : ''} creada{activities.length !== 1 ? 's' : ''}
+              </p>
+            </div>
+          </div>
+          {activities.length > 0 && (
+            <Badge bg="warning" className="activities-count">
+              {activities.length}
+            </Badge>
+          )}
+        </Card.Header>
 
-                      {activity.type === "TEST" && (
-                        <>
-                          {loadingTestId === activity.id ? (
-                            <Spinner animation="border" size="sm" />
-                          ) : (
-                            testDetails[activity.id] && (
-                              <>
-                                <h6 className="mt-3">Preguntas:</h6>
-                                {testDetails[activity.id].questions.map((q, i) => (
-                                  <div key={i} className="mb-2">
-                                    <strong>{q.text}</strong>
-                                    <ul>
-                                      {q.options.map((opt, j) => (
-                                        <li key={j}>
-                                          {opt.text}
-                                          {opt.correct && (
-                                            <span style={{ color: "green" }}> ✔</span>
-                                          )}
-                                        </li>
-                                      ))}
-                                    </ul>
+        <Card.Body className="activities-body">
+          {activities.length === 0 ? (
+            <div className="no-activities">
+              <FaClipboardList className="no-activities-icon" />
+              <h5>No hay actividades disponibles</h5>
+              <p>Aún no se han creado actividades para este curso.</p>
+            </div>
+          ) : (
+            <div className="activities-list">
+              {activities.map((activity) => (
+                <div key={activity.id} className="activity-item">
+                  <div 
+                    className="activity-header"
+                    onClick={() => toggleExpand(activity)}
+                  >
+                    <div className="activity-main-info">
+                      <div className="activity-icon">
+                        {activity.type === "TEST" ? <FaQuestionCircle /> : <FaFileAlt />}
+                      </div>
+                      <div className="activity-details">
+                        <div className="activity-title-section">
+                          <h5 className="activity-title">{activity.title}</h5>
+                        </div>
+                        <div className="activity-info-section">
+                          <Badge 
+                            bg={activity.type === "TEST" ? "danger" : "primary"} 
+                            className="activity-type-badge"
+                          >
+                            {activityTypeLabels[activity.type] || activity.type}
+                          </Badge>
+                          <span className="activity-date">
+                            <FaCalendarAlt className="me-1" />
+                            {formatDate(activity.dueDate)}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div className="activity-actions">
+                      <Button
+                        variant="outline-primary"
+                        size="sm"
+                        className="edit-btn"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleEditClick(activity);
+                        }}
+                      >
+                        <FaEdit className="me-1" />
+                        Editar
+                      </Button>
+                      <div className="expand-icon">
+                        {expandedActivityId === activity.id ? <FaChevronUp /> : <FaChevronDown />}
+                      </div>
+                    </div>
+                  </div>
+
+                  <Collapse in={expandedActivityId === activity.id}>
+                    <div className="activity-content">
+                      <div className="activity-info">
+                        <div className="info-section">
+                          <h6>Descripción</h6>
+                          <p>{activity.description}</p>
+                        </div>
+
+                        {activity.type === "TEST" && (
+                          <div className="test-details">
+                            {loadingTestId === activity.id ? (
+                              <div className="test-loading">
+                                <Spinner animation="border" size="sm" />
+                                <span>Cargando preguntas...</span>
+                              </div>
+                            ) : (
+                              testDetails[activity.id] && (
+                                <div className="info-section">
+                                  <h6>Preguntas del Test ({testDetails[activity.id].questions.length})</h6>
+                                  <div className="questions-list">
+                                    {testDetails[activity.id].questions.map((q, i) => (
+                                      <div key={i} className="question-item">
+                                        <div className="question-header">
+                                          <strong>Pregunta {i + 1}:</strong> {q.text}
+                                        </div>
+                                        <div className="options-list">
+                                          {q.options.map((opt, j) => (
+                                            <div 
+                                              key={j} 
+                                              className={`option-item ${opt.correct ? 'correct' : ''}`}
+                                            >
+                                              <span className="option-letter">
+                                                {String.fromCharCode(65 + j)}
+                                              </span>
+                                              {opt.text}
+                                              {opt.correct && <span className="correct-indicator">✓</span>}
+                                            </div>
+                                          ))}
+                                        </div>
+                                      </div>
+                                    ))}
                                   </div>
-                                ))}
-                              </>
-                            )
-                          )}
-                        </>
-                      )}
+                                </div>
+                              )
+                            )}
+                          </div>
+                        )}
 
-                      {activity.type !== "TEST" && (
-                        <p className="text-muted">
-                          Esta actividad es de tipo escritura o tarea práctica. Aún no
-                          tiene visualización detallada.
-                        </p>
-                      )}
-                    </>
-                  )}
+                        {activity.type !== "TEST" && (
+                          <div className="info-section">
+                            <p className="task-note">
+                              Esta actividad es de tipo escritura o tarea práctica.
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </Collapse>
                 </div>
-              </Collapse>
-            </ListGroup.Item>
-          ))}
-        </ListGroup>
-      )}
-    </Card>
+              ))}
+            </div>
+          )}
+        </Card.Body>
+      </Card>
+
+      {/* Modal para editar actividad */}
+      <Modal
+        show={showEditModal}
+        onHide={handleCancelEdit}
+        size="lg"
+        centered
+        className="edit-activity-modal"
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>
+            <FaEdit className="me-2" />
+            Editar {currentActivity?.type === "TEST" ? "Test" : "Tarea"}
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {editData && currentActivity && (
+            <EditActivityForm
+              activity={currentActivity}
+              formData={editData}
+              onSave={handleSaveFromForm}
+              onCancel={handleCancelEdit}
+            />
+          )}
+        </Modal.Body>
+      </Modal>
+    </div>
   );
 };
 

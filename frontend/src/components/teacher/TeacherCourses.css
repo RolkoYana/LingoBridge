@@ -1,0 +1,450 @@
+/* ==========================================
+   ESTILOS PARA TEACHER COURSES
+   ========================================== */
+
+.content-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+  border: none;
+}
+
+/* Header Section */
+.content-card h3 {
+  color: #2c3e50;
+  font-weight: 700;
+  margin-bottom: 4px;
+  font-size: 24px;
+}
+
+.content-card .text-muted {
+  color: #6c757d;
+  font-size: 14px;
+}
+
+/* Create Course Button */
+.btn-create-course {
+  background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-weight: 600;
+  color: white;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-create-course:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
+  background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+  color: white;
+}
+
+.btn-create-course:focus {
+  outline: 2px solid #2ecc71;
+  outline-offset: 2px;
+  box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
+}
+
+/* Modern Table */
+.table-responsive {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.modern-table {
+  margin-bottom: 0;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.modern-table thead th {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border: none;
+  color: #495057;
+  font-weight: 600;
+  padding: 16px 20px;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.modern-table tbody td {
+  padding: 16px 20px;
+  border-top: 1px solid #e9ecef;
+  vertical-align: middle;
+  background: #fff;
+  transition: background-color 0.2s ease;
+}
+
+.modern-table tbody tr:hover td {
+  background: #f8f9fa;
+}
+
+/* Course Info */
+.course-info h6 {
+  color: #2c3e50;
+  font-weight: 600;
+  margin-bottom: 4px;
+  font-size: 16px;
+}
+
+.course-info small {
+  color: #6c757d;
+  line-height: 1.4;
+  display: block;
+}
+
+/* Level Badge */
+.level-badge {
+  font-size: 11px;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-weight: 700;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Course Type Badge - Estilos únicos */
+.course-type-badge {
+  font-size: 12px;
+  padding: 6px 12px;
+  border-radius: 16px;
+  font-weight: 600;
+  text-transform: capitalize;
+  display: inline-block;
+  color: white;
+}
+
+.course-type-intensivo {
+  background-color: #ff6b35;
+}
+
+.course-type-grupal {
+  background-color: #007bff;
+}
+
+.course-type-flexible {
+  background-color: #28a745;
+}
+
+.course-type-default {
+  background-color: #6c757d;
+}
+
+/* View Course Button */
+.view-course-btn {
+  border: 1px solid #3498db;
+  color: #3498db;
+  background: transparent;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.view-course-btn:hover {
+  background: #3498db;
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(52, 152, 219, 0.3);
+}
+
+.view-course-btn:focus {
+  outline: 2px solid #3498db;
+  outline-offset: 2px;
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.empty-state .fa-graduation-cap {
+  color: #bdc3c7;
+  margin-bottom: 20px;
+}
+
+.empty-state h5 {
+  color: #7f8c8d;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.empty-state p {
+  color: #95a5a6;
+  margin-bottom: 24px;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.5;
+}
+
+/* Loading State */
+.spinner-border {
+  width: 2rem;
+  height: 2rem;
+}
+
+.text-primary {
+  color: #3498db !important;
+}
+
+/* Modal */
+.create-course-modal .modal-content {
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+}
+
+.create-course-modal .modal-header {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 12px 12px 0 0;
+  padding: 20px 24px;
+}
+
+.create-course-modal .modal-title {
+  color: #2c3e50;
+  font-weight: 700;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.create-course-modal .modal-body {
+  padding: 0;
+}
+
+.create-course-modal .btn-close {
+  margin: 0;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  background-size: 16px;
+}
+
+/* Student Count */
+.fw-bold {
+  font-weight: 700 !important;
+  color: #2c3e50;
+}
+
+/* ==========================================
+   RESPONSIVE
+   ========================================== */
+
+/* Mobile */
+@media (max-width: 767px) {
+  .content-card {
+    margin: 0 -15px;
+    border-radius: 0;
+  }
+  
+  .content-card h3 {
+    font-size: 20px;
+  }
+  
+  .btn-create-course {
+    width: 100%;
+    justify-content: center;
+    margin-top: 16px;
+  }
+  
+  .table-responsive {
+    border-radius: 0;
+    margin: 0 -20px;
+  }
+  
+  .modern-table thead {
+    display: none;
+  }
+  
+  .modern-table tbody,
+  .modern-table tbody tr,
+  .modern-table tbody td {
+    display: block;
+    width: 100%;
+  }
+  
+  .modern-table tbody tr {
+    background: #fff;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    padding: 16px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  }
+  
+  .modern-table tbody td {
+    border: none;
+    padding: 8px 0;
+    text-align: left;
+  }
+  
+  .modern-table tbody td:before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: #6c757d;
+    display: block;
+    margin-bottom: 4px;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  .course-info {
+    margin-bottom: 12px;
+  }
+  
+  .course-info h6 {
+    font-size: 16px;
+    margin-bottom: 6px;
+  }
+  
+  .level-badge {
+    margin-top: 4px;
+  }
+  
+  .course-type-badge {
+    margin: 8px 0;
+  }
+  
+  .view-course-btn {
+    width: 100%;
+    justify-content: center;
+    margin-top: 8px;
+  }
+  
+  .empty-state {
+    padding: 40px 20px;
+  }
+  
+  .empty-state .fa-graduation-cap {
+    font-size: 48px;
+  }
+  
+  .create-course-modal .modal-dialog {
+    margin: 0;
+    max-width: 100%;
+    height: 100vh;
+  }
+  
+  .create-course-modal .modal-content {
+    height: 100vh;
+    border-radius: 0;
+  }
+  
+  .create-course-modal .modal-header {
+    border-radius: 0;
+  }
+}
+
+/* Tablet */
+@media (min-width: 768px) and (max-width: 991px) {
+  .modern-table tbody td {
+    padding: 14px 16px;
+  }
+  
+  .course-info h6 {
+    font-size: 15px;
+  }
+  
+  .view-course-btn {
+    padding: 5px 10px;
+    font-size: 12px;
+  }
+}
+
+/* Desktop */
+@media (min-width: 992px) {
+  .content-card {
+    padding: 32px !important;
+  }
+  
+  .modern-table tbody td {
+    padding: 18px 24px;
+  }
+}
+
+/* ==========================================
+   UTILITIES NECESARIAS
+   ========================================== */
+
+.d-flex {
+  display: flex;
+}
+
+.align-items-center {
+  align-items: center;
+}
+
+.justify-content-center {
+  justify-content: center;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-muted {
+  color: #6c757d !important;
+}
+
+.mb-0 {
+  margin-bottom: 0 !important;
+}
+
+.mb-1 {
+  margin-bottom: 0.25rem !important;
+}
+
+.mb-2 {
+  margin-bottom: 0.5rem !important;
+}
+
+.mb-3 {
+  margin-bottom: 1rem !important;
+}
+
+.mb-4 {
+  margin-bottom: 1.5rem !important;
+}
+
+.me-1 {
+  margin-right: 0.25rem !important;
+}
+
+.me-2 {
+  margin-right: 0.5rem !important;
+}
+
+.me-3 {
+  margin-right: 1rem !important;
+}
+
+.fw-bold {
+  font-weight: 700 !important;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}

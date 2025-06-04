@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Form, Button, Row, Col, Alert, Badge } from "react-bootstrap";
 import { FaSave, FaBook, FaUsers, FaCalendarAlt, FaGraduationCap, FaTimes, FaInfoCircle } from "react-icons/fa";
 import { fetchWithAuth } from "../../api/api";
+import "./CreateCourseForm.css";
 
 const CreateCourseForm = ({ onSuccess }) => {
   const [course, setCourse] = useState({

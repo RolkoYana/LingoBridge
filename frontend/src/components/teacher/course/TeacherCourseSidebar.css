@@ -1,0 +1,242 @@
+/* ==========================================
+   ESTILOS PARA TEACHER COURSE SIDEBAR
+   ========================================== */
+
+.teacher-course-sidebar {
+  height: 100vh;
+  max-height: 100vh;
+  background: linear-gradient(180deg, #2c3e50 0%, #34495e 100%);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Header del sidebar */
+.sidebar-header {
+  padding: 20px 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  background: rgba(0,0,0,0.1);
+  flex-shrink: 0;
+}
+
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: white;
+}
+
+.brand-icon {
+  font-size: 24px;
+  color: #f39c12;
+}
+
+.brand-text {
+  font-size: 16px;
+  font-weight: 700;
+  color: white;
+}
+
+/* Navegación */
+.sidebar-nav {
+  flex: 1;
+  padding: 16px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  overflow: hidden;
+}
+
+.sidebar-nav-item {
+  display: flex !important;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  margin: 0 12px;
+  border-radius: 10px;
+  color: rgba(255,255,255,0.8);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  position: relative;
+  cursor: pointer;
+  border: none;
+}
+
+.sidebar-nav-item:hover {
+  background: rgba(255,255,255,0.1);
+  color: white;
+  transform: translateX(4px);
+}
+
+.sidebar-nav-item.active {
+  background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+  color: white;
+  box-shadow: 0 4px 15px rgba(243, 156, 18, 0.3);
+}
+
+.sidebar-nav-item.active .nav-icon {
+  color: white;
+}
+
+.nav-icon {
+  font-size: 18px;
+  flex-shrink: 0;
+  color: rgba(255,255,255,0.7);
+  transition: color 0.3s ease;
+}
+
+.sidebar-nav-item:hover .nav-icon {
+  color: white;
+}
+
+.nav-text {
+  font-size: 14px;
+  font-weight: 600;
+  flex: 1;
+}
+
+.active-indicator {
+  position: absolute;
+  right: 8px;
+  width: 4px;
+  height: 20px;
+  background: white;
+  border-radius: 2px;
+  opacity: 0.8;
+}
+
+/* Footer del sidebar */
+.sidebar-footer {
+  padding: 16px 12px 20px 12px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  flex-shrink: 0;
+}
+
+.back-button {
+  display: flex !important;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  border-radius: 10px;
+  color: rgba(255,255,255,0.6);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: 2px solid rgba(255,255,255,0.1);
+  background: rgba(0,0,0,0.1);
+}
+
+.back-button:hover {
+  background: rgba(255,255,255,0.1);
+  color: white;
+  border-color: rgba(255,255,255,0.2);
+  transform: translateY(-2px);
+}
+
+.back-button .nav-icon {
+  font-size: 16px;
+  color: rgba(255,255,255,0.6);
+}
+
+.back-button:hover .nav-icon {
+  color: white;
+}
+
+/* ==========================================
+   RESPONSIVE
+   ========================================== */
+
+/* Mobile */
+@media (max-width: 767px) {
+  .teacher-course-sidebar {
+    width: 280px;
+    position: fixed;
+    top: 0;
+    left: -280px;
+    z-index: 1050;
+    transition: left 0.3s ease;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.3);
+  }
+  
+  .teacher-course-sidebar.show {
+    left: 0;
+  }
+  
+  .sidebar-header {
+    padding: 20px 16px;
+  }
+  
+  .brand-text {
+    font-size: 15px;
+  }
+  
+  .sidebar-nav {
+    padding: 16px 0;
+  }
+  
+  .sidebar-nav-item {
+    padding: 14px 16px;
+    margin: 0 8px;
+  }
+  
+  .nav-text {
+    font-size: 13px;
+  }
+  
+  .sidebar-footer {
+    padding: 16px 8px 20px 8px;
+  }
+  
+  .back-button {
+    padding: 14px 16px;
+  }
+}
+
+/* Tablet */
+@media (min-width: 768px) and (max-width: 991px) {
+  .sidebar-header {
+    padding: 22px 16px;
+  }
+  
+  .sidebar-nav {
+    padding: 18px 0;
+  }
+  
+  .sidebar-nav-item {
+    padding: 15px 18px;
+    margin: 0 10px;
+  }
+  
+  .sidebar-footer {
+    padding: 18px 10px 22px 10px;
+  }
+}
+
+/* Desktop */
+@media (min-width: 992px) {
+  .teacher-course-sidebar {
+    position: sticky;
+    top: 0;
+  }
+}
+
+/* Animaciones para estados */
+@keyframes slideIn {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.sidebar-nav-item {
+  animation: slideIn 0.3s ease-out;
+}
+
+.sidebar-nav-item:nth-child(1) { animation-delay: 0.1s; }
+.sidebar-nav-item:nth-child(2) { animation-delay: 0.15s; }
+.sidebar-nav-item:nth-child(3) { animation-delay: 0.2s; }

@@ -1,0 +1,180 @@
+/* ==========================================
+   ESTILOS PARA TEACHER COURSE MATERIAL
+   ========================================== */
+
+.teacher-course-material {
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+  overflow: hidden;
+}
+
+.teacher-course-material .card-header {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-bottom: 2px solid #f39c12;
+  padding: 20px 24px;
+}
+
+.teacher-course-material .card-header h2 {
+  color: #2c3e50;
+  font-weight: 700;
+  margin-bottom: 0;
+  font-size: 22px;
+}
+
+.teacher-course-material .card-body {
+  padding: 24px;
+}
+
+/* Material items */
+.material-item {
+  padding: 24px !important;
+  border: none !important;
+  border-bottom: 1px solid #cbd5e0 !important;
+  margin-bottom: 0 !important;
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
+
+.material-item:hover {
+  background-color: rgba(52, 144, 220, 0.02);
+}
+
+.material-item:last-child {
+  border-bottom: none !important;
+}
+
+.material-item h5 {
+  color: #2c3e50;
+  font-weight: 600;
+  margin-bottom: 20px;
+  font-size: 18px;
+}
+
+/* Video container */
+.video-container {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 8px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.video-container iframe {
+  border-radius: 8px;
+  width: 100%;
+  display: block;
+}
+
+/* Download button */
+.material-item .btn {
+  background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+  border: none;
+  border-radius: 25px;
+  padding: 12px 24px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 10px rgba(52, 152, 219, 0.3);
+  font-size: 14px;
+  text-transform: none;
+}
+
+.material-item .btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+  background: linear-gradient(135deg, #2980b9 0%, #3498db 100%);
+}
+
+/* Empty state */
+.teacher-course-material .card-body > p {
+  text-align: center;
+  color: #6c757d;
+  font-style: italic;
+  padding: 60px 20px;
+  margin: 0;
+  font-size: 16px;
+  background: rgba(248, 249, 250, 0.5);
+  border-radius: 8px;
+}
+
+/* ==========================================
+   RESPONSIVE
+   ========================================== */
+
+/* Mobile */
+@media (max-width: 767px) {
+  .teacher-course-material .card-header {
+    padding: 16px 20px;
+  }
+  
+  .teacher-course-material .card-header h2 {
+    font-size: 20px;
+  }
+  
+  .teacher-course-material .card-body {
+    padding: 20px;
+  }
+  
+  .material-item {
+    padding: 20px !important;
+  }
+  
+  .material-item h5 {
+    font-size: 16px;
+    margin-bottom: 16px;
+  }
+  
+  .video-container {
+    max-width: 100%;
+    padding: 6px;
+  }
+  
+  .video-container iframe {
+    height: 200px;
+  }
+  
+  .material-item .btn {
+    font-size: 13px;
+    padding: 10px 20px;
+  }
+}
+
+/* Tablet */
+@media (min-width: 768px) and (max-width: 991px) {
+  .video-container {
+    max-width: 500px;
+  }
+  
+  .video-container iframe {
+    height: 250px;
+  }
+}
+
+/* Desktop */
+@media (min-width: 992px) {
+  .video-container {
+    max-width: 600px;
+  }
+  
+  .video-container iframe {
+    height: 280px;
+  }
+  
+  .material-item h5 {
+    font-size: 20px;
+  }
+}
+
+/* Large screens */
+@media (min-width: 1200px) {
+  .teacher-course-material .card-body {
+    padding: 32px;
+  }
+  
+  .material-item {
+    padding: 28px !important;
+  }
+}
