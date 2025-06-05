@@ -5,6 +5,7 @@ import logo from "../../assets/logo.jpg";
 import { FaMoon, FaSun } from "react-icons/fa";
 import { Link, useLocation } from "react-router-dom";
 import { useTheme } from "../../context/ThemeContext.jsx";
+import "./Navbar.css"
 
 const Navbar = () => {
   const { theme, toggleTheme } = useTheme();

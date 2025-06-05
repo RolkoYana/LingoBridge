@@ -1,0 +1,366 @@
+/* ==========================================
+   ESTILOS DE LA PÁGINA PRINCIPAL
+   ========================================== */
+
+/* Layout general de secciones */
+.home-section {
+  background-color: var(--secondary-bg);
+  color: var(--primary-text);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  padding: 4rem 0;
+}
+
+.home-section:nth-child(even) {
+  background-color: var(--primary-bg);
+}
+
+/* Títulos de sección */
+.section-title {
+  color: var(--primary-text);
+  font-weight: 700;
+  margin-bottom: 3rem;
+  position: relative;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 4px;
+  background: linear-gradient(135deg, var(--accent-color), var(--link-hover-color));
+  border-radius: 2px;
+}
+
+/* ==========================================
+   BANNER ESPECÍFICO
+   ========================================== */
+.banner-section {
+  background: linear-gradient(135deg, var(--primary-bg) 0%, var(--secondary-bg) 100%);
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+}
+
+.banner-title {
+  background: linear-gradient(135deg, var(--accent-color), var(--link-hover-color));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 800;
+  margin-bottom: 2rem;
+}
+
+.banner-image {
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-lg);
+  transition: transform 0.3s ease;
+}
+
+.banner-image:hover {
+  transform: scale(1.02);
+}
+
+/* ==========================================
+   CURSOS ESPECÍFICO
+   ========================================== */
+.courses-section .card {
+  transition: all 0.3s ease;
+  border: none;
+  box-shadow: var(--shadow-md);
+}
+
+.courses-section .card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-lg);
+}
+
+.course-image {
+  border-top-left-radius: var(--border-radius-lg);
+  border-top-right-radius: var(--border-radius-lg);
+  transition: transform 0.3s ease;
+}
+
+.courses-section .card:hover .course-image {
+  transform: scale(1.05);
+}
+
+.course-features {
+  list-style: none;
+  padding: 0;
+}
+
+.course-feature {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  padding: 0.5rem;
+  border-radius: var(--border-radius-sm);
+  transition: background-color 0.3s ease;
+}
+
+.course-feature:hover {
+  background-color: rgba(var(--link-color-rgb), 0.05);
+}
+
+.course-feature-icon {
+  margin-right: 0.75rem;
+  color: var(--accent-color);
+  font-size: 1.1rem;
+}
+
+/* ==========================================
+   PROFESORES ESPECÍFICO
+   ========================================== */
+.teachers-section {
+  position: relative;
+}
+
+.teacher-card {
+  transition: all 0.3s ease;
+  border: none;
+  box-shadow: var(--shadow-md);
+  background-color: var(--card-bg);
+}
+
+.teacher-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+}
+
+.teacher-image {
+  border: 3px solid var(--accent-color);
+  transition: all 0.3s ease;
+  width: 130px;
+  height: 130px;
+}
+
+.teacher-card:hover .teacher-image {
+  border-color: var(--link-hover-color);
+  transform: scale(1.05);
+}
+
+.teacher-info {
+  color: var(--secondary-text);
+  font-size: 0.9rem;
+}
+
+.teacher-info .icon {
+  margin-right: 0.5rem;
+}
+
+.carousel-btn {
+  background-color: var(--card-bg);
+  border: 2px solid var(--border-color);
+  color: var(--primary-text);
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow-sm);
+}
+
+.carousel-btn:hover {
+  background-color: var(--accent-color);
+  border-color: var(--accent-color);
+  color: white;
+  transform: scale(1.1);
+}
+
+/* ==========================================
+   TESTIMONIOS ESPECÍFICO
+   ========================================== */
+.testimonials-section .card {
+  border: none;
+  box-shadow: var(--shadow-md);
+  transition: all 0.3s ease;
+  height: 100%;
+}
+
+.testimonials-section .card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+}
+
+.testimonial-text {
+  font-style: italic;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: var(--secondary-text);
+  position: relative;
+}
+
+.testimonial-text::before {
+  content: '"';
+  font-size: 3rem;
+  color: var(--accent-color);
+  position: absolute;
+  top: -10px;
+  left: -15px;
+  font-family: serif;
+}
+
+.testimonial-author {
+  display: flex;
+  align-items: center;
+  margin-top: auto;
+  padding-top: 1rem;
+}
+
+.testimonial-image {
+  border: 2px solid var(--accent-color);
+  margin-right: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.testimonial-image:hover {
+  transform: scale(1.1);
+}
+
+.stars {
+  color: #ffc107;
+  font-size: 1.1rem;
+}
+
+/* ==========================================
+   FAQ ESPECÍFICO
+   ========================================== */
+.faq-section .accordion-item {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius) !important;
+  margin-bottom: 1rem;
+  overflow: hidden;
+}
+
+.faq-section .accordion-button {
+  background-color: var(--card-bg) !important;
+  color: var(--primary-text) !important;
+  font-weight: 600;
+  padding: 1.25rem 1.5rem;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.faq-section .accordion-button:not(.collapsed) {
+  background-color: var(--accent-color) !important;
+  color: white !important;
+}
+
+.faq-section .accordion-button::after {
+  filter: none;
+  transition: transform 0.3s ease;
+}
+
+.faq-section .accordion-button:not(.collapsed)::after {
+  filter: invert(1);
+}
+
+.faq-section .accordion-body {
+  background-color: var(--card-bg) !important;
+  color: var(--primary-text) !important;
+  padding: 1.5rem;
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+
+/* ==========================================
+   FOOTER ESPECÍFICO
+   ========================================== */
+.footer-section {
+  background-color: var(--secondary-bg) !important;
+  color: var(--primary-text) !important;
+  border-top: 1px solid var(--border-color) !important;
+  padding: 3rem 0 1.5rem 0;
+}
+
+.footer-title {
+  color: var(--primary-text) !important;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+
+.footer-links {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-links li {
+  margin-bottom: 0.5rem;
+}
+
+.footer-links a {
+  color: var(--secondary-text) !important;
+  text-decoration: none !important;
+  transition: color 0.3s ease;
+  font-weight: 500;
+}
+
+.footer-links a:hover {
+  color: var(--accent-color) !important;
+  text-decoration: none !important;
+}
+
+.footer-newsletter {
+  background-color: var(--card-bg);
+  padding: 1.5rem;
+  border-radius: var(--border-radius-lg);
+  border: 1px solid var(--border-color);
+}
+
+.footer-social a {
+  color: var(--secondary-text);
+  transition: all 0.3s ease;
+  margin: 0 0.5rem;
+}
+
+.footer-social a:hover {
+  color: var(--accent-color);
+  transform: scale(1.2);
+}
+
+.footer-bottom {
+  border-top: 1px solid var(--border-color);
+  padding-top: 1.5rem;
+  margin-top: 2rem;
+  color: var(--secondary-text) !important;
+}
+
+/* ==========================================
+   RESPONSIVE ESPECÍFICO
+   ========================================== */
+@media (max-width: 768px) {
+  .banner-section {
+    min-height: 60vh;
+    padding: 2rem 0;
+  }
+  
+  .banner-title {
+    font-size: 2.5rem;
+  }
+  
+  .section-title {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+  }
+  
+  .home-section {
+    padding: 3rem 0;
+  }
+  
+  .teacher-image {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .carousel-btn {
+    width: 45px;
+    height: 45px;
+  }
+}

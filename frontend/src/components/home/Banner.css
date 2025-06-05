@@ -1,0 +1,134 @@
+/* ==========================================
+   BANNER - RESPONSIVE Y MODO OSCURO
+   ========================================== */
+
+/* Mejoras generales del banner */
+.banner section {
+  background-color: var(--secondary-bg);
+  color: var(--primary-text);
+  transition: all 0.3s ease;
+  padding: 4rem 0;
+}
+
+/* Título del banner */
+.banner .display-4 {
+  color: var(--primary-text);
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+}
+
+/* Párrafo lead */
+.banner .lead {
+  color: var(--secondary-text);
+  font-size: 1.25rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+/* Imagen del banner */
+.banner .img-fluid {
+  border-radius: 12px;
+  box-shadow: var(--shadow-lg);
+  transition: transform 0.3s ease;
+  width: 100%;
+  height: auto;
+}
+
+.banner .img-fluid:hover {
+  transform: scale(1.02);
+}
+
+/* Botón mejorado */
+.banner .btn-lg {
+  padding: 12px 30px;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow-sm);
+}
+
+.banner .btn-lg:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* ==========================================
+   RESPONSIVE BANNER
+   ========================================== */
+
+/* Mobile (hasta 576px) */
+@media (max-width: 575px) {
+  .banner section {
+    padding: 2rem 0;
+  }
+  
+  .banner .display-4 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .banner .lead {
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .banner .btn-lg {
+    padding: 10px 20px;
+    font-size: 1rem;
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+  
+  .banner .img-fluid {
+    margin-top: 2rem;
+    max-height: 250px;
+    object-fit: cover;
+  }
+}
+
+/* Tablet (576px - 768px) */
+@media (min-width: 576px) and (max-width: 767px) {
+  .banner section {
+    padding: 3rem 0;
+  }
+  
+  .banner .display-4 {
+    font-size: 2.5rem;
+  }
+  
+  .banner .lead {
+    font-size: 1.2rem;
+  }
+  
+  .banner .img-fluid {
+    max-height: 300px;
+    object-fit: cover;
+  }
+}
+
+/* Desktop (768px+) */
+@media (min-width: 768px) {
+  .banner section {
+    padding: 5rem 0;
+  }
+  
+  .banner .img-fluid {
+    max-height: 400px;
+    object-fit: cover;
+  }
+}
+
+/* Extra large (1200px+) */
+@media (min-width: 1200px) {
+  .banner .container {
+    max-width: 1140px;
+  }
+  
+  .banner .display-4 {
+    font-size: 3.5rem;
+  }
+  
+  .banner .lead {
+    font-size: 1.4rem;
+  }
+}

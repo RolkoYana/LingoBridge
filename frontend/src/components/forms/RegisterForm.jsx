@@ -63,7 +63,7 @@ const RegisterForm = ({ onSuccess }) => {
       return "Las contraseñas no coinciden";
     }
 
-    return null; 
+    return null;
   };
 
   const handleSubmit = async (e) => {
@@ -94,18 +94,18 @@ const RegisterForm = ({ onSuccess }) => {
 
       await register(userData);
       setSuccess("Usuario registrado correctamente.");
-      
+
       // Limpiar formulario después del éxito
       clearForm();
-      
+
       // Redirigir después de 2 segundos
       setTimeout(() => {
         onSuccess();
       }, 2000);
-
     } catch (err) {
       console.error("Error:", err);
-      const errorMessage = err.message || "Error al registrar usuario. Inténtalo de nuevo.";
+      const errorMessage =
+        err.message || "Error al registrar usuario. Inténtalo de nuevo.";
       setError(errorMessage);
     } finally {
       setIsLoading(false);
@@ -148,20 +148,20 @@ const RegisterForm = ({ onSuccess }) => {
             aria-label="Close"
             onClick={handleCloseError}
             style={{
-              position: 'absolute',
-              top: '0.5rem',
-              right: '0.75rem',
-              fontSize: '1.25rem',
-              fontWeight: 'bold',
-              color: 'inherit',
-              cursor: 'pointer',
-              background: 'transparent',
-              border: 'none',
+              position: "absolute",
+              top: "0.5rem",
+              right: "0.75rem",
+              fontSize: "1.25rem",
+              fontWeight: "bold",
+              color: "inherit",
+              cursor: "pointer",
+              background: "transparent",
+              border: "none",
               lineHeight: 1,
-              transition: 'opacity 0.2s ease'
+              transition: "opacity 0.2s ease",
             }}
-            onMouseOver={(e) => e.target.style.opacity = '0.7'}
-            onMouseOut={(e) => e.target.style.opacity = '1'}
+            onMouseOver={(e) => (e.target.style.opacity = "0.7")}
+            onMouseOut={(e) => (e.target.style.opacity = "1")}
           >
             ✕
           </span>
@@ -180,29 +180,29 @@ const RegisterForm = ({ onSuccess }) => {
             aria-label="Close"
             onClick={handleCloseSuccess}
             style={{
-              position: 'absolute',
-              top: '0.5rem',
-              right: '0.75rem',
-              fontSize: '1.25rem',
-              fontWeight: 'bold',
-              color: 'inherit',
-              cursor: 'pointer',
-              background: 'transparent',
-              border: 'none',
+              position: "absolute",
+              top: "0.5rem",
+              right: "0.75rem",
+              fontSize: "1.25rem",
+              fontWeight: "bold",
+              color: "inherit",
+              cursor: "pointer",
+              background: "transparent",
+              border: "none",
               lineHeight: 1,
-              transition: 'opacity 0.2s ease'
+              transition: "opacity 0.2s ease",
             }}
-            onMouseOver={(e) => e.target.style.opacity = '0.7'}
-            onMouseOut={(e) => e.target.style.opacity = '1'}
+            onMouseOver={(e) => (e.target.style.opacity = "0.7")}
+            onMouseOut={(e) => (e.target.style.opacity = "1")}
           >
             ✕
           </span>
         </div>
       )}
 
-      <Row className="mb-3"> 
+      <Row className="mb-3">
         <Col md={6}>
-          <Form.Group controlId="name" className="mb-3"> 
+          <Form.Group controlId="name" className="mb-3">
             <Form.Label>Nombre *</Form.Label>
             <Form.Control
               type="text"
@@ -312,9 +312,9 @@ const RegisterForm = ({ onSuccess }) => {
         </Form.Select>
       </Form.Group>
 
-      <Button 
-        type="submit" 
-        variant="primary" 
+      <Button
+        type="submit"
+        variant="primary"
         className="w-100 py-2"
         disabled={isLoading}
       >

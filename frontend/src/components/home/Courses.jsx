@@ -3,7 +3,8 @@ import CourseCard from "./CourseCard";
 import intensive from "../../assets/courses/intensivo.jpg"
 import flexible from "../../assets/courses/flexible.jpg";
 import group from "../../assets/courses/grupal.jpg";
-import { FaBookOpen, FaCalendarAlt, FaUsers } from "react-icons/fa"; // Nuevos iconos para características
+import { FaBookOpen, FaCalendarAlt, FaUsers } from "react-icons/fa"; 
+import "./Courses.css";
 
 const Courses = () => {
   const courses = [
@@ -40,28 +41,25 @@ const Courses = () => {
   ];
 
   return (
-    <section className="py-5">
-      {" "}
-      {/* Eliminado bg-light */}
-      <div className="container">
-        <h2 className="text-center mb-5 display-5 fw-bold">Nuestros cursos</h2>{" "}
-        {/* Título más grande */}
-        <div className="row justify-content-center">
-          {courses.map((course, index) => (
-            <div className="col-12 col-md-6 col-lg-4 mb-4" key={index}>
-              {" "}
-              {/* Mejorar responsividad */}
-              <CourseCard
-                name={course.name}
-                image={course.image}
-                features={course.features}
-                buttonText={course.buttonText} // Pasar el texto del botón
-              />
-            </div>
-          ))}
+    <div className="courses">
+      <section className="py-5">
+        <div className="container">
+          <h2 className="text-center mb-5 display-5 fw-bold">Nuestros cursos</h2>
+          <div className="row justify-content-center">
+            {courses.map((course, index) => (
+              <div className="col-12 col-md-6 col-lg-4 mb-4" key={index}>
+                <CourseCard
+                  name={course.name}
+                  image={course.image}
+                  features={course.features}
+                  buttonText={course.buttonText}
+                />
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
   );
 };
 

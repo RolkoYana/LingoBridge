@@ -3,7 +3,7 @@ import { Container } from "react-bootstrap";
 import LoginForm from "../components/forms/LoginForm";
 import { FaGraduationCap } from "react-icons/fa";
 import AuthHeader from "../components/common/AuthHeader";
-import "../styles/Login.css";
+import "./LoginPage.css";
 
 const LoginPage = () => {
   const [currentTheme, setCurrentTheme] = useState(

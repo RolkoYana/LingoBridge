@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import RegisterForm from "../components/forms/RegisterForm";
 import { FaGraduationCap } from "react-icons/fa";
 import AuthHeader from "../components/common/AuthHeader";
-import "../styles/Register.css";
+import "./RegisterPage.css";
 
 const RegisterPage = () => {
   const navigate = useNavigate();
