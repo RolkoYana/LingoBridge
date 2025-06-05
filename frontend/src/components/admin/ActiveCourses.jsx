@@ -3,6 +3,7 @@ import { Table, Button, Form, InputGroup, Row, Col, Spinner, Badge } from "react
 import { FaCheckCircle, FaSearch, FaSyncAlt, FaGraduationCap } from "react-icons/fa";
 import CompleteCourse from "./CompleteCourse";
 import { fetchWithAuth } from "../../api/api";
+import "./ActiveCourses.css";
 
 const ActiveCourses = () => {
   const [courses, setCourses] = useState([]);

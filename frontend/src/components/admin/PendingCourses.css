@@ -1,0 +1,9 @@
+/* ==========================================
+   ESTILOS PARA TOOLTIP PARA DESCRIPCIÓN LARGA
+   ========================================== */
+.description-truncated {
+  cursor: help;
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  color: inherit;
+}

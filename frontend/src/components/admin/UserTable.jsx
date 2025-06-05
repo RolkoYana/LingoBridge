@@ -110,16 +110,13 @@ const UserTable = () => {
               Gestión de Usuarios
             </h2>
             <p className="section-subtitle">
-              Administración completa de todos los usuarios del sistema
+              Información sobre todos los usuarios del sistema
             </p>
           </Col>
           <Col xs="auto">
             <div className="d-flex gap-2 flex-wrap">
               <Badge bg="light" text="dark" className="px-3 py-2">
                 <strong>Total: {stats.total}</strong>
-              </Badge>
-              <Badge bg="danger" className="px-3 py-2">
-                <strong>Admins: {stats.admins}</strong>
               </Badge>
               <Badge bg="warning" className="px-3 py-2">
                 <strong>Profesores: {stats.teachers}</strong>

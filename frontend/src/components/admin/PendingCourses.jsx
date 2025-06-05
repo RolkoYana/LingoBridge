@@ -1,6 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { Table, Button, Form, InputGroup, Row, Col, Spinner, Badge } from "react-bootstrap";
-import { FaClock, FaSearch, FaSyncAlt, FaExclamationTriangle } from "react-icons/fa";
+import {
+  Table,
+  Button,
+  Form,
+  InputGroup,
+  Row,
+  Col,
+  Spinner,
+  Badge,
+} from "react-bootstrap";
+import {
+  FaClock,
+  FaSearch,
+  FaSyncAlt,
+  FaExclamationTriangle,
+} from "react-icons/fa";
 import ApproveCourse from "./ApproveCourse";
 import RejectCourse from "./RejectCourse";
 import { fetchWithAuth } from "../../api/api";
@@ -26,19 +40,27 @@ const PendingCourses = () => {
     setCourses(courses.filter((c) => c.id !== courseId));
   };
 
-  const filteredCourses = courses.filter(course => {
-    const matchesSearch = course.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         course.description?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         (course.teacher && 
-                          `${course.teacher.name} ${course.teacher.surname}`.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                         (course.user && 
-                          `${course.user.name} ${course.user.surname}`.toLowerCase().includes(searchTerm.toLowerCase()));
+  const filteredCourses = courses.filter((course) => {
+    const matchesSearch =
+      course.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      course.description?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (course.teacher &&
+        `${course.teacher.name} ${course.teacher.surname}`
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase())) ||
+      (course.user &&
+        `${course.user.name} ${course.user.surname}`
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase()));
     return matchesSearch;
   });
 
   if (loading) {
     return (
-      <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "400px" }}>
+      <div
+        className="d-flex justify-content-center align-items-center"
+        style={{ minHeight: "400px" }}
+      >
         <div className="text-center">
           <Spinner animation="border" variant="warning" />
           <p className="mt-3 text-muted">Cargando cursos pendientes...</p>
@@ -64,7 +86,7 @@ const PendingCourses = () => {
           <Col xs="auto">
             <Badge bg="warning" text="dark" className="px-4 py-2 fs-6">
               <FaExclamationTriangle className="me-2" />
-              Pendientes: {courses.length}
+              Total: {courses.length}
             </Badge>
           </Col>
         </Row>
@@ -89,7 +111,7 @@ const PendingCourses = () => {
               </InputGroup>
             </Col>
             <Col md={4} className="d-flex justify-content-end">
-              <Button 
+              <Button
                 className="btn-admin-warning d-flex align-items-center gap-2"
                 onClick={loadCourses}
               >
@@ -121,13 +143,13 @@ const PendingCourses = () => {
                       <div className="empty-section">
                         <FaClock size={48} className="empty-icon" />
                         <h5 className="empty-title">
-                          {searchTerm 
-                            ? "No se encontraron cursos pendientes" 
+                          {searchTerm
+                            ? "No se encontraron cursos pendientes"
                             : "No hay cursos pendientes"}
                         </h5>
                         <p className="empty-text">
-                          {searchTerm 
-                            ? "No se encontraron cursos pendientes con el término de búsqueda" 
+                          {searchTerm
+                            ? "No se encontraron cursos pendientes con el término de búsqueda"
                             : "Los cursos aparecerán aquí cuando los profesores los envíen para aprobación"}
                         </p>
                       </div>
@@ -138,20 +160,31 @@ const PendingCourses = () => {
                     <tr key={course.id}>
                       <td>
                         <div className="d-flex justify-content-center">
-                          <div className="bg-warning bg-opacity-10 text-warning rounded-circle d-flex align-items-center justify-content-center"
-                               style={{ width: "35px", height: "35px", fontSize: "0.85rem", fontWeight: "600" }}>
+                          <div
+                            className="bg-warning bg-opacity-10 text-warning rounded-circle d-flex align-items-center justify-content-center"
+                            style={{
+                              width: "35px",
+                              height: "35px",
+                              fontSize: "0.85rem",
+                              fontWeight: "600",
+                            }}
+                          >
                             {course.id}
                           </div>
                         </div>
                       </td>
                       <td>
-                        <div className="fw-bold text-warning">{course.name}</div>
+                        <div className="fw-bold text-warning">
+                          {course.name}
+                        </div>
                       </td>
                       <td>
                         <div>
-                          {course.description && course.description.length > 100 
-                            ? `${course.description.substring(0, 100)}...` 
-                            : course.description || <em className="text-muted">Sin descripción</em>}
+                          {course.description && course.description.length > 100
+                            ? `${course.description.substring(0, 100)}...`
+                            : course.description || (
+                                <em className="text-muted">Sin descripción</em>
+                              )}
                         </div>
                       </td>
                       <td>
@@ -174,13 +207,21 @@ const PendingCourses = () => {
                             </div>
                           </div>
                         ) : (
-                          <span className="text-muted fst-italic">No asignado</span>
+                          <span className="text-muted fst-italic">
+                            No asignado
+                          </span>
                         )}
                       </td>
                       <td>
                         <div className="admin-actions-inline">
-                          <ApproveCourse courseId={course.id} onApprove={removeCourse} />
-                          <RejectCourse courseId={course.id} onReject={removeCourse} />
+                          <ApproveCourse
+                            courseId={course.id}
+                            onApprove={removeCourse}
+                          />
+                          <RejectCourse
+                            courseId={course.id}
+                            onReject={removeCourse}
+                          />
                         </div>
                       </td>
                     </tr>
@@ -194,12 +235,13 @@ const PendingCourses = () => {
           {filteredCourses.length > 0 && (
             <div className="d-flex justify-content-end align-items-center mt-4 pt-3 border-top">
               <small className="text-muted">
-                Última actualización: {new Date().toLocaleString('es-ES', {
-                  day: '2-digit',
-                  month: '2-digit', 
-                  year: 'numeric',
-                  hour: '2-digit',
-                  minute: '2-digit'
+                Última actualización:{" "}
+                {new Date().toLocaleString("es-ES", {
+                  day: "2-digit",
+                  month: "2-digit",
+                  year: "numeric",
+                  hour: "2-digit",
+                  minute: "2-digit",
                 })}
               </small>
             </div>

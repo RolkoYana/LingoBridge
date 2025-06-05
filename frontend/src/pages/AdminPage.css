@@ -1,0 +1,343 @@
+/* ==========================================
+   VARIABLES PERSONALIZADAS PARA ADMIN
+   ========================================== */
+:root {
+  --admin-sidebar-bg: #2c3e50;
+  --admin-sidebar-hover: #34495e;
+  --admin-sidebar-accent: #8b5cf6;
+  --admin-sidebar-text: #ecf0f1;
+  --admin-sidebar-text-muted: #bdc3c7;
+  --admin-accent-green: #10b981;
+  --admin-accent-orange: #f59e0b;
+  --admin-accent-red: #ef4444;
+  --soft-gray: #f8f9fa;
+  --text-dark: #2c3e50;
+  --text-light: #7f8c8d;
+  --border-light: #e2e8f0;
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --border-radius: 8px;
+  --transition: all 0.3s ease;
+}
+
+/* ==========================================
+   LAYOUT PRINCIPAL ADMIN
+   ========================================== */
+.admin-panel-container {
+  min-height: 100vh;
+  background-color: var(--soft-gray);
+}
+
+/* Contenido principal con margen para el sidebar */
+.admin-main-content {
+  margin-left: 250px;
+  min-height: 100vh;
+}
+
+/* ==========================================
+   DISEÑO UNIFICADO ADMIN
+   ========================================== */
+.unified-section {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--border-light);
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+
+.section-header {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  padding: 24px 32px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.section-title {
+  color: var(--text-dark);
+  font-weight: 700;
+  font-size: 1.75rem;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.section-subtitle {
+  color: var(--text-light);
+  margin: 4px 0 0 0;
+  font-size: 0.95rem;
+}
+
+.header-icon {
+  color: var(--admin-sidebar-accent);
+}
+
+.section-content {
+  padding: 0;
+}
+
+/* ==========================================
+   BOTONES ADMIN MODERNOS
+   ========================================== */
+.btn-admin-warning {
+  background: linear-gradient(135deg, var(--admin-accent-orange), #d97706);
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-weight: 600;
+  transition: var(--transition);
+  box-shadow: 0 2px 4px rgba(245, 158, 11, 0.2);
+  color: white;
+}
+
+.btn-admin-warning:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(245, 158, 11, 0.3);
+  background: linear-gradient(135deg, #d97706, var(--admin-accent-orange));
+  color: white;
+}
+
+/* ==========================================
+   TABLAS ADMIN MODERNAS
+   ========================================== */
+.admin-table {
+  margin: 0;
+  border: none;
+}
+
+.admin-table thead th {
+  background-color: rgba(248, 249, 250, 0.8);
+  border: none;
+  border-bottom: 2px solid var(--border-light);
+  font-weight: 600;
+  color: var(--text-dark);
+  padding: 20px 16px;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-align: center;
+}
+
+.admin-table tbody tr {
+  border-bottom: 1px solid rgba(226, 232, 240, 0.6);
+  transition: var(--transition);
+}
+
+.admin-table tbody tr:hover {
+  background-color: rgba(139, 92, 246, 0.03);
+}
+
+.admin-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.admin-table tbody td {
+  padding: 16px;
+  vertical-align: middle;
+  border: none;
+  text-align: center;
+}
+
+/* ==========================================
+   ESTADOS VACÍOS Y LOADING
+   ========================================== */
+.empty-section {
+  text-align: center;
+  padding: 60px 32px;
+  background: linear-gradient(135deg, #fafbfc 0%, #f1f3f5 100%);
+}
+
+.empty-icon {
+  color: #cbd5e0;
+  margin-bottom: 24px;
+}
+
+.empty-title {
+  color: var(--text-dark);
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.empty-text {
+  color: var(--text-light);
+  margin-bottom: 32px;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.5;
+}
+
+/* ==========================================
+   RESPONSIVIDAD MOBILE FIRST ADMIN
+   ========================================== */
+
+/* Mobile (hasta 767px) */
+@media (max-width: 767px) {
+  .admin-main-content {
+    margin-left: 0;
+  }
+  
+  .mobile-menu-toggle {
+    display: block !important;
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 999;
+    background: var(--admin-sidebar-bg);
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-md);
+    width: 44px;
+    height: 44px;
+    transition: var(--transition);
+  }
+  
+  .mobile-overlay {
+    display: block !important;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1049;
+  }
+  
+  /* Ajustar contenido principal en móvil */
+  .admin-main-content .container-fluid {
+    padding-left: 80px !important;
+    padding-right: 15px !important;
+  }
+  
+  /* Ajustar secciones en móvil */
+  .section-header {
+    padding: 20px 16px;
+  }
+  
+  .section-title {
+    font-size: 1.5rem;
+  }
+  
+  .empty-section {
+    padding: 40px 20px;
+  }
+}
+
+/* Tablet (768px - 991px) */
+@media (min-width: 768px) and (max-width: 991px) {
+  .admin-main-content {
+    margin-left: 200px;
+  }
+  
+  .mobile-menu-toggle,
+  .mobile-overlay {
+    display: none !important;
+  }
+  
+  .admin-main-content .container-fluid {
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+  }
+}
+
+/* Desktop (992px+) */
+@media (min-width: 992px) {
+  .mobile-menu-toggle,
+  .mobile-overlay {
+    display: none !important;
+  }
+  
+  .admin-main-content .container-fluid {
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+  }
+}
+
+/* ==========================================
+   BOTONES DE ACCIÓN EN TABLAS
+   ========================================== */
+
+.btn-action {
+  border-radius: 6px;
+  transition: var(--transition);
+  border-width: 1px;
+}
+
+.btn-action:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btn-outline-info.btn-action:hover {
+  background-color: #17a2b8;
+  border-color: #17a2b8;
+  color: white;
+}
+
+.btn-outline-warning.btn-action:hover {
+  background-color: #ffc107;
+  border-color: #ffc107;
+  color: #212529;
+}
+
+.btn-outline-danger.btn-action:hover {
+  background-color: #dc3545;
+  border-color: #dc3545;
+  color: white;
+}
+
+/* ==========================================
+   MEJORAS DE CONTRASTE PARA ACCESIBILIDAD
+   ========================================== */
+
+/* Badge amarillo con mejor contraste */
+.badge.bg-warning {
+  background-color: var(--admin-accent-orange) !important;
+  color: #212529 !important; /* Texto oscuro en lugar de blanco */
+  font-weight: 600 !important;
+}
+
+/* Asegurar contraste en badges de estado */
+.badge.bg-warning.text-dark {
+  color: #212529 !important;
+  font-weight: 600 !important;
+}
+
+/* Mejorar contraste en elementos amarillos específicos */
+.text-warning {
+  color: #d97706 !important; /* Amarillo más oscuro para mejor contraste */
+}
+
+.bg-warning.bg-opacity-10 {
+  background-color: rgba(217, 119, 6, 0.1) !important;
+}
+
+.text-warning.rounded-circle {
+  color: #b45309 !important; /* Aún más oscuro para círculos pequeños */
+}
+
+/* ==========================================
+   CONTENEDOR DE BOTONES INLINE
+   ========================================== */
+
+/* Contenedor de botones siempre en línea */
+.admin-actions-inline {
+  display: flex !important;
+  gap: 8px !important;
+  justify-content: center !important;
+  align-items: center !important;
+  flex-wrap: nowrap !important; /* Nunca permitir wrap */
+}
+
+/* Responsive para botones en móvil */
+@media (max-width: 768px) {
+  .admin-actions-inline {
+    gap: 6px !important;
+  }
+}
+
+/* Mejorar el ancho de la columna de acciones en tablas */
+.admin-table th:last-child,
+.admin-table td:last-child {
+  min-width: 240px;
+}

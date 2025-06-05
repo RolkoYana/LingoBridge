@@ -1,0 +1,663 @@
+/* ==========================================
+   ESTILOS PARA ADMIN STATS
+   ========================================== */
+
+/* Variables locales para el componente */
+.dashboard-container {
+  --admin-sidebar-accent: #8b5cf6;
+  --admin-accent-green: #10b981;
+  --admin-accent-orange: #f59e0b;
+  --admin-accent-red: #ef4444;
+  --text-dark: #2c3e50;
+  --text-light: #7f8c8d;
+  --border-light: #e2e8f0;
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --transition: all 0.3s ease;
+  
+  padding: 0;
+}
+
+/* Header del dashboard */
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 12px;
+  border: 1px solid var(--border-light);
+}
+
+.dashboard-title h4 {
+  margin: 0;
+  color: var(--text-dark);
+  font-weight: 700;
+  font-size: 1.4rem;
+}
+
+.dashboard-title p {
+  margin: 4px 0 0 0;
+  color: var(--text-light);
+  font-size: 0.9rem;
+}
+
+.refresh-btn {
+  border: 2px solid var(--admin-sidebar-accent);
+  color: var(--admin-sidebar-accent);
+  background: transparent;
+  border-radius: 8px;
+  padding: 8px 12px;
+  transition: var(--transition);
+}
+
+.refresh-btn:hover {
+  background: var(--admin-sidebar-accent);
+  color: white;
+  transform: translateY(-1px);
+}
+
+/* Estados de carga y error */
+.dashboard-loading,
+.dashboard-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  text-align: center;
+  color: var(--text-light);
+}
+
+.dashboard-loading p,
+.dashboard-error p {
+  margin-top: 16px;
+  font-size: 1rem;
+}
+
+/* Tarjetas mini del dashboard */
+.dashboard-card-mini {
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+  transition: var(--transition);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.dashboard-card-mini:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.mini-card-content {
+  display: flex;
+  align-items: center;
+}
+
+.mini-card-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 16px;
+  font-size: 1.2rem;
+  color: white;
+}
+
+.mini-card-info {
+  flex: 1;
+}
+
+.mini-card-value {
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1;
+  margin: 0;
+}
+
+.mini-card-label {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  font-weight: 500;
+  margin: 4px 0 0 0;
+}
+
+/* Variantes de colores para tarjetas mini */
+.dashboard-card-blue .mini-card-icon.dashboard-icon-blue {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+}
+
+.dashboard-card-blue .mini-card-value {
+  color: #3b82f6;
+}
+
+.dashboard-card-success .mini-card-icon.dashboard-icon-success {
+  background: linear-gradient(135deg, var(--admin-accent-green), #059669);
+}
+
+.dashboard-card-success .mini-card-value {
+  color: var(--admin-accent-green);
+}
+
+.dashboard-card-warning .mini-card-icon.dashboard-icon-warning {
+  background: linear-gradient(135deg, var(--admin-accent-orange), #d97706);
+}
+
+.dashboard-card-warning .mini-card-value {
+  color: var(--admin-accent-orange);
+}
+
+/* Tarjetas de estado de cursos */
+.dashboard-card-status {
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+  transition: var(--transition);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.dashboard-card-status:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.status-card-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.status-info {
+  flex: 1;
+}
+
+.status-value {
+  font-size: 1.8rem;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.status-label {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.status-trend {
+  display: flex;
+  align-items: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.trend-up {
+  color: var(--admin-accent-green);
+  margin-right: 4px;
+}
+
+.trend-down {
+  color: var(--admin-accent-red);
+  margin-right: 4px;
+}
+
+.status-icon {
+  width: 45px;
+  height: 45px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  opacity: 0.7;
+}
+
+/* Variantes de estado */
+.status-active .status-value {
+  color: #3b82f6;
+}
+
+.status-active .status-icon {
+  background: rgba(59, 130, 246, 0.1);
+  color: #3b82f6;
+}
+
+.status-completed .status-value {
+  color: var(--admin-accent-green);
+}
+
+.status-completed .status-icon {
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--admin-accent-green);
+}
+
+.status-pending .status-value {
+  color: var(--admin-accent-orange);
+}
+
+.status-pending .status-icon {
+  background: rgba(245, 158, 11, 0.1);
+  color: var(--admin-accent-orange);
+}
+
+/* Tarjetas de gráficos */
+.dashboard-card.chart-card {
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.chart-card-header {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-bottom: 1px solid var(--border-light);
+  padding: 16px 20px;
+}
+
+.chart-card-header h6 {
+  margin: 0;
+  color: var(--text-dark);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+}
+
+/* Contenedores de gráficos específicos */
+.donut-chart-container {
+  position: relative;
+  height: 280px;
+  margin-bottom: 20px;
+}
+
+.donut-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.donut-percentage {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  line-height: 1;
+}
+
+.donut-label {
+  font-size: 0.8rem;
+  color: var(--text-light);
+  margin-top: 4px;
+  font-weight: 500;
+}
+
+.bar-chart-container {
+  height: 300px;
+  position: relative;
+}
+
+/* Leyenda personalizada */
+.chart-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  font-size: 0.85rem;
+  color: var(--text-dark);
+}
+
+.legend-color {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-right: 8px;
+  flex-shrink: 0;
+}
+
+/* Animación de spin para spinners */
+.fa-spin {
+  animation: fa-spin 1s infinite linear;
+}
+
+@keyframes fa-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Responsive para dashboard */
+@media (max-width: 768px) {
+  .dashboard-header {
+    flex-direction: column;
+    gap: 12px;
+    text-align: center;
+  }
+  
+  .dashboard-title h4 {
+    font-size: 1.2rem;
+  }
+  
+  .mini-card-content {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .mini-card-icon {
+    margin-right: 0;
+    margin-bottom: 8px;
+    width: 45px;
+    height: 45px;
+  }
+  
+  .mini-card-value {
+    font-size: 1.5rem;
+  }
+  
+  .status-card-content {
+    flex-direction: column;
+    text-align: center;
+    gap: 12px;
+  }
+  
+  .status-value {
+    font-size: 1.5rem;
+  }
+  
+  .donut-chart-container {
+    height: 240px;
+  }
+  
+  .bar-chart-container {
+    height: 250px;
+  }
+  
+  .chart-legend {
+    gap: 6px;
+  }
+  
+  .legend-item {
+    font-size: 0.8rem;
+  }
+  
+  .chart-card-header {
+    padding: 12px 16px;
+  }
+}
+
+/* ==========================================
+   ESTILOS PARA ADMIN STATS - ESTADÍSTICAS
+   ========================================== */
+
+/* Tarjetas de estadísticas principales */
+.stats-card {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  border: 1px solid var(--border-light);
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  box-shadow: var(--shadow-sm);
+}
+
+.stats-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.stats-card-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 16px;
+  font-size: 1.2rem;
+}
+
+.stats-card-content {
+  flex: 1;
+}
+
+.stats-number {
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1;
+  margin: 0;
+}
+
+.stats-label {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  font-weight: 500;
+  margin: 4px 0 0 0;
+}
+
+/* Variantes de colores para tarjetas */
+.stats-card-primary .stats-card-icon {
+  background: linear-gradient(135deg, var(--admin-sidebar-accent), #6366f1);
+  color: white;
+}
+
+.stats-card-primary .stats-number {
+  color: var(--admin-sidebar-accent);
+}
+
+.stats-card-success .stats-card-icon {
+  background: linear-gradient(135deg, var(--admin-accent-green), #059669);
+  color: white;
+}
+
+.stats-card-success .stats-number {
+  color: var(--admin-accent-green);
+}
+
+.stats-card-warning .stats-card-icon {
+  background: linear-gradient(135deg, var(--admin-accent-orange), #d97706);
+  color: white;
+}
+
+.stats-card-warning .stats-number {
+  color: var(--admin-accent-orange);
+}
+
+.stats-card-info .stats-card-icon {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: white;
+}
+
+.stats-card-info .stats-number {
+  color: #3b82f6;
+}
+
+/* Tarjetas de métricas con tendencias */
+.metric-card {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  border: 1px solid var(--border-light);
+  transition: var(--transition);
+  box-shadow: var(--shadow-sm);
+}
+
+.metric-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.metric-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.metric-info {
+  flex: 1;
+}
+
+.metric-value {
+  font-size: 1.8rem;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.metric-label {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.metric-trend {
+  display: flex;
+  align-items: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.metric-icon {
+  width: 45px;
+  height: 45px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  opacity: 0.7;
+}
+
+/* Variantes de métricas */
+.metric-active .metric-value {
+  color: #3b82f6;
+}
+
+.metric-active .metric-icon {
+  background: rgba(59, 130, 246, 0.1);
+  color: #3b82f6;
+}
+
+.metric-completed .metric-value {
+  color: var(--admin-accent-green);
+}
+
+.metric-completed .metric-icon {
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--admin-accent-green);
+}
+
+.metric-pending .metric-value {
+  color: var(--admin-accent-orange);
+}
+
+.metric-pending .metric-icon {
+  background: rgba(245, 158, 11, 0.1);
+  color: var(--admin-accent-orange);
+}
+
+/* Contenedores de gráficos */
+.chart-container {
+  background: white;
+  border-radius: 12px;
+  border: 1px solid var(--border-light);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.chart-header {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.chart-header h6 {
+  margin: 0;
+  color: var(--text-dark);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+}
+
+.chart-body {
+  padding: 20px;
+}
+
+/* Gráfico de donut específico */
+.donut-wrapper {
+  position: relative;
+  height: 280px;
+  margin-bottom: 20px;
+}
+
+.donut-chart {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.donut-center-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  pointer-events: none;
+}
+
+/* Gráficos de barras */
+.bar-chart {
+  height: 300px;
+  position: relative;
+}
+
+/* Responsive para estadísticas */
+@media (max-width: 768px) {
+  .stats-card {
+    padding: 16px;
+  }
+  
+  .stats-card-icon {
+    width: 45px;
+    height: 45px;
+    margin-right: 12px;
+  }
+  
+  .stats-number {
+    font-size: 1.5rem;
+  }
+  
+  .metric-card {
+    padding: 16px;
+  }
+  
+  .metric-value {
+    font-size: 1.5rem;
+  }
+  
+  .chart-body {
+    padding: 16px;
+  }
+  
+  .donut-wrapper {
+    height: 240px;
+  }
+  
+  .bar-chart {
+    height: 250px;
+  }
+}

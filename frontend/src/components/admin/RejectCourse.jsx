@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 import { FaTimes, FaSpinner } from "react-icons/fa";
 import { fetchWithAuth } from "../../api/api";
+import "./RejectCourse.css";
 
 const RejectCourse = ({ courseId, onReject }) => {
   const [loading, setLoading] = useState(false);
@@ -16,9 +17,7 @@ const RejectCourse = ({ courseId, onReject }) => {
 
       setRejected(true);
       
-      // Esperar un momento para mostrar el éxito antes de remover
       setTimeout(() => {
-        // Usar una notificación más elegante en lugar de alert
         console.log("Curso rechazado:", data.message);
         onReject(courseId); // elimina el curso rechazado de `PendingCourses`
       }, 800);

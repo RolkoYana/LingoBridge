@@ -10,8 +10,8 @@ import TeacherPage from "./pages/TeacherPage";
 import StudentCoursePage from "./pages/StudentCoursePage";
 import TeacherCoursePage from "./pages/TeacherCoursePage";
 import CreateCourseForm from "./components/forms/CreateCourseForm";
-import StudentTestPage from "./pages/StudentTestPage";
 import StudentTaskDelivery from "./components/student/course/StudentTaskDelivery";
+import StudentTestAttempt from "./components/student/course/StudentTestAttempt.jsx";
 
 function App() {
   return (
@@ -44,7 +44,7 @@ function App() {
           {/* Ruta para el test del estudiante */}
           <Route
             path="/student/course/:courseId/test/:activityId"
-            element={<StudentTestPage />}
+            element={<StudentTestAttempt />}
           />
 
           {/* Ruta para la tarea del estudiante */}
