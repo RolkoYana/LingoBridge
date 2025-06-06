@@ -10,6 +10,7 @@ const Courses = () => {
   const courses = [
     {
       name: "Intensivo",
+      courseType: "Intensivo", // Agregar identificador del tipo de curso
       image: intensive,
       features: [
         { text: "Aprende un idioma en 2 meses", icon: <FaBookOpen /> },
@@ -20,6 +21,7 @@ const Courses = () => {
     },
     {
       name: "Flexible",
+      courseType: "Flexible", // Agregar identificador del tipo de curso
       image: flexible,
       features: [
         { text: "Asiste a las clases cuando quieras", icon: <FaCalendarAlt /> },
@@ -30,6 +32,7 @@ const Courses = () => {
     },
     {
       name: "Grupal",
+      courseType: "Grupal", // Agregar identificador del tipo de curso
       image: group,
       features: [
         { text: "Haz un curso en un grupo", icon: <FaUsers /> },
@@ -50,6 +53,7 @@ const Courses = () => {
               <div className="col-12 col-md-6 col-lg-4 mb-4" key={index}>
                 <CourseCard
                   name={course.name}
+                  courseType={course.courseType}
                   image={course.image}
                   features={course.features}
                   buttonText={course.buttonText}
