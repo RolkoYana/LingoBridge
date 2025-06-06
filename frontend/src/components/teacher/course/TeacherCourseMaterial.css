@@ -7,16 +7,18 @@
   border-radius: 12px;
   box-shadow: 0 4px 15px rgba(0,0,0,0.08);
   overflow: hidden;
+  background-color: var(--card-bg);
+  transition: all 0.3s ease;
 }
 
 .teacher-course-material .card-header {
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-  border-bottom: 2px solid #f39c12;
+  background: var(--secondary-bg);
+  /* LÍNEA AZUL ELIMINADA */
   padding: 20px 24px;
 }
 
 .teacher-course-material .card-header h2 {
-  color: #2c3e50;
+  color: var(--primary-text);
   font-weight: 700;
   margin-bottom: 0;
   font-size: 22px;
@@ -24,28 +26,39 @@
 
 .teacher-course-material .card-body {
   padding: 24px;
+  background-color: var(--card-bg);
 }
 
-/* Material items */
+/* Material items - MEJORADO CON ACCIONES */
 .material-item {
   padding: 24px !important;
   border: none !important;
-  border-bottom: 1px solid #cbd5e0 !important;
+  border-bottom: 1px solid var(--border-color) !important;
   margin-bottom: 0 !important;
-  text-align: center;
-  transition: background-color 0.3s ease;
+  background-color: var(--card-bg) !important;
+  transition: all 0.3s ease;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: flex-start !important;
+  gap: 20px;
 }
 
 .material-item:hover {
-  background-color: rgba(52, 144, 220, 0.02);
+  background-color: var(--secondary-bg) !important;
 }
 
 .material-item:last-child {
   border-bottom: none !important;
 }
 
-.material-item h5 {
-  color: #2c3e50;
+/* Contenido del material */
+.material-content {
+  flex: 1;
+  text-align: center;
+}
+
+.material-content h5 {
+  color: var(--primary-text);
   font-weight: 600;
   margin-bottom: 20px;
   font-size: 18px;
@@ -57,7 +70,7 @@
   width: 100%;
   max-width: 600px;
   margin: 0 auto;
-  background: #f8f9fa;
+  background: var(--secondary-bg);
   border-radius: 12px;
   padding: 8px;
   box-shadow: 0 4px 15px rgba(0,0,0,0.1);
@@ -70,9 +83,9 @@
 }
 
 /* Download button */
-.material-item .btn {
-  background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
-  border: none;
+.download-btn {
+  background: linear-gradient(135deg, var(--accent-color) 0%, var(--link-hover-color) 100%) !important;
+  border: none !important;
   border-radius: 25px;
   padding: 12px 24px;
   font-weight: 600;
@@ -80,24 +93,230 @@
   box-shadow: 0 3px 10px rgba(52, 152, 219, 0.3);
   font-size: 14px;
   text-transform: none;
+  color: white !important;
 }
 
-.material-item .btn:hover {
+.download-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
-  background: linear-gradient(135deg, #2980b9 0%, #3498db 100%);
+  background: linear-gradient(135deg, var(--link-hover-color) 0%, var(--accent-color) 100%) !important;
+  color: white !important;
+}
+
+/* NUEVOS ESTILOS PARA ACCIONES */
+.material-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 120px;
+  flex-shrink: 0;
+}
+
+.action-btn {
+  border-radius: 6px !important;
+  font-weight: 600 !important;
+  padding: 8px 16px !important;
+  font-size: 13px !important;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+.edit-btn {
+  background-color: transparent !important;
+  border: 1px solid var(--accent-color) !important;
+  color: var(--accent-color) !important;
+}
+
+.edit-btn:hover {
+  background-color: var(--accent-color) !important;
+  color: white !important;
+  transform: translateY(-1px);
+}
+
+.delete-btn {
+  background-color: transparent !important;
+  border: 1px solid #dc3545 !important;
+  color: #dc3545 !important;
+}
+
+.delete-btn:hover {
+  background-color: #dc3545 !important;
+  color: white !important;
+  transform: translateY(-1px);
 }
 
 /* Empty state */
 .teacher-course-material .card-body > p {
   text-align: center;
-  color: #6c757d;
+  color: var(--secondary-text);
   font-style: italic;
   padding: 60px 20px;
   margin: 0;
   font-size: 16px;
-  background: rgba(248, 249, 250, 0.5);
+  background: var(--secondary-bg);
   border-radius: 8px;
+}
+
+/* ESTILOS PARA EL FORMULARIO DE EDICIÓN */
+.edit-material-form {
+  background: var(--card-bg);
+  border-radius: 8px;
+  padding: 24px;
+  border: 1px solid var(--border-color);
+}
+
+.edit-material-form .form-group {
+  margin-bottom: 20px;
+}
+
+.edit-material-form .form-label {
+  color: var(--primary-text);
+  font-weight: 600;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.edit-material-form .form-control {
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  background-color: var(--card-bg);
+  color: var(--primary-text);
+  padding: 10px 12px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.edit-material-form .form-control::placeholder {
+  color: var(--secondary-text);
+  opacity: 0.7;
+}
+
+.edit-material-form .form-control:focus {
+  border-color: var(--accent-color);
+  background-color: var(--card-bg);
+  color: var(--primary-text);
+  box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+}
+
+.edit-material-form input[type="file"] {
+  padding: 8px 12px;
+}
+
+.edit-material-form .btn-primary {
+  background: linear-gradient(135deg, var(--accent-color) 0%, var(--link-hover-color) 100%) !important;
+  border: none !important;
+  border-radius: 6px;
+  font-weight: 600;
+  padding: 10px 24px;
+  transition: all 0.3s ease;
+  color: white !important;
+}
+
+.edit-material-form .btn-primary:hover {
+  transform: translateY(-1px);
+  background: linear-gradient(135deg, var(--link-hover-color) 0%, var(--accent-color) 100%) !important;
+  color: white !important;
+}
+
+.edit-material-form .btn-primary:disabled {
+  background: var(--secondary-text) !important;
+  transform: none;
+  cursor: not-allowed;
+}
+
+.edit-material-form .btn-outline-secondary {
+  background-color: transparent !important;
+  border: 1px solid var(--secondary-text) !important;
+  color: var(--secondary-text) !important;
+  border-radius: 6px;
+  font-weight: 600;
+  padding: 10px 24px;
+  transition: all 0.3s ease;
+}
+
+.edit-material-form .btn-outline-secondary:hover {
+  background-color: var(--secondary-text) !important;
+  color: white !important;
+}
+
+.edit-material-form .alert {
+  border-radius: 6px;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+.material-form-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.material-form-icon {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, #e8f5e8 0%, #c8e6c9 100%);
+  color: #2e7d32;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+}
+
+.edit-icon {
+  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%) !important;
+  color: var(--accent-color) !important;
+}
+
+.material-form-title {
+  color: var(--primary-text);
+  font-weight: 700;
+  margin-bottom: 4px;
+  font-size: 18px;
+}
+
+.material-form-subtitle {
+  color: var(--secondary-text);
+  margin-bottom: 0;
+  font-size: 13px;
+}
+
+.uploading-overlay {
+  position: relative;
+}
+
+.uploading-overlay::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 6px;
+  z-index: 1;
+}
+
+body[data-theme="dark"] .uploading-overlay::after {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.form-hint {
+  font-size: 12px;
+  color: var(--secondary-text);
+  margin-top: 4px;
+  font-style: italic;
+}
+
+.required-field::after {
+  content: " *";
+  color: #dc3545;
 }
 
 /* ==========================================
@@ -120,11 +339,30 @@
   
   .material-item {
     padding: 20px !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 16px !important;
   }
   
-  .material-item h5 {
+  .material-content {
+    text-align: center;
+  }
+  
+  .material-content h5 {
     font-size: 16px;
     margin-bottom: 16px;
+  }
+  
+  .material-actions {
+    flex-direction: row;
+    justify-content: center;
+    min-width: auto;
+  }
+  
+  .action-btn {
+    flex: 1;
+    font-size: 12px !important;
+    padding: 10px 12px !important;
   }
   
   .video-container {
@@ -136,9 +374,28 @@
     height: 200px;
   }
   
-  .material-item .btn {
+  .download-btn {
     font-size: 13px;
     padding: 10px 20px;
+  }
+  
+  .edit-material-form {
+    padding: 20px 16px;
+  }
+  
+  .edit-material-form .form-control {
+    font-size: 16px; /* Evita zoom en iOS */
+  }
+  
+  .edit-material-form .d-flex {
+    flex-direction: column-reverse;
+    gap: 8px;
+  }
+  
+  .edit-material-form .btn-primary,
+  .edit-material-form .btn-outline-secondary {
+    width: 100%;
+    padding: 12px 24px;
   }
 }
 
@@ -150,6 +407,15 @@
   
   .video-container iframe {
     height: 250px;
+  }
+  
+  .material-actions {
+    min-width: 110px;
+  }
+  
+  .action-btn {
+    font-size: 12px !important;
+    padding: 7px 14px !important;
   }
 }
 
@@ -163,7 +429,7 @@
     height: 280px;
   }
   
-  .material-item h5 {
+  .material-content h5 {
     font-size: 20px;
   }
 }
@@ -177,4 +443,13 @@
   .material-item {
     padding: 28px !important;
   }
+}
+
+/* Dark mode específico */
+body[data-theme="dark"] .teacher-course-material {
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+body[data-theme="dark"] .video-container {
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
 }

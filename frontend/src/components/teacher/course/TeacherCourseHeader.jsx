@@ -1,6 +1,6 @@
 import React from "react";
 import { Row, Col, Badge } from "react-bootstrap";
-import { FaBook, FaUsers, FaGraduationCap } from "react-icons/fa";
+import { FaUsers, FaGraduationCap } from "react-icons/fa";
 import "./TeacherCourseHeader.css";
 
 const TeacherCourseHeader = ({ course }) => {
@@ -13,37 +13,31 @@ const TeacherCourseHeader = ({ course }) => {
   }
 
   return (
-    <div className="teacher-course-header">
+    <div className="teacher-course-header-inline">
       <Row className="align-items-center">
-        <Col xs={12} md={8}>
-          <div className="course-main-info">
-            <div className="course-title-section">
-              <FaGraduationCap className="course-icon" />
-              <div>
-                <h1 className="course-title">{course.name}</h1>
-                <p className="course-description">{course.description}</p>
-              </div>
+        <Col xs={12} lg={8}>
+          <div className="course-main-info-inline">
+            <FaGraduationCap className="course-icon-inline" />
+            <div className="course-text-content">
+              <h1 className="course-title-inline">{course.name}</h1>
+              <p className="course-description-inline">{course.description}</p>
             </div>
           </div>
         </Col>
         
-        <Col xs={12} md={4}>
-          <div className="course-stats">
-            <div className="stat-item">
-              <div className="stat-icon users">
-                <FaUsers />
-              </div>
-              <div className="stat-content">
-                <div className="stat-number">{course.numberOfStudents || 0}</div>
-                <div className="stat-label">Estudiantes</div>
+        <Col xs={12} lg={4}>
+          <div className="course-stats-inline">
+            <div className="stat-item-inline">
+              <FaUsers className="stat-icon-inline" />
+              <div className="stat-content-inline">
+                <span className="stat-number-inline">{course.numberOfStudents || 0}</span>
+                <span className="stat-label-inline">Estudiantes</span>
               </div>
             </div>
             
-            <div className="course-badges">
-              <Badge bg="primary" className="type-badge">
-                {course.type}
-              </Badge>
-            </div>
+            <Badge bg="primary" className="type-badge-inline">
+              {course.type}
+            </Badge>
           </div>
         </Col>
       </Row>

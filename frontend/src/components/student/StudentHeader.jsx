@@ -87,10 +87,8 @@ const StudentHeader = ({ name }) => {
   }, []);
 
   const handleLogout = () => {
-    if (window.confirm('¿Estás seguro de que quieres cerrar sesión?')) {
-      localStorage.clear();
-      navigate("/login");
-    }
+    localStorage.clear();
+    navigate("/login");
   };
 
   const handleActivityClick = (activity) => {

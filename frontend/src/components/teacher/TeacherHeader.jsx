@@ -37,10 +37,8 @@ const TeacherHeader = () => {
   }, []);
 
   const handleLogout = () => {
-    if (window.confirm("¿Estás seguro de que quieres cerrar sesión?")) {
-      localStorage.clear();
-      navigate("/login");
-    }
+    localStorage.clear();
+    navigate("/login");
   };
 
   const formatDate = () => {
