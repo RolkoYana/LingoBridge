@@ -21,7 +21,6 @@ public class DataInitializer {
 
     private final AppUserRepository userRepository;
     private final CourseRepository courseRepository;
-    //private final LanguageRepository languageRepository;
     private final PasswordEncoder passwordEncoder;
 
     @PostConstruct
@@ -29,12 +28,6 @@ public class DataInitializer {
         if(userRepository.count() > 0) {
             return ;
         }
-
-        // crear idiomas
-//        Language english = languageRepository.save(Language.builder().name("English").build());
-//        Language french = languageRepository.save(Language.builder().name("French").build());
-//        Language spanish = languageRepository.save(Language.builder().name("Spanish").build());
-//        Language german = languageRepository.save(Language.builder().name("German").build());
 
         // crear admin
         AppUser admin = AppUser.builder()
@@ -44,6 +37,7 @@ public class DataInitializer {
                 .email("rolkoyana@gmail.com")
                 .password(passwordEncoder.encode("yanar123"))
                 .roles(Set.of(Role.ADMIN))
+                .enabled(true)
                 .build();
         userRepository.save(admin);
 
@@ -56,6 +50,7 @@ public class DataInitializer {
                 .password(passwordEncoder.encode("pilarm123"))
                 .roles(Set.of(Role.TEACHER, Role.STUDENT))
                 .languageTaught(Language.SPANISH)
+                .enabled(true)
                 .build();
 
         AppUser teacher2 = AppUser.builder()
@@ -66,6 +61,7 @@ public class DataInitializer {
                 .password(passwordEncoder.encode("daniels123"))
                 .roles(Set.of(Role.TEACHER))
                 .languageTaught(Language.GERMAN)
+                .enabled(true)
                 .build();
 
         AppUser teacher3 = AppUser.builder()
@@ -76,6 +72,7 @@ public class DataInitializer {
                 .password(passwordEncoder.encode("alexj123"))
                 .roles(Set.of(Role.TEACHER))
                 .languageTaught(Language.ENGLISH)
+                .enabled(true)
                 .build();
 
         AppUser teacher4 = AppUser.builder()
@@ -86,6 +83,7 @@ public class DataInitializer {
                 .password(passwordEncoder.encode("sophied123"))
                 .roles(Set.of(Role.TEACHER))
                 .languageTaught(Language.FRENCH)
+                .enabled(true)
                 .build();
 
         AppUser teacher5 = AppUser.builder()
@@ -96,6 +94,7 @@ public class DataInitializer {
                 .password(passwordEncoder.encode("annal123"))
                 .roles(Set.of(Role.TEACHER))
                 .languageTaught(Language.SPANISH)
+                .enabled(true)
                 .build();
 
         AppUser teacher6 = AppUser.builder()
@@ -106,6 +105,7 @@ public class DataInitializer {
                 .password(passwordEncoder.encode("gabriel123"))
                 .roles(Set.of(Role.TEACHER))
                 .languageTaught(Language.FRENCH)
+                .enabled(true)
                 .build();
 
         AppUser teacher7 = AppUser.builder()
@@ -116,6 +116,7 @@ public class DataInitializer {
                 .password(passwordEncoder.encode("mariag123"))
                 .roles(Set.of(Role.TEACHER))
                 .languageTaught(Language.ENGLISH)
+                .enabled(true)
                 .build();
 
         AppUser teacher8 = AppUser.builder()
@@ -126,6 +127,7 @@ public class DataInitializer {
                 .password(passwordEncoder.encode("johnb123"))
                 .roles(Set.of(Role.TEACHER))
                 .languageTaught(Language.ENGLISH)
+                .enabled(true)
                 .build();
 
         AppUser teacher9 = AppUser.builder()
@@ -136,11 +138,12 @@ public class DataInitializer {
                 .password(passwordEncoder.encode("emmam123"))
                 .roles(Set.of(Role.TEACHER))
                 .languageTaught(Language.GERMAN)
+                .enabled(true)
                 .build();
 
         userRepository.saveAll(List.of(teacher1, teacher2, teacher3, teacher4, teacher5, teacher6, teacher7, teacher8, teacher9));
 
-        // crear alumnos
+        // crear estudiantes
         AppUser student1 = AppUser.builder()
                 .name("Laura")
                 .surname("Gomez")
@@ -148,6 +151,7 @@ public class DataInitializer {
                 .email("laurag@lingobridge.com")
                 .password(passwordEncoder.encode("laurag123"))
                 .roles(Set.of(Role.STUDENT))
+                .enabled(true)
                 .build();
 
         AppUser student2 = AppUser.builder()
@@ -157,6 +161,7 @@ public class DataInitializer {
                 .email("carlosf@lingobridge.com")
                 .password(passwordEncoder.encode("carlosf123"))
                 .roles(Set.of(Role.STUDENT))
+                .enabled(true)
                 .build();
 
         AppUser student3 = AppUser.builder()
@@ -166,18 +171,19 @@ public class DataInitializer {
                 .email("josep@lingobridge.com")
                 .password(passwordEncoder.encode("josep123"))
                 .roles(Set.of(Role.STUDENT))
+                .enabled(true)
                 .build();
         userRepository.saveAll(List.of(student1, student2, student3));
 
         // mas estudiantes
         List<AppUser> students = List.of(
-                AppUser.builder().name("Nina").surname("Rivera").username("ninarivera").email("ninar@lingobridge.com").password(passwordEncoder.encode("nina123")).roles(Set.of(Role.STUDENT)).build(),
-                AppUser.builder().name("Leo").surname("Castro").username("leocastro").email("leoc@lingobridge.com").password(passwordEncoder.encode("leo123")).roles(Set.of(Role.STUDENT)).build(),
-                AppUser.builder().name("Sara").surname("Martins").username("saramartins").email("saram@lingobridge.com").password(passwordEncoder.encode("sara123")).roles(Set.of(Role.STUDENT)).build(),
-                AppUser.builder().name("Mateo").surname("Silva").username("mateosilva").email("mateos@lingobridge.com").password(passwordEncoder.encode("mateo123")).roles(Set.of(Role.STUDENT)).build(),
-                AppUser.builder().name("Clara").surname("Weber").username("claraweber").email("claraw@lingobridge.com").password(passwordEncoder.encode("clara123")).roles(Set.of(Role.STUDENT)).build(),
-                AppUser.builder().name("Lucia").surname("Ramos").username("luciaramos").email("luciar@lingobridge.com").password(passwordEncoder.encode("lucia123")).roles(Set.of(Role.STUDENT)).build(),
-                AppUser.builder().name("Noah").surname("Bauer").username("noahbauer").email("noahb@lingobridge.com").password(passwordEncoder.encode("noah123")).roles(Set.of(Role.STUDENT)).build()
+                AppUser.builder().name("Nina").surname("Rivera").username("ninarivera").email("ninar@lingobridge.com").password(passwordEncoder.encode("nina123")).roles(Set.of(Role.STUDENT)).enabled(true).build(),
+                AppUser.builder().name("Leo").surname("Castro").username("leocastro").email("leoc@lingobridge.com").password(passwordEncoder.encode("leo123")).roles(Set.of(Role.STUDENT)).enabled(true).build(),
+                AppUser.builder().name("Sara").surname("Martins").username("saramartins").email("saram@lingobridge.com").password(passwordEncoder.encode("sara123")).roles(Set.of(Role.STUDENT)).enabled(true).build(),
+                AppUser.builder().name("Mateo").surname("Silva").username("mateosilva").email("mateos@lingobridge.com").password(passwordEncoder.encode("mateo123")).roles(Set.of(Role.STUDENT)).enabled(true).build(),
+                AppUser.builder().name("Clara").surname("Weber").username("claraweber").email("claraw@lingobridge.com").password(passwordEncoder.encode("clara123")).roles(Set.of(Role.STUDENT)).enabled(true).build(),
+                AppUser.builder().name("Lucia").surname("Ramos").username("luciaramos").email("luciar@lingobridge.com").password(passwordEncoder.encode("lucia123")).roles(Set.of(Role.STUDENT)).enabled(true).build(),
+                AppUser.builder().name("Noah").surname("Bauer").username("noahbauer").email("noahb@lingobridge.com").password(passwordEncoder.encode("noah123")).roles(Set.of(Role.STUDENT)).enabled(true).build()
         );
         userRepository.saveAll(students);
 
