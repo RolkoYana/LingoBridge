@@ -13,6 +13,7 @@ const RegisterForm = ({ onSuccess }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [registrationComplete, setRegistrationComplete] = useState(false); // Nuevo estado
 
   // Validar el formulario
   const validateForm = () => {
@@ -92,16 +93,14 @@ const RegisterForm = ({ onSuccess }) => {
         passwordConfirm,
       };
 
-      await register(userData);
-      setSuccess("Usuario registrado correctamente.");
-
-      // Limpiar formulario después del éxito
-      clearForm();
-
-      // Redirigir después de 2 segundos
-      setTimeout(() => {
-        onSuccess();
-      }, 2000);
+      const response = await register(userData);
+      
+      // El backend ahora devuelve un objeto con message
+      if (response && response.message) {
+        setSuccess(response.message);
+        setRegistrationComplete(true);
+        clearForm();
+      }
     } catch (err) {
       console.error("Error:", err);
       const errorMessage =
@@ -133,6 +132,49 @@ const RegisterForm = ({ onSuccess }) => {
   const handleCloseSuccess = () => {
     setSuccess("");
   };
+
+  // Ir al login
+  const goToLogin = () => {
+    onSuccess();
+  };
+
+  // Si el registro está completo, mostrar mensaje de verificación
+  if (registrationComplete) {
+    return (
+      <div className="text-center">
+        <div className="alert alert-success mb-4" role="alert">
+          <h5 className="alert-heading">✅ ¡Registro exitoso!</h5>
+          <p className="mb-3">{success}</p>
+          <hr />
+          <p className="mb-0">
+            <strong>Importante:</strong> Revisa tu correo electrónico (incluyendo la carpeta de spam) 
+            y haz clic en el enlace de verificación para activar tu cuenta.
+          </p>
+        </div>
+        
+        <div className="d-grid gap-2">
+          <Button 
+            variant="primary" 
+            onClick={goToLogin}
+            className="py-2"
+          >
+            Ir al inicio de sesión
+          </Button>
+          
+          <Button 
+            variant="outline-secondary" 
+            onClick={() => {
+              setRegistrationComplete(false);
+              setSuccess("");
+            }}
+            className="py-2"
+          >
+            Registrar otro usuario
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -169,7 +211,7 @@ const RegisterForm = ({ onSuccess }) => {
       )}
 
       {/* MENSAJE DE ÉXITO */}
-      {success && (
+      {success && !registrationComplete && (
         <div
           className="alert alert-success register-success-alert position-relative mb-4"
           role="alert"

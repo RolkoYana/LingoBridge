@@ -10,17 +10,27 @@ const handleResponse = async (response) => {
   return response.json();
 };
 
-// registrar un usuario
 export const register = async (userData) => {
-  const response = await fetch(`${API_URL}/auth/register`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(userData),
-  });
+  try {
+    const response = await fetch(`${API_URL}/auth/register`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(userData),
+    });
 
-  return handleResponse(response);
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || 'Error al registrar usuario');
+    }
+
+    return data; // Devolver la respuesta completa que incluye el message
+  } catch (error) {
+    console.error('Error en registro:', error);
+    throw error;
+  }
 };
 
 // hacer login y recibir el token JWT

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Form, Button, InputGroup } from "react-bootstrap";
-import { FaUser, FaLock, FaGoogle, FaEye, FaEyeSlash } from "react-icons/fa";
+import { Form, Button, InputGroup, Alert } from "react-bootstrap";
+import { FaUser, FaLock, FaGoogle, FaEye, FaEyeSlash, FaEnvelope } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { login } from "../../api/api.js";
 
@@ -10,13 +10,15 @@ const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const [showVerificationAlert, setShowVerificationAlert] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
     setIsLoading(true);
-    setError(""); // Limpiar errores previos
+    setError("");
+    setShowVerificationAlert(false);
 
     try {
       const response = await login(username, password);
@@ -50,8 +52,15 @@ const LoginForm = () => {
       }
     } catch (error) {
       console.error("Error en login:", error);
-      const errorMessage = error.message || "Credenciales incorrectas. Verifica tu usuario y contraseña.";
-      setError(errorMessage);
+      
+      // Verificar si el error es por cuenta no verificada
+      if (error.message && error.message.includes("verificada")) {
+        setShowVerificationAlert(true);
+        setError(error.message);
+      } else {
+        const errorMessage = error.message || "Credenciales incorrectas. Verifica tu usuario y contraseña.";
+        setError(errorMessage);
+      }
     } finally {
       setIsLoading(false);
     }
@@ -65,15 +74,20 @@ const LoginForm = () => {
   // Cerrar la alerta y limpiar los inputs
   const handleCloseError = () => {
     setError("");
+    setShowVerificationAlert(false);
     setUsername("");
     setPassword("");
     setShowPassword(false);
   };
 
+  const goToRegister = () => {
+    navigate("/register");
+  };
+
   return (
     <Form onSubmit={handleLogin} className="w-100">
-      {/* Mensaje de error */}
-      {error && (
+      {/* Mensaje de error general */}
+      {error && !showVerificationAlert && (
         <div
           className="alert alert-danger login-error-alert position-relative"
           role="alert"
@@ -87,6 +101,58 @@ const LoginForm = () => {
             ✕
           </span>
         </div>
+      )}
+
+      {/* Alerta especial para cuenta no verificada */}
+      {showVerificationAlert && (
+        <Alert variant="warning" className="position-relative">
+          <Alert.Heading className="h6">
+            <FaEnvelope className="me-2" />
+            Cuenta no verificada
+          </Alert.Heading>
+          <p className="mb-3">{error}</p>
+          <hr />
+          <div className="d-flex flex-column gap-2">
+            <small className="text-muted">
+              • Revisa tu correo electrónico (incluyendo spam)
+            </small>
+            <small className="text-muted">
+              • Si no encuentras el correo, puedes registrarte de nuevo para recibir un nuevo enlace
+            </small>
+          </div>
+          <div className="mt-3">
+            <Button 
+              variant="outline-warning" 
+              size="sm" 
+              onClick={goToRegister}
+              className="me-2"
+            >
+              Registrarse de nuevo
+            </Button>
+          </div>
+          <span
+            className="login-error-close-btn"
+            aria-label="Close"
+            onClick={handleCloseError}
+            style={{
+              position: "absolute",
+              top: "0.5rem",
+              right: "0.75rem",
+              fontSize: "1.25rem",
+              fontWeight: "bold",
+              color: "inherit",
+              cursor: "pointer",
+              background: "transparent",
+              border: "none",
+              lineHeight: 1,
+              transition: "opacity 0.2s ease",
+            }}
+            onMouseOver={(e) => (e.target.style.opacity = "0.7")}
+            onMouseOut={(e) => (e.target.style.opacity = "1")}
+          >
+            ✕
+          </span>
+        </Alert>
       )}
 
       <Form.Group className="mb-4">

@@ -4,6 +4,7 @@ import { ThemeProvider } from "./context/ThemeContext.jsx";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
+import VerifyEmailPage from "./pages/VerifyEmailPage"; // Nueva importación
 import AdminPage from "./pages/AdminPage";
 import StudentPage from "./pages/StudentPage";
 import TeacherPage from "./pages/TeacherPage";
@@ -24,6 +25,7 @@ function App() {
           {/* autenticacion */}
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
+          <Route path="/verify" element={<VerifyEmailPage />} /> 
 
           {/* panel de admin */}
           <Route path="/admin" element={<AdminPage />} />
@@ -33,7 +35,6 @@ function App() {
 
           {/* panel de profesor */}
           <Route path="/teacher" element={<TeacherPage />} />
-          <Route path="/teacher/create-course" element={<CreateCourseForm />} />
 
           {/* pagina de curso para alumno*/}
           <Route path="/student/course/:id" element={<StudentCoursePage />} />
