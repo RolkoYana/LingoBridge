@@ -9,4 +9,6 @@ public interface ActivityRepository extends JpaRepository<Activity, Long> {
 
     List<Activity> findByCourse_Id(Long courseId);
 
+    void deleteById(Long id);
+
 }
