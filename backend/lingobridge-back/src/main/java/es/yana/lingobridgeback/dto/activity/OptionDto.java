@@ -9,5 +9,5 @@ import lombok.*;
 public class OptionDto {
     private Long id;
     private String text;
-    private boolean correct; // profesor lo usa, no se expone a estudiantes
+    private boolean correct; // profesor lo usa, no se muestra para los estudiantes
 }

@@ -61,6 +61,24 @@ public class ActivityController {
         return ResponseEntity.ok(createdTest);
     }
 
+    // eliminar la actividad
+    @PreAuthorize("hasAuthority('TEACHER')")
+    @DeleteMapping("/teacher/activity/{activityId}")
+    public ResponseEntity<?> deleteActivity(@PathVariable Long activityId) {
+        try {
+            boolean deleted = activityService.deleteActivity(activityId);
+
+            if (deleted) {
+                return ResponseEntity.ok().build();
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error al eliminar la actividad: " + e.getMessage());
+        }
+    }
+
     // ver actividades del curso
     @PreAuthorize("hasAuthority('TEACHER')")
     @GetMapping("/teacher/course/{courseId}/activity")
@@ -215,8 +233,8 @@ public class ActivityController {
         result.setStudent(student);
         result.setCompleted(true);
         result.setCompletedAt(LocalDate.now());
-        result.setAutoCorrected(false); // ya que no es test
-        result.setTextAnswer(textAnswer); // puede ser null
+        result.setAutoCorrected(false);
+        result.setTextAnswer(textAnswer);
         result.setFileName(file.getOriginalFilename());
         result.setFileData(file.getBytes());
 
@@ -224,19 +242,6 @@ public class ActivityController {
 
         return new ActivityResultDto(saved);
     }
-
-
-    // editar o rrenviar resultados (A LO MEJO RINNECESARIO)
-//    @PreAuthorize("hasAuthority('STUDENT')")
-//    @PostMapping("student/activity/{activityId}/result")
-//    public ResponseEntity<ActivityResultDto> submitActivityResult(
-//            @PathVariable Long activityId,
-//            @RequestBody ActivityResultDto resultDto,
-//            @AuthenticationPrincipal UserDetails student) {
-//
-//        ActivityResultDto saved = activityResultService.submitResult(activityId, student.getUsername(), resultDto);
-//        return ResponseEntity.ok(saved);
-//    }
 
     // obtener todas las evaluaciones del estudiante
     @PreAuthorize("hasAuthority('STUDENT')")
@@ -247,12 +252,5 @@ public class ActivityController {
         List<StudentActivityResultDto> results = activityResultService.getResultsForStudent(student.getUsername());
         return ResponseEntity.ok(results);
     }
-
-
-
-
-
-
-
 
 }

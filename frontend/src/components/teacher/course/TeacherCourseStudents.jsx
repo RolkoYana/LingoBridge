@@ -56,8 +56,6 @@ const TeacherCourseStudents = ({ courseId }) => {
   const handleSendMessage = (student) => {
     // Aquí iría la lógica para enviar mensaje al estudiante
     console.log("Enviar mensaje a estudiante:", student);
-    // Por ejemplo: navigate(`/teacher/course/${courseId}/student/${student.id}/message`);
-    // O abrir un modal de envío de mensaje
   };
 
   if (loading) {

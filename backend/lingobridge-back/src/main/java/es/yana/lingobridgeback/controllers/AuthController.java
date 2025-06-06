@@ -55,9 +55,7 @@ public class AuthController {
         if (jwtRegisterRequest == null) {
             return ResponseEntity.badRequest().body(Map.of("error", "Datos inválidos"));
         }
-
         Optional<AppUser> existingUserOpt = userService.findByEmail(jwtRegisterRequest.getEmail());
-
         // Caso 1: El usuario ya existe
         if (existingUserOpt.isPresent()) {
             AppUser existingUser = existingUserOpt.get();
@@ -71,23 +69,19 @@ public class AuthController {
                 return ResponseEntity.ok(Map.of("message", "El correo electrónico ya está registrado pero no verificado. Se ha reenviado el correo de verificación.", "email", existingUser.getEmail()));
             }
         }
-
         // Caso 2: Usuario nuevo --> validar datos y crear
         if (userService.findByUsername(jwtRegisterRequest.getUsername()).isPresent()) {
             return ResponseEntity.badRequest().body(Map.of("error", "El nombre de usuario ya está en uso"));
         }
-
         if (!jwtRegisterRequest.getPassword().equals(jwtRegisterRequest.getPasswordConfirm())) {
             return ResponseEntity.badRequest().body(Map.of("error", "Las contraseñas no coinciden"));
         }
-
         try {
             // El método userService.save(jwtRegisterRequest) se encarga de:
             // 1. Cifrar la contraseña
             // 2. Crear y guardar el usuario nuevo
             // 3. Asignar enabled=false, generar verificationToken y tokenExpiryDate
             AppUser savedUser = userService.save(jwtRegisterRequest);
-
             // Enviar correo de verificación
             try {
                 sendVerificationEmail(savedUser);
@@ -95,16 +89,12 @@ public class AuthController {
                 log.error("Error al enviar el correo de verificación a {}: {}", savedUser.getEmail(), e.getMessage());
                 return ResponseEntity.status(500).body(Map.of("error", "Error al enviar el correo de verificación. Intenta más tarde."));
             }
-
-
             JwtRegisterResponse response = JwtRegisterResponse.builder()
                     .id(savedUser.getId())
                     .username(savedUser.getUsername())
                     .registerDate(LocalDateTime.now())
                     .build();
-
             URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(savedUser.getId()).toUri();
-
             return ResponseEntity.created(location).body(Map.of("message", "Registro exitoso. Se ha enviado un correo de verificación a " + savedUser.getEmail() + ". Por favor, verifica tu cuenta."));
         } catch (Exception e) {
             log.error("Error en el registro", e);
@@ -115,23 +105,17 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody JwtLoginRequest loginRequest) throws Exception {
         log.info("Intentando autenticar usuario: {}", loginRequest.getUsername());
-
         try {
             // Paso 1: Obtener detalles del usuario para verificar si está habilitado
             AppUser user = userService.findByUsername(loginRequest.getUsername())
                     .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
-
-            // Verificar si el usuario está habilitado (email verificado)
             if (!user.isEnabled()) {
                 throw new DisabledException("Su cuenta no ha sido verificada. Por favor, revise su correo electrónico para el enlace de verificación.");
             }
-
             // Paso 2: autenticar el usuario
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                     loginRequest.getUsername(), loginRequest.getPassword()
             ));
-
-            // Si la autenticación es exitosa, se procede a generar el token
             UserDetails userDetails = userDetailsService.loadUserByUsername(loginRequest.getUsername());
 
             // Paso 3: generar el token con los detalles del usuario
@@ -158,7 +142,6 @@ public class AuthController {
                             .courses(courses)
                             .build()
             );
-
         } catch (DisabledException e) {
             log.warn("Usuario deshabilitado: {}", e.getMessage());
             return ResponseEntity.status(403).body(Map.of("error", e.getMessage())); // Mensaje más descriptivo
@@ -181,22 +164,17 @@ public class AuthController {
 
         if (userOpt.isEmpty()) {
             // Verificar si existe un usuario con ese token ya usado (null)
-            // Esto requiere una búsqueda adicional o cambiar la lógica
             return ResponseEntity.badRequest().body(Map.of(
                     "error", "Este enlace de verificación ya ha sido usado o ha expirado. Si ya tienes una cuenta, puedes iniciar sesión directamente."
             ));
         }
-
         AppUser user = userOpt.get();
-
         if (user.isEnabled()) {
             return ResponseEntity.ok(Map.of("message", "Tu cuenta ya ha sido verificada anteriormente. Puedes iniciar sesión."));
         }
-
         if (user.getTokenExpiryDate() == null || user.getTokenExpiryDate().isBefore(LocalDateTime.now())) {
-            return ResponseEntity.badRequest().body(Map.of("error", "El token de verificación ha expirado. Por favor, intenta registrarte de nuevo o solicita un nuevo correo de verificación."));
+            return ResponseEntity.badRequest().body(Map.of("error", "El token de verificación ha expirado."));
         }
-
         user.setEnabled(true);
         user.setVerificationToken(null);
         user.setTokenExpiryDate(null);
@@ -223,7 +201,6 @@ public class AuthController {
                     "Este enlace expirará en 24 horas.\n\n" +
                     "Saludos,\n" +
                     "El equipo de LingoBridge");
-
             log.info("Enviando correo desde {} hacia {}", fromEmail, user.getEmail());
             mailSender.send(message);
             log.info("Correo de verificación enviado exitosamente a {}", user.getEmail());

@@ -60,25 +60,11 @@ public class ActivityResultService {
         return toDto(saved);
     }
 
-    public ActivityResultDto getResultForActivity(Long activityId, String studentUsername) {
-        Activity activity = activityRepository.findById(activityId)
-                .orElseThrow(() -> new RuntimeException("Actividad no encontrada"));
-
-        AppUser student = userRepository.findByUsername(studentUsername)
-                .orElseThrow(() -> new RuntimeException("Estudiante no encontrado"));
-
-        ActivityResult result = activityResultRepository.findByActivityAndStudent(activity, student)
-                .orElseThrow(() -> new RuntimeException("Resultado no encontrado"));
-
-        return toDto(result);
-    }
-
     private ActivityResultDto toDto(ActivityResult result) {
         return new ActivityResultDto(result);
     }
 
     // ***** ACTIVIDAD TIPO TEST - AUTOCORRECCION *****
-
     public ActivityResultDto submitAutoEvaluatedTest(Long activityId, String username, TestSubmissionDto dto) {
         System.out.println("DTO recibido: " + dto);
         AppUser student = userRepository.findByUsername(username)
@@ -120,57 +106,19 @@ public class ActivityResultService {
         return new ActivityResultDto(result);
     }
 
-    // resultado de la tarea (no test)
-    public ActivityResultDto submitTaskResult(
-            Long activityId,
-            String username,
-            String textAnswer,
-            MultipartFile file
-    ) throws IOException {
-        AppUser student = userRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("Estudiante no encontrado"));
-
-        Activity activity = activityRepository.findById(activityId)
-                .orElseThrow(() -> new RuntimeException("Actividad no encontrada"));
-
-        if (!activity.getType().equals(ActivityType.TASK)) {
-            throw new IllegalArgumentException("La actividad no es una tarea");
-        }
-
-        ActivityResult result = new ActivityResult();
-        result.setActivity(activity);
-        result.setStudent(student);
-        result.setCompleted(true);
-        result.setCompletedAt(LocalDate.now());
-        result.setTextAnswer(textAnswer);
-
-        if (file != null && !file.isEmpty()) {
-            result.setFileName(file.getOriginalFilename());
-            result.setFileData(file.getBytes());
-        }
-
-        ActivityResult saved = activityResultRepository.save(result);
-        return new ActivityResultDto(saved);
-    }
-
     // ver lista de tareas realizadas
     public List<TeacherActivityResultDto> getResultsForTeacher(String teacherUsername) {
-        // 1. Buscar profesor
         AppUser professor = userRepository.findByUsername(teacherUsername)
                 .orElseThrow(() -> new RuntimeException("Profesor no encontrado"));
 
-        // 2. Obtener cursos que imparte el profesor
         Set<Course> courses = professor.getCourseGiven();
 
-        // 3. Obtener estudiantes inscritos en esos cursos
         Set<AppUser> students = courses.stream()
                 .flatMap(course -> course.getStudents().stream())
                 .collect(Collectors.toSet());
 
-        // 4. Obtener ActivityResults de esos estudiantes
         List<ActivityResult> results = activityResultRepository.findByStudentIn(new ArrayList<>(students));
 
-        // 5. Mapear a DTO
         return results.stream()
                 .map(r -> new TeacherActivityResultDto(
                         r.getId(),
@@ -209,10 +157,5 @@ public class ActivityResultService {
                     .build();
         }).toList();
     }
-
-
-
-
-
 
 }

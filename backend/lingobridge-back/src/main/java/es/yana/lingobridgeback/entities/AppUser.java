@@ -44,7 +44,6 @@ public class AppUser {
     @Enumerated(EnumType.STRING)
     @Column(name = "language")
     private Language languageTaught;
-
     // para registro y verificacion a traves de email
     @Column(name = "enabled")
     private boolean enabled = false;

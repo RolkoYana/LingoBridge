@@ -36,7 +36,9 @@ public class CourseController {
     private final CourseService courseService;
     private final AppUserService appUserService;
 
-    // ***** ADMIN *****
+    /////////////////////
+    //      ADMIN
+    /////////////////////
 
     // todos los cursos (pendientes de aprobar, activos, finalizados)
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -212,9 +214,9 @@ public class CourseController {
         return ResponseEntity.ok(statistics);
     }
 
-
-
-    // ***** PROFESOR *****
+    // ///////////////////////////
+    //         PROFESOR
+    ///   ////////////////////////
 
     // ver cursos de profesor
     @PreAuthorize("hasAuthority('TEACHER')")
@@ -225,7 +227,7 @@ public class CourseController {
         return ResponseEntity.ok(courses);
     }
 
-    // ir al curso seleccionado del profesor (al hacer click en "ver curso")
+    // ir al curso seleccionado del profesor
     @PreAuthorize("hasAuthority('TEACHER')")
     @GetMapping("/teacher/course/{courseId}")
     public ResponseEntity<CourseDetailDto> getCourseDetailsForTeacher(@PathVariable Long courseId){
@@ -236,7 +238,7 @@ public class CourseController {
 
         Course course = courseOpt.get();
 
-        // Validación: asegurar que el curso pertenece al profesor autenticado
+        // Verificar que el curso pertenece al profesor autenticado
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String username = auth.getName();
         AppUser teacher = appUserService.findByUsername(username).orElse(null);
@@ -249,7 +251,7 @@ public class CourseController {
         return ResponseEntity.ok(courseDto);
     }
 
-    // obtener lista de estudiantes inscritos en el curso seleccionado (pagina de curso de profesor)
+    // obtener lista de estudiantes inscritos en el curso seleccionado
     @PreAuthorize("hasAuthority('TEACHER')")
     @GetMapping("/teacher/course/{courseId}/students")
     public ResponseEntity<List<StudentDto>> getStudentsOfCourse(
@@ -279,7 +281,7 @@ public class CourseController {
 
         course.setTeacher(teacher); // asigna el profesor al curso
         course.setApproved(false); // queda pendiente de aprobar
-        course.setDescription(course.getDescription()); // guarda la descripcion
+        course.setDescription(course.getDescription());
 
         Course savedCourse = courseService.save(course);
 
@@ -293,7 +295,9 @@ public class CourseController {
         );
     }
 
-    // ***** ESTUDIANTE *****
+    /// //////////////////////
+    //       ESTUDIANTE
+    ///   ////////////////////
 
     // ver todos cursos de estudiante
     @PreAuthorize("hasAuthority('STUDENT')")
@@ -303,7 +307,6 @@ public class CourseController {
         List<CourseDto> courses = courseService.getCoursesByStudent(username);
         return ResponseEntity.ok(courses);
     }
-
 
     // ver curso de un estudiante
     @PreAuthorize("hasAuthority('STUDENT')")
@@ -358,11 +361,5 @@ public class CourseController {
 
         return ResponseEntity.ok("Inscripción exitosa");
     }
-
-
-
-
-
-
 
 }

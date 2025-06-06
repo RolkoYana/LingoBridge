@@ -16,5 +16,5 @@ public class StudentActivityResultDto {
     private Double score;
     private String feedback;
     private LocalDate completedAt;
-    private String teacherName; // profesor que evaluó o que da el curso
+    private String teacherName; // profesor que evaluó o el que da el curso
 }

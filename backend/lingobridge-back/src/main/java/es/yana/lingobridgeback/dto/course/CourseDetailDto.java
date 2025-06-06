@@ -41,7 +41,7 @@ public class CourseDetailDto {
                         student.getName(),
                         student.getSurname(),
                         student.getUsername(),
-                        course.getName() // ← se mantiene por compatibilidad, aunque no es imprescindible aquí
+                        course.getName()
                 ))
                 .collect(Collectors.toList());
     }

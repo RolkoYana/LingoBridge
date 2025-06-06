@@ -1,7 +1,6 @@
 package es.yana.lingobridgeback.services;
 
 import es.yana.lingobridgeback.dto.activity.ActivityDto;
-import es.yana.lingobridgeback.dto.activity.ActivityResultDto;
 import es.yana.lingobridgeback.dto.activity.TestDto;
 import es.yana.lingobridgeback.dto.activity.QuestionDto;
 import es.yana.lingobridgeback.dto.activity.OptionDto;
@@ -64,12 +63,6 @@ public class ActivityService {
                 .build();
     }
 
-
-    private ActivityResultDto toResultDto(ActivityResult result) {
-        return new ActivityResultDto(result);
-    }
-
-
     // crear test
     public TestDto createTestWithQuestions(Long courseId, TestDto dto, String teacherUsername) {
         Course course = courseRepository.findById(courseId)
@@ -107,14 +100,12 @@ public class ActivityService {
             questionRepository.save(question);
         }
 
-        // Ahora construimos el TestDto que devolveremos
         TestDto createdTestDto = new TestDto();
         createdTestDto.setId(activity.getId());
         createdTestDto.setTitle(activity.getTitle());
         createdTestDto.setDescription(activity.getDescription());
         createdTestDto.setDueDate(activity.getDueDate());
 
-        // ✅ CAMBIO: Usar el método con JOIN FETCH para cargar las opciones
         List<Question> savedQuestions = questionRepository.findByActivityIdWithOptions(activity.getId());
 
         List<QuestionDto> questionDtos = savedQuestions.stream().map(q -> {
@@ -173,18 +164,6 @@ public class ActivityService {
     public List<QuestionDto> getQuestionsForActivity(Long activityId) {
         List<Question> questions = questionRepository.findByActivityIdWithOptions(activityId);
 
-        // DEBUG: Imprimir lo que viene de la base de datos
-        System.out.println("=== DEBUG: Preguntas encontradas: " + questions.size());
-        for (Question q : questions) {
-            System.out.println("Pregunta ID: " + q.getId() + ", Texto: " + q.getText());
-            System.out.println("Opciones encontradas: " + (q.getOptions() != null ? q.getOptions().size() : "NULL"));
-            if (q.getOptions() != null) {
-                for (Option opt : q.getOptions()) {
-                    System.out.println("  - Opción: " + opt.getText() + ", Correcta: " + opt.isCorrect());
-                }
-            }
-        }
-
         return questions.stream()
                 .map(q -> new QuestionDto(
                         q.getId(),
@@ -224,7 +203,7 @@ public class ActivityService {
                             .description(activity.getDescription())
                             .dueDate(activity.getDueDate())
                             .type(activity.getType())
-                            .completed(isCompleted) // 👈 aquí se marca si está hecha
+                            .completed(isCompleted)
                             .build();
                 })
                 .toList();
@@ -234,19 +213,16 @@ public class ActivityService {
     public ActivityDto updateActivity(Long activityId, ActivityDto dto, String teacherUsername) {
         Activity activity = activityRepository.findById(activityId)
                 .orElseThrow(() -> new RuntimeException("Actividad no encontrada"));
-
         if (!activity.getCourse().getTeacher().getUsername().equals(teacherUsername)) {
             throw new RuntimeException("No autorizado");
         }
-
-        // Actualizamos solo campos básicos
         activity.setTitle(dto.getTitle());
         activity.setDescription(dto.getDescription());
         activity.setDueDate(dto.getDueDate());
 
         activity = activityRepository.save(activity);
 
-        // Mapea a DTO para devolver
+        // Mapear a DTO para devolver
         ActivityDto result = new ActivityDto();
         result.setId(activity.getId());
         result.setTitle(activity.getTitle());
@@ -275,14 +251,14 @@ public class ActivityService {
         activity.setDueDate(dto.getDueDate());
         activityRepository.save(activity);
 
-        // 4. Eliminar preguntas y opciones viejas de forma segura
+        // 4. Eliminar preguntas y opciones viejas
         List<Question> oldQuestions = questionRepository.findByActivity(activity);
         for (Question q : oldQuestions) {
-            optionRepository.deleteByQuestion(q); // eliminar opciones primero
+            optionRepository.deleteByQuestion(q);
         }
-        optionRepository.flush(); // fuerza el delete en DB antes de borrar preguntas
+        optionRepository.flush();
 
-        questionRepository.deleteByActivity(activity); // ahora sí puedes eliminar preguntas
+        questionRepository.deleteByActivity(activity);
 
         // 5. Guardar nuevas preguntas y opciones
         for (QuestionDto questionDto : dto.getQuestions()) {
@@ -343,6 +319,20 @@ public class ActivityService {
         }
 
         return toDto(activity);
+    }
+
+    // eliminar la actividad
+    @Transactional
+    public boolean deleteActivity(Long activityId) {
+        try {
+            if (activityRepository.existsById(activityId)) {
+                activityRepository.deleteById(activityId);
+                return true;
+            }
+            return false;
+        } catch (Exception e) {
+            throw new RuntimeException("Error al eliminar la actividad: " + e.getMessage());
+        }
     }
 
 

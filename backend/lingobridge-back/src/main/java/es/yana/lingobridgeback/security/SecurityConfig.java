@@ -20,7 +20,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import java.util.List;
 
 @EnableWebSecurity
-@EnableMethodSecurity //(prePostEnabled = true) // para habilitar seguridad de los metodos
+@EnableMethodSecurity //(prePostEnabled = true) --> para habilitar seguridad de los metodos
 @Configuration
 @RequiredArgsConstructor
 public class SecurityConfig {

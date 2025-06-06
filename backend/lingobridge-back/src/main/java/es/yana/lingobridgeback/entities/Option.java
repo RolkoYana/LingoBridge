@@ -15,7 +15,7 @@ public class Option {
     private Long id;
 
     private String text;
-    private boolean correct; // esta es la opción correcta
+    private boolean correct; // la opción correcta
 
     @ManyToOne
     @JoinColumn(name = "question_id")

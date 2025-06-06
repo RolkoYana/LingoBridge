@@ -13,7 +13,4 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
     List<Course>findActiveCourse();
     Long countByCompleted(Boolean completed);
     Long countByApproved(Boolean approved);
-
-    @Query("SELECT COUNT(c) FROM Course c WHERE c.approved = true AND c.completed = false")
-    Long countActiveCourses();
 }
