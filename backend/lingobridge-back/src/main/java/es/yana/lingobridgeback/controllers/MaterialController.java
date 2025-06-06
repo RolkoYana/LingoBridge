@@ -1,14 +1,11 @@
 package es.yana.lingobridgeback.controllers;
 
 import es.yana.lingobridgeback.entities.Material;
-import es.yana.lingobridgeback.services.FileStorageService;
 import es.yana.lingobridgeback.services.MaterialService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +13,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -34,7 +30,9 @@ public class MaterialController {
     @Value("${file.upload-dir}")
     private String uploadDir;
 
-    // ***** PROFESOR *****
+    /// ////////////////////
+    ///     PROFESOR
+    /// ///////////////////
 
     // subir material al curso
     @PreAuthorize("hasAuthority('TEACHER')")
@@ -117,7 +115,6 @@ public class MaterialController {
         }
     }
 
-
     // modificar material
     @PreAuthorize("hasAuthority('TEACHER')")
     @PutMapping("/teacher/material/{materialId}")
@@ -137,7 +134,9 @@ public class MaterialController {
     }
 
 
-    // ***** ESTUDIANTE *****
+    /// ////////////////////
+    ///     ESTUDIANTE
+    /// ////////////////////
 
     // ver material del curso
     @PreAuthorize("hasAuthority('STUDENT')")
@@ -185,10 +184,5 @@ public class MaterialController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
-
-
-
-
-
 
 }

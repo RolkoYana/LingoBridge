@@ -321,6 +321,7 @@ public class ActivityService {
         return toDto(activity);
     }
 
+    // eliminar la actividad
     @Transactional
     public boolean deleteActivity(Long activityId) {
         try {

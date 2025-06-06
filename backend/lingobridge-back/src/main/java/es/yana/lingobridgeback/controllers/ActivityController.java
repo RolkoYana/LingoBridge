@@ -253,11 +253,4 @@ public class ActivityController {
         return ResponseEntity.ok(results);
     }
 
-
-
-
-
-
-
-
 }

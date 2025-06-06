@@ -48,13 +48,6 @@ public class CourseService {
         return courseRepository.findByApproved(false);
     }
 
-    public void approveCourse(Long id){
-        Course course = courseRepository.findById(id).orElseThrow();
-        course.setApproved(true);
-        courseRepository.save(course);
-    }
-
-
     public List<CourseDto> getCoursesByTeacher(String teacherUsername) {
         List<Course> courses = courseRepository.findByTeacherUsername(teacherUsername);
         // mapea Course a CourseDTo para pasar a front
@@ -79,7 +72,6 @@ public class CourseService {
 
         Course course = courseOpt.get();
 
-        // Verifica que el curso pertenezca al profesor autenticado
         if (!course.getTeacher().getUsername().equals(teacherUsername)) {
             throw new AccessDeniedException("No tienes acceso a este curso");
         }
@@ -90,7 +82,7 @@ public class CourseService {
                         student.getName(),
                         student.getSurname(),
                         student.getUsername(),
-                        course.getName() // Puede mantener esto para compatibilidad
+                        course.getName()
                 ))
                 .collect(Collectors.toList());
     }
@@ -119,14 +111,13 @@ public class CourseService {
                 .collect(Collectors.toList());
     }
 
-    // cursos disponibles para estudiante
 
+    // cursos disponibles para estudiante
     public List<AvailableCourseDto> getAvailableCoursesForStudent() {
         return courseRepository.findActiveCourse().stream()
                 .map(AvailableCourseDto::new)
                 .collect(Collectors.toList());
     }
-
 
     // inscribirse en el curso
     public void enrollInCourse(Long courseId, String username) {

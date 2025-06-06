@@ -8,10 +8,6 @@ import lombok.*;
 import java.time.LocalDate;
 import java.util.List;
 
-/*
-    profesores crean actividades y se muestran en el frontend
- */
-
 @Builder
 @Getter
 @Setter

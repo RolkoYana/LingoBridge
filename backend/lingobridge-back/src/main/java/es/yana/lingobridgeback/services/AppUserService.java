@@ -35,7 +35,6 @@ public class AppUserService {
 
     public AppUser save(UserDto userDto) {
         AppUser user = userMapper.toEntity(userDto);
-        // Asignar roles correctamente
         if (userDto.getRoles() != null && !userDto.getRoles().isEmpty()) {
             user.setRoles(new HashSet<>(userDto.getRoles())); // convertir list a set
         }

@@ -25,23 +25,12 @@ public class MaterialService {
     private final CourseRepository courseRepository;
     private final FileStorageService fileStorageService;
 
-    // definir el directorio de subida
-    private static final Path uploadDir = Paths.get("path/to/upload/directory");
-
-    public List<Material> findAll() {
-        return materialRepository.findAll();
-    }
-
     public List<Material> findByCourseId(Long id) {
         return materialRepository.findByCourseId(id);
     }
 
     public Material save(Material material) {
         return materialRepository.save(material);
-    }
-
-    public void delete(Long id) {
-        materialRepository.deleteById(id);
     }
 
     // subir material
@@ -68,8 +57,6 @@ public class MaterialService {
     public void deleteMaterial(Long materialId) {
         Material material = materialRepository.findById(materialId)
                 .orElseThrow(() -> new RuntimeException("Material no encontrado"));
-
-        // No verificas al profesor porque ya estás seguro de que el material pertenece a su curso
 
         if (material.getFilename() != null) {
             fileStorageService.deleteFile(material.getFilename(), material.getCourse().getId().toString());

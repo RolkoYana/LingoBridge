@@ -11,8 +11,6 @@ public interface ActivityResultRepository extends JpaRepository<ActivityResult, 
 
     List<ActivityResult> findByStudentUsername(String username);
 
-    List<ActivityResult> findByActivityId(Long activityId);
-
     Optional<ActivityResult> findByActivityAndStudent(Activity activity, AppUser student);
 
     boolean existsByActivityAndStudentAndCompletedTrue(Activity activity, AppUser student);

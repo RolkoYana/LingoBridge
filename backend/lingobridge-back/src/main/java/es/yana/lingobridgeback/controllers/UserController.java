@@ -5,12 +5,9 @@ import es.yana.lingobridgeback.dto.user.UserDto;
 import es.yana.lingobridgeback.entities.AppUser;
 import es.yana.lingobridgeback.services.AppUserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,11 +28,6 @@ public class UserController {
     public List<AppUser> getAllStudents(){
         return userService.findAllStudents();
     }
-
-//    @GetMapping("/{email}")
-//    public ResponseEntity<AppUser> getUserByEmail(@PathVariable String email){
-//        return userService.findByEmail(email).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
-//    }
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/admin")
@@ -72,7 +64,5 @@ public class UserController {
 
         return ResponseEntity.ok(teacherDtos);
     }
-
-
 
 }

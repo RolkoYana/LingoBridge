@@ -42,9 +42,9 @@ public class FileStorageService {
         // directorio donde se almacenará el archivo, por curso
         Path courseDir = Paths.get(uploadDir).resolve("course_" + courseFolder);
 
-        Files.createDirectories(courseDir); // crear los directorios si no existen
+        Files.createDirectories(courseDir);
 
-        Path targetLocation = courseDir.resolve(fileName); // ruta completa al archivo
+        Path targetLocation = courseDir.resolve(fileName);
 
         // copiar el archivo al destino
         Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
