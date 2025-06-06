@@ -1,14 +1,13 @@
 package es.yana.lingobridgeback.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import es.yana.lingobridgeback.converters.RoleConverter;
 import es.yana.lingobridgeback.enums.Language;
 import es.yana.lingobridgeback.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Builder
@@ -42,8 +41,15 @@ public class AppUser {
     @JsonIgnore
     @ManyToMany(mappedBy = "students")
     private Set<Course> coursesEnrolled;
-
     @Enumerated(EnumType.STRING)
     @Column(name = "language")
     private Language languageTaught;
+
+    // para registro y verificacion a traves de email
+    @Column(name = "enabled")
+    private boolean enabled = false;
+    @Column(name = "verification_token")
+    private String verificationToken;
+    @Column(name = "token_expiry_date")
+    private LocalDateTime tokenExpiryDate;
 }
