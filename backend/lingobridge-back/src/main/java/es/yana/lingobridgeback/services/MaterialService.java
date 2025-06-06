@@ -65,5 +65,42 @@ public class MaterialService {
         materialRepository.save(material);
     }
 
+    public void deleteMaterial(Long materialId) {
+        Material material = materialRepository.findById(materialId)
+                .orElseThrow(() -> new RuntimeException("Material no encontrado"));
+
+        // No verificas al profesor porque ya estás seguro de que el material pertenece a su curso
+
+        if (material.getFilename() != null) {
+            fileStorageService.deleteFile(material.getFilename(), material.getCourse().getId().toString());
+        }
+
+        materialRepository.delete(material);
+    }
+
+
+    public void updateMaterial(Long materialId, MultipartFile file, String title, String youtubeLink) throws IOException {
+        Material material = materialRepository.findById(materialId)
+                .orElseThrow(() -> new RuntimeException("Material no encontrado"));
+
+        if (file != null && !file.isEmpty()) {
+            if (material.getFilename() != null) {
+                fileStorageService.deleteFile(material.getFilename(), material.getCourse().getId().toString());
+            }
+
+            String newFilename = fileStorageService.storeFile(file, material.getCourse().getId().toString());
+            material.setFilename(newFilename);
+        }
+
+        material.setTitle(title);
+        material.setYoutubeLink(youtubeLink);
+        material.setUploadedAt(LocalDateTime.now());
+
+        materialRepository.save(material);
+    }
+
+
+
+
 
 }

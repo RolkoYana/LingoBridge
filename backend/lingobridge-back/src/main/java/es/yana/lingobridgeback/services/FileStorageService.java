@@ -52,5 +52,17 @@ public class FileStorageService {
         return fileName;
     }
 
+    public void deleteFile(String filename, String courseFolder) {
+        try {
+            Path filePath = Paths.get(uploadDir)
+                    .resolve("course_" + courseFolder)
+                    .resolve(filename);
+            Files.deleteIfExists(filePath);
+        } catch (IOException e) {
+            throw new RuntimeException("No se pudo eliminar el archivo: " + filename, e);
+        }
+    }
+
+
 
 }

@@ -26,8 +26,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import java.security.Principal;
-
 @Slf4j
 @RequiredArgsConstructor
 @RestController
@@ -38,15 +36,13 @@ public class CourseController {
     private final CourseService courseService;
     private final AppUserService appUserService;
 
-
-
     // ***** ADMIN *****
 
     // todos los cursos (pendientes de aprobar, activos, finalizados)
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/admin/all-courses")
     public ResponseEntity<List<CourseDto>> getAllCourses() {
-        List<Course> courses = courseService.findAll(); // Método para obtener todos los cursos
+        List<Course> courses = courseService.findAll();
 
         // Convertir los cursos a DTOs
         List<CourseDto> courseDtos = courses.stream()
@@ -101,7 +97,7 @@ public class CourseController {
         return ResponseEntity.ok(courseDtos);
     }
 
-    // aprobar curso (admin)
+    // aprobar curso
     @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/admin/approve-course/{courseId}")
     public ResponseEntity<?> approveCourse(@PathVariable Long courseId){
@@ -110,15 +106,13 @@ public class CourseController {
         if (courseOpt.isEmpty()) {
             return ResponseEntity.badRequest().body(Map.of("error", "Curso no encontrado"));
         }
-
-        Course course = courseOpt.get(); // Obtener el curso
+        Course course = courseOpt.get();
 
         if (course.isApproved()) {
             return ResponseEntity.badRequest().body(Map.of("error", "El curso ya está aprobado"));
         }
-
-        course.setApproved(true); // Cambia el estado a aprobado
-        courseService.save(course); // Guarda el curso con el nuevo estado
+        course.setApproved(true);
+        courseService.save(course);
 
         return ResponseEntity.ok(Map.of(
                 "message", "Curso aprobado",
@@ -136,40 +130,14 @@ public class CourseController {
             return ResponseEntity.badRequest().body(Map.of("error", "Curso no encontrado"));
         }
 
-        courseService.delete(courseId); // elimina el curso directamente
-
+        courseService.delete(courseId);
         return ResponseEntity.ok(Map.of(
                 "message", "Curso rechazado y eliminado correctamente",
                 "courseId", courseId
         ));
     }
 
-    //asignar curso a un profesor
-    @PreAuthorize("hasAuthority('ADMIN')")
-    @PostMapping("/admin/assign-course/{courseId}")
-    public ResponseEntity<?> assignCourse(@PathVariable Long courseId, @RequestParam String teacherUsername){
-        Optional<Course> courseOpt = courseService.findById(courseId);
-
-        if (courseOpt.isEmpty()) {
-            return ResponseEntity.badRequest().body(Map.of("error", "Curso no encontrado"));
-        }
-
-        Course course = courseOpt.get(); // Obtener el curso
-
-        AppUser teacher = appUserService.findByUsername(teacherUsername)
-                .orElseThrow(() -> new UsernameNotFoundException("Profesor no encontrado"));
-
-        if (!teacher.getRoles().contains(Role.TEACHER)) {
-            return ResponseEntity.badRequest().body(Map.of("error", "El usuario no es un profesor válido"));
-        }
-
-        course.setTeacher(teacher); // Asigna manualmente el profesor al curso
-        courseService.save(course); // Guarda los cambios en la BD
-
-        return ResponseEntity.ok(Map.of("message", "Curso asignado correctamente", "courseId", course.getId(), "teacher", teacher.getUsername()));
-    }
-
-    // finalizar curso (admin)
+    // finalizar curso
     @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/admin/complete-course/{courseId}")
     public ResponseEntity<?> completeCourse(@PathVariable Long courseId){
@@ -179,9 +147,7 @@ public class CourseController {
             return ResponseEntity.badRequest().body(Map.of("error", "Curso no encontrado"));
         }
 
-        Course course = courseOpt.get(); // Obtener el curso
-
-        // Finalizar el curso y registrar fecha de cierre
+        Course course = courseOpt.get();
         course.setCompleted(true);
         course.setCompletedAt(new Date());
         courseService.save(course);
