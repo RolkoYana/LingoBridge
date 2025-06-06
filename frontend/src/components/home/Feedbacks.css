@@ -1,0 +1,201 @@
+/* ==========================================
+   FEEDBACKS - RESPONSIVE Y MODO OSCURO
+   ========================================== */
+
+/* Sección de testimonios */
+.feedbacks section {
+  background-color: var(--primary-bg);
+  color: var(--primary-text);
+  transition: all 0.3s ease;
+  padding: 4rem 0;
+}
+
+/* Título de sección */
+.feedbacks .display-5 {
+  color: var(--primary-text);
+  margin-bottom: 3rem;
+}
+
+/* Cards de testimonios */
+.feedbacks .card {
+  background-color: var(--card-bg);
+  color: var(--primary-text);
+  border: none;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  overflow: hidden;
+}
+
+.feedbacks .card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-lg);
+}
+
+.feedbacks .card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--accent-color), var(--link-hover-color));
+}
+
+/* Texto del testimonio */
+.feedbacks .fst-italic {
+  color: var(--secondary-text);
+  font-size: 1.05rem;
+  line-height: 1.6;
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.feedbacks .fst-italic::before {
+  content: '"';
+  font-size: 2.5rem;
+  color: var(--accent-color);
+  position: absolute;
+  top: -10px;
+  left: -15px;
+  font-family: serif;
+  opacity: 0.3;
+}
+
+/* Información del autor */
+.feedbacks .d-flex.align-items-center {
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
+}
+
+/* Imagen del autor */
+.feedbacks .rounded-circle {
+  border: 2px solid var(--accent-color) !important;
+  transition: all 0.3s ease;
+  object-fit: cover;
+}
+
+.feedbacks .card:hover .rounded-circle {
+  transform: scale(1.1);
+  border-color: var(--link-hover-color) !important;
+}
+
+/* Nombre del autor */
+.feedbacks strong {
+  color: var(--primary-text);
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+/* Estrellas */
+.feedbacks .text-warning {
+  color: #ffc107 !important;
+  font-size: 1.1rem;
+}
+
+.feedbacks .text-muted {
+  color: var(--secondary-text) !important;
+  opacity: 0.3;
+}
+
+/* ==========================================
+   RESPONSIVE FEEDBACKS
+   ========================================== */
+
+/* Mobile (hasta 576px) */
+@media (max-width: 575px) {
+  .feedbacks section {
+    padding: 2.5rem 0;
+  }
+  
+  .feedbacks .display-5 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+  }
+  
+  .feedbacks .card {
+    margin-bottom: 2rem;
+    padding: 1.25rem;
+  }
+  
+  .feedbacks .fst-italic {
+    font-size: 1rem;
+    text-align: left !important;
+  }
+  
+  .feedbacks .fst-italic::before {
+    font-size: 2rem;
+    top: -8px;
+    left: -10px;
+  }
+  
+  .feedbacks .rounded-circle {
+    width: 50px !important;
+    height: 50px !important;
+    margin-right: 0.75rem !important;
+  }
+  
+  .feedbacks .d-flex.align-items-center {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.5rem;
+  }
+  
+  .feedbacks .d-flex.align-items-center > div {
+    text-align: center;
+  }
+}
+
+/* Tablet (576px - 768px) */
+@media (min-width: 576px) and (max-width: 767px) {
+  .feedbacks section {
+    padding: 3rem 0;
+  }
+  
+  .feedbacks .display-5 {
+    font-size: 2.5rem;
+  }
+  
+  .feedbacks .card {
+    padding: 1.5rem;
+  }
+  
+  .feedbacks .rounded-circle {
+    width: 55px !important;
+    height: 55px !important;
+  }
+}
+
+/* Desktop (768px+) */
+@media (min-width: 768px) {
+  .feedbacks section {
+    padding: 4rem 0;
+  }
+  
+  .feedbacks .col-lg-4 .card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .feedbacks .card .mt-auto {
+    margin-top: auto !important;
+  }
+  
+  .feedbacks .rounded-circle {
+    width: 60px;
+    height: 60px;
+  }
+}
+
+/* Large desktop (1200px+) */
+@media (min-width: 1200px) {
+  .feedbacks .container {
+    max-width: 1140px;
+  }
+  
+  .feedbacks .fst-italic {
+    font-size: 1.1rem;
+  }
+}

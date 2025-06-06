@@ -1,0 +1,162 @@
+/* ==========================================
+   COURSES - RESPONSIVE Y MODO OSCURO
+   ========================================== */
+
+/* Sección de cursos */
+.courses section {
+  background-color: var(--primary-bg);
+  color: var(--primary-text);
+  transition: all 0.3s ease;
+  padding: 4rem 0;
+}
+
+/* Título de sección */
+.courses .display-5 {
+  color: var(--primary-text);
+  margin-bottom: 3rem;
+}
+
+/* Cards de cursos */
+.courses .card {
+  background-color: var(--card-bg);
+  color: var(--primary-text);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.courses .card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--accent-color);
+}
+
+/* Imágenes de cards */
+.courses .card-img-top {
+  transition: transform 0.3s ease;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.courses .card:hover .card-img-top {
+  transform: scale(1.05);
+}
+
+/* Cuerpo de la card */
+.courses .card-body {
+  background-color: var(--card-bg);
+  color: var(--primary-text);
+  padding: 1.5rem;
+}
+
+/* Título de la card */
+.courses .card-title {
+  color: var(--primary-text);
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+
+/* Lista de características */
+.courses .list-unstyled {
+  margin-bottom: 1.5rem;
+}
+
+.courses .list-unstyled li {
+  color: var(--primary-text);
+  margin-bottom: 0.75rem;
+  padding: 0.5rem 0;
+  transition: background-color 0.3s ease;
+  border-radius: 6px;
+}
+
+.courses .list-unstyled li:hover {
+  background-color: rgba(var(--link-color-rgb), 0.05);
+  padding-left: 0.5rem;
+}
+
+/* Iconos en la lista */
+.courses .text-success {
+  color: var(--success-color) !important;
+  margin-right: 0.75rem;
+  font-size: 1.1rem;
+}
+
+/* Botones de cursos */
+.courses .btn-outline-primary {
+  font-weight: 500;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  padding: 0.75rem 1.5rem;
+}
+
+.courses .btn-outline-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ==========================================
+   RESPONSIVE COURSES
+   ========================================== */
+
+/* Mobile (hasta 576px) */
+@media (max-width: 575px) {
+  .courses section {
+    padding: 2.5rem 0;
+  }
+  
+  .courses .display-5 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+  }
+  
+  .courses .card {
+    margin-bottom: 2rem;
+  }
+  
+  .courses .card-body {
+    padding: 1.25rem;
+  }
+  
+  .courses .btn-outline-primary {
+    width: 100%;
+    padding: 0.875rem;
+  }
+  
+  .courses .card-img-top {
+    height: 180px;
+    object-fit: cover;
+  }
+}
+
+/* Tablet (576px - 768px) */
+@media (min-width: 576px) and (max-width: 767px) {
+  .courses section {
+    padding: 3rem 0;
+  }
+  
+  .courses .display-5 {
+    font-size: 2.5rem;
+  }
+  
+  .courses .card-img-top {
+    height: 200px;
+    object-fit: cover;
+  }
+}
+
+/* Desktop (768px+) */
+@media (min-width: 768px) {
+  .courses section {
+    padding: 4rem 0;
+  }
+  
+  .courses .col-lg-4 .card {
+    height: 100%;
+  }
+  
+  .courses .card-img-top {
+    height: 220px;
+    object-fit: cover;
+  }
+}

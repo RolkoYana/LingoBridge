@@ -1,0 +1,53 @@
+/* ==========================================
+   ESTILOS PARA BOTÓN DE APROBAR CURSO
+   ========================================== */
+
+/* Variables locales para el componente */
+.btn-admin-success {
+  --admin-accent-green: #10b981;
+  --transition: all 0.3s ease;
+  
+  background: linear-gradient(135deg, var(--admin-accent-green), #059669);
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-weight: 600;
+  transition: var(--transition);
+  box-shadow: 0 2px 4px rgba(16, 185, 129, 0.2);
+  color: white;
+}
+
+.btn-admin-success:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(16, 185, 129, 0.3);
+  background: linear-gradient(135deg, #059669, var(--admin-accent-green));
+  color: white;
+}
+
+/* Estado completado específico para aprobar */
+.btn-success-completed {
+  background: linear-gradient(135deg, var(--admin-accent-green), #059669) !important;
+  border-color: var(--admin-accent-green) !important;
+  color: white !important;
+  opacity: 0.8;
+  cursor: default !important;
+}
+
+.btn-success-completed:hover {
+  transform: none !important;
+  opacity: 0.8 !important;
+}
+
+/* Animación de spin para el spinner */
+.fa-spin {
+  animation: fa-spin 1s infinite linear;
+}
+
+@keyframes fa-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

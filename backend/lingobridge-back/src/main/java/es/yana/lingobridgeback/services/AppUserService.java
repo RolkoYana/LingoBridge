@@ -12,10 +12,10 @@ import es.yana.lingobridgeback.enums.Role;
 import es.yana.lingobridgeback.repositories.AppUserRepository;
 import es.yana.lingobridgeback.repositories.CourseRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -33,10 +33,6 @@ public class AppUserService {
         return userRepository.findAll();
     }
 
-    public AppUser findById(Long id) {
-        return userRepository.findById(id).orElse(null);
-    }
-
     public AppUser save(UserDto userDto) {
         AppUser user = userMapper.toEntity(userDto);
         // Asignar roles correctamente
@@ -47,15 +43,21 @@ public class AppUserService {
         return userRepository.save(user);
     }
 
-    // metodo save() para JWT
+    // metodo para generar token de verificacion al registrarse
     public AppUser save(JwtRegisterRequest dto){
         AppUser user = jwtMapper.toEntity(dto);
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
+
+        user.setEnabled(false); // por defecto, el usuario no está habilitado al registrarse
+        user.setVerificationToken(UUID.randomUUID().toString()); // se genera el token unico
+        user.setTokenExpiryDate(LocalDateTime.now().plusHours(24)); // token válido por 24 horas
+
         return userRepository.save(user);
     }
 
-    public void delete(Long id) {
-        userRepository.deleteById(id);
+    // buscar por token de verificación!
+    public Optional<AppUser> findByVerificationToken(String token) {
+        return userRepository.findByVerificationToken(token);
     }
 
     public Optional<AppUser> findByEmail(String email) {
@@ -70,11 +72,6 @@ public class AppUserService {
         return userRepository.findByRole(Role.TEACHER);
     }
 
-    public AppUser findByUsernameOrEmail(String input){
-        return userRepository.findByUsername(input)
-                .orElseGet(() -> userRepository.findByEmail(input).orElse(null));
-    }
-
     public Optional<AppUser> findByUsername(String username){
         return userRepository.findByUsername(username);
     }
@@ -83,28 +80,12 @@ public class AppUserService {
         return userRepository.save(user);
     }
 
-    // recupera los estudiantes de los cursos del profesor autenticado
-//    public List<UserDto> getStudentsByTeacher(String teacherUsername){
-//        List<AppUser> students = userRepository.findStudentsByTeacher(teacherUsername);
-//        return students.stream()
-//                .filter(s -> s.getRoles().contains(Role.STUDENT))
-//                .map(userMapper::toDto)
-//                .collect(Collectors.toList());
-//    }
-
     public List<StudentDto> getStudentsByTeacher(String teacherUsername) {
-
-        // Obtener todos los cursos del profesor
         List<Course> courses = courseRepository.findByTeacherUsername(teacherUsername);
-
-        // Lista para almacenar los estudiantes que están matriculados en estos cursos
         List<StudentDto> studentDtos = new ArrayList<>();
 
-        // Para cada curso que imparte el profesor
         for (Course course : courses) {
-            // Para cada estudiante matriculado en ese curso
             for (AppUser student : course.getStudents()) {
-                // Creamos el StudentDto con el nombre, apellido y nombre del curso
                 StudentDto dto = new StudentDto(
                         student.getId(),
                         student.getName(),
@@ -127,7 +108,6 @@ public class AppUserService {
                     List<String> roleNames = user.getRoles().stream()
                             .map(Enum::name)
                             .collect(Collectors.toList());
-
                     return new UserDto(
                             user.getId(),
                             user.getName(),
@@ -140,7 +120,9 @@ public class AppUserService {
                 .collect(Collectors.toList());
     }
 
-    // estadisticas - alumnos por idioma
+    // **************** PARA ESTADISTICAS ***************************
+
+    // alumnos por idioma
     public Map<Language, Long> countStudentsPerLanguage() {
         List<AppUser> students = userRepository.findAll().stream()
                 .filter(user -> user.getRoles().contains(Role.STUDENT))
@@ -166,31 +148,20 @@ public class AppUserService {
                 ));
     }
 
-    // estadisticas - profesores por idioma
+    // profesores por idioma
     public Map<Language, Long> countTeachersPerLanguage() {
         return userRepository.findAll().stream()
                 .filter(user -> user.getRoles().contains(Role.TEACHER) && user.getLanguageTaught() != null)
                 .collect(Collectors.groupingBy(AppUser::getLanguageTaught, Collectors.counting()));
     }
 
-    // para estadisticas
-    // Contar todos los profesores
     public Long countAllTeachers() {
         return userRepository.countByRole(Role.TEACHER);
     }
 
-    // Contar todos los estudiantes
     public Long countAllStudents() {
         return userRepository.countByRole(Role.STUDENT);
     }
-
-
-
-
-
-
-
-
 
 
 }

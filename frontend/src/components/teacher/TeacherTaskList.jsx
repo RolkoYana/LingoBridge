@@ -10,6 +10,7 @@ import {
   FaUser
 } from "react-icons/fa";
 import { fetchWithAuth } from "../../api/api";
+import "./TeacherTaskList.css";
 
 const TeacherTaskList = ({ teacherUsername }) => {
   const [results, setResults] = useState([]);
@@ -138,45 +139,42 @@ const TeacherTaskList = ({ teacherUsername }) => {
           {/* Tareas pendientes */}
           {pendingTasks.length > 0 && (
             <div className="mb-4">
-              <h5 className="d-flex align-items-center mb-3">
-                <FaClock className="text-warning me-2" />
-                Pendientes de evaluar ({pendingTasks.length})
-              </h5>
-              <div className="tasks-grid">
-                <Row>
-                  {pendingTasks.map((result) => (
-                    <Col md={6} lg={4} key={result.activityResultId} className="mb-3">
-                      <div className="task-card pending">
-                        <div className="task-header">
-                          <h6 className="task-title">{result.activityTitle}</h6>
-                          <Badge bg="warning" className="status-badge">
-                            Pendiente
-                          </Badge>
-                        </div>
-                        <div className="task-info">
+              <div className="section-header-tasks">
+                <h5 className="d-flex align-items-center">
+                  <FaClock className="text-warning me-2" />
+                  Pendientes de evaluar ({pendingTasks.length})
+                </h5>
+              </div>
+              <div className="tasks-list">
+                {pendingTasks.map((result) => (
+                  <div key={result.activityResultId} className="task-item pending">
+                    <div className="task-content">
+                      <div className="task-main-info">
+                        <h6 className="task-title">{result.activityTitle}</h6>
+                        <div className="task-meta">
                           <div className="student-info">
                             <FaUser size={12} className="me-1" />
                             {result.studentName}
                           </div>
                           <div className="submit-date">
+                            <FaClock size={12} className="me-1" />
                             Entregado: {formatDate(result.submittedAt)}
                           </div>
                         </div>
-                        <div className="task-actions">
-                          <Button
-                            variant="primary"
-                            size="sm"
-                            onClick={() => handleEvaluateClick(result)}
-                            className="w-100"
-                          >
-                            <FaEye className="me-1" />
-                            Evaluar
-                          </Button>
-                        </div>
                       </div>
-                    </Col>
-                  ))}
-                </Row>
+                    </div>
+                    <div className="task-actions">
+                      <Button
+                        variant="primary"
+                        size="sm"
+                        onClick={() => handleEvaluateClick(result)}
+                      >
+                        <FaEye className="me-1" />
+                        Evaluar
+                      </Button>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           )}
@@ -184,10 +182,12 @@ const TeacherTaskList = ({ teacherUsername }) => {
           {/* Tareas evaluadas */}
           {evaluatedTasks.length > 0 && (
             <div>
-              <h5 className="d-flex align-items-center mb-3">
-                <FaCheck className="text-success me-2" />
-                Evaluadas ({evaluatedTasks.length})
-              </h5>
+              <div className="section-header-tasks">
+                <h5 className="d-flex align-items-center">
+                  <FaCheck className="text-success me-2" />
+                  Evaluadas ({evaluatedTasks.length})
+                </h5>
+              </div>
               <Table className="modern-table" hover>
                 <thead>
                   <tr>
@@ -201,18 +201,18 @@ const TeacherTaskList = ({ teacherUsername }) => {
                 <tbody>
                   {evaluatedTasks.map((result) => (
                     <tr key={result.activityResultId}>
-                      <td>
+                      <td data-label="Tarea">
                         <div className="fw-semibold">{result.activityTitle}</div>
                       </td>
-                      <td>{result.studentName}</td>
-                      <td>{formatDate(result.submittedAt)}</td>
-                      <td>
+                      <td data-label="Estudiante">{result.studentName}</td>
+                      <td data-label="Fecha">{formatDate(result.submittedAt)}</td>
+                      <td data-label="Nota">
                         <Badge bg={getScoreColor(result.score)} className="score-badge">
                           <FaStar size={10} className="me-1" />
                           {result.score}/10
                         </Badge>
                       </td>
-                      <td>
+                      <td data-label="Acción">
                         <Button
                           variant="outline-secondary"
                           size="sm"

@@ -1,0 +1,169 @@
+/* ==========================================
+   ESTILOS PARA TEACHER PAGE 
+   ========================================== */
+:root {
+  /* Colores principales */
+  --primary-blue: #3498db;
+  --primary-green: #27ae60;
+  --primary-orange: #e67e22;
+  
+  /* Sidebar */
+  --sidebar-bg: #2c3e50;
+  --sidebar-hover: #34495e;
+  --sidebar-accent: #3498db;
+  --sidebar-text: #ecf0f1;
+  --sidebar-text-muted: #bdc3c7;
+  
+  /* Grises y neutros */
+  --soft-gray: #f8f9fa;
+  --text-dark: #2c3e50;
+  --text-light: #7f8c8d;
+  --border-light: #e2e8f0;
+  
+  /* Sombras */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 8px 25px rgba(0, 0, 0, 0.15);
+  
+  /* Otros */
+  --border-radius: 8px;
+  --transition: all 0.3s ease;
+}
+
+/* ==========================================
+   RESET Y BASE
+   ========================================== */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--soft-gray);
+  margin: 0;
+  padding: 0;
+}
+
+/* ==========================================
+   LAYOUT PRINCIPAL DEL TEACHER PANEL
+   ========================================== */
+.teacher-panel-container {
+  min-height: 100vh;
+  background-color: var(--soft-gray);
+}
+
+/* Sidebar fijo */
+.teacher-sidebar {
+  background-color: var(--sidebar-bg);
+  min-height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 250px;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  overflow-y: auto;
+}
+
+/* Contenido principal con margen para el sidebar */
+.main-content {
+  margin-left: 250px;
+  min-height: 100vh;
+}
+
+/* ==========================================
+   BOTÓN MÓVIL Y RESPONSIVIDAD
+   ========================================== */
+.mobile-menu-toggle {
+  display: none;
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 999;
+  background: var(--sidebar-bg);
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-md);
+  width: 44px;
+  height: 44px;
+  transition: var(--transition);
+}
+
+.mobile-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1049;
+}
+
+/* ==========================================
+   RESPONSIVE
+   ========================================== */
+
+/* Mobile */
+@media (max-width: 767px) {
+  .teacher-sidebar {
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    width: 280px;
+  }
+  
+  .teacher-sidebar.show {
+    transform: translateX(0);
+    z-index: 1050;
+  }
+  
+  .main-content {
+    margin-left: 0;
+  }
+  
+  .mobile-menu-toggle {
+    display: block !important;
+  }
+  
+  .mobile-overlay {
+    display: block !important;
+  }
+}
+
+/* Tablet */
+@media (min-width: 768px) and (max-width: 991px) {
+  .teacher-sidebar {
+    width: 200px;
+  }
+  
+  .main-content {
+    margin-left: 200px;
+  }
+}
+
+/* ==========================================
+   UTILIDADES BÁSICAS GLOBALES
+   ========================================== */
+.text-primary {
+  color: var(--primary-blue) !important;
+}
+
+.text-success {
+  color: var(--primary-green) !important;
+}
+
+.text-muted {
+  color: var(--text-light) !important;
+}
+
+/* Focus states para accesibilidad */
+*:focus {
+  outline: 2px solid var(--primary-blue);
+  outline-offset: 2px;
+}

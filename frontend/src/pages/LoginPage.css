@@ -1,0 +1,289 @@
+/* ********* ESTILOS ESPECÍFICOS PARA LA PÁGINA DE LOGIN MEJORADO ********* */
+
+/* Wrapper principal de la página de login */
+.login-page-wrapper {
+  background-color: var(--primary-bg);
+  color: var(--primary-text);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Sección del Formulario de Login */
+.login-form-area-container {
+  flex-grow: 1; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 2rem;
+  padding-bottom: 2rem; 
+  min-height: calc(100vh - 120px); 
+}
+
+/* El wrapper interno del formulario */
+.login-form-card-inner {
+  width: 100%;
+  max-width: 520px; 
+  min-height: auto;
+  padding: 3rem 3rem;
+  margin: 1rem 0; 
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  border-radius: 0.5rem;
+  background-color: var(--card-bg); 
+  border: 1px solid var(--border-color);
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  display: flex; 
+  flex-direction: column; 
+  justify-content: center; 
+  align-items: center; 
+}
+
+/* MODO OSCURO - Sombra mejorada para login */
+body[data-theme="dark"] .login-form-card-inner {
+  box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.4);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+/* Icono decorativo en la tarjeta de login */
+.login-decorative-icon {
+  font-size: 5.625rem; 
+  margin-bottom: 1rem;
+  color: var(--accent-color); 
+  transition: color 0.3s ease;
+}
+
+/* Títulos y texto principal */
+.login-form-card-inner h4 {
+  color: var(--primary-text) !important;
+}
+
+/* Clases de texto con tema */
+.text-secondary-themed {
+  color: var(--secondary-text) !important;
+  transition: color 0.3s ease;
+}
+
+.link-themed {
+  color: var(--accent-color) !important;
+  transition: color 0.3s ease;
+  text-decoration: none;
+}
+
+.link-themed:hover {
+  color: var(--link-hover-color) !important;
+  text-decoration: none;
+}
+
+/* Campo de entrada de texto y contraseña - MEJORADO */
+.form-control-themed {
+  background-color: var(--card-bg) !important; 
+  color: var(--primary-text) !important; 
+  border: 1px solid var(--border-color) !important; 
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.form-control-themed::placeholder {
+  color: var(--secondary-text) !important;
+  opacity: 0.7;
+  font-size: 0.9rem; 
+}
+
+.form-control-themed:focus {
+  background-color: var(--card-bg) !important;
+  color: var(--primary-text) !important;
+  border-color: var(--accent-color) !important;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25) !important;
+}
+
+/* Iconos de los InputGroup (Usuario, Candado, Ojo) - MEJORADO */
+.input-group-text-themed {
+  background-color: var(--secondary-bg) !important; 
+  color: var(--primary-text) !important; 
+  border: 1px solid var(--border-color) !important; 
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Botón de mostrar/ocultar contraseña */
+.password-toggle-button {
+  cursor: pointer;
+  user-select: none;
+}
+
+.password-toggle-button:hover {
+  background-color: var(--border-color) !important;
+}
+
+/* Checkbox y texto - MEJORADO */
+.form-check-input {
+  background-color: var(--card-bg) !important;
+  border-color: var(--border-color) !important;
+}
+
+.form-check-label {
+  color: var(--secondary-text) !important;
+}
+
+/* Botón de Google - MEJORADO */
+.btn-google-themed {
+  background-color: var(--card-bg) !important;
+  color: var(--primary-text) !important;
+  border: 1px solid var(--border-color) !important;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.btn-google-themed:hover {
+  background-color: var(--secondary-bg) !important; 
+  color: var(--primary-text) !important;
+  border-color: var(--accent-color) !important;
+  transform: translateY(-1px);
+}
+
+/* Separador mejorado */
+.login-separator {
+  position: relative;
+  text-align: center;
+  margin: 2rem 0;
+}
+
+.login-separator::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background-color: var(--border-color);
+  z-index: 1;
+}
+
+.login-separator span {
+  position: relative;
+  background-color: var(--card-bg);
+  padding: 0 1rem;
+  z-index: 2;
+  color: var(--secondary-text);
+}
+
+/* Alertas de error - MEJORADAS */
+.login-error-alert {
+  position: relative;
+  padding: 1rem 3rem 1rem 1rem;
+  margin-bottom: 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid #f5c6cb;
+  background-color: #f8d7da;
+  color: #721c24;
+  transition: all 0.3s ease;
+}
+
+body[data-theme="dark"] .login-error-alert {
+  background-color: #2c0b0e;
+  border-color: #5a1e24;
+  color: #f7a8a8;
+}
+
+.login-error-close-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.75rem;
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: inherit;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  line-height: 1;
+  transition: opacity 0.2s ease;
+}
+
+.login-error-close-btn:hover {
+  opacity: 0.7;
+}
+
+/* Botón de iniciar sesión - MEJORADO */
+.btn-info {
+  background-color: var(--accent-color) !important;
+  border-color: var(--accent-color) !important;
+  color: white !important;
+}
+
+.btn-info:hover {
+  background-color: var(--link-hover-color) !important;
+  border-color: var(--link-hover-color) !important;
+  color: white !important;
+}
+
+/* ---------  RESPONSIVE --------- */
+
+@media (max-width: 1200px) {
+  .login-form-card-inner {
+    max-width: 500px;
+    padding: 2.8rem 2.8rem;
+  }
+}
+
+@media (max-width: 992px) {
+  .login-form-card-inner {
+    max-width: 480px;
+    padding: 2.5rem 2.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .login-form-card-inner {
+    max-width: 95%;
+    padding: 2rem 2rem;
+    min-height: auto;
+  }
+  
+  .login-form-area-container {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+  }
+  
+  /* Icono más pequeño en móvil */
+  .login-decorative-icon {
+    font-size: 4.5rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .login-form-card-inner {
+    max-width: 90%;
+    padding: 1.8rem 1.5rem;
+    min-height: auto;
+    border-radius: 0.4rem; 
+  }
+  
+  .login-form-area-container {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+  
+  /* En móvil, apilar elementos verticalmente */
+  .login-options-mobile {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 0.8rem !important;
+  }
+  
+  /* Icono aún más pequeño en móvil */
+  .login-decorative-icon {
+    font-size: 4rem; 
+  }
+  
+  /* Placeholders más pequeños en móvil */
+  .form-control-themed::placeholder {
+    font-size: 0.85rem;
+  }
+  
+  .login-error-alert {
+    padding: 0.75rem 2.5rem 0.75rem 0.75rem;
+    font-size: 0.9rem;
+  }
+  
+  .login-error-close-btn {
+    font-size: 1.1rem;
+    top: 0.4rem;
+    right: 0.5rem;
+  }
+}

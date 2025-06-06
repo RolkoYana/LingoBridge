@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 import { FaCheck, FaSpinner } from "react-icons/fa";
 import { fetchWithAuth } from "../../api/api";
+import "./ApproveCourse.css";
 
 const ApproveCourse = ({ courseId, onApprove }) => {
   const [loading, setLoading] = useState(false);
@@ -16,9 +17,7 @@ const ApproveCourse = ({ courseId, onApprove }) => {
 
       setApproved(true);
       
-      // Esperar un momento para mostrar el éxito antes de remover
       setTimeout(() => {
-        // Usar una notificación más elegante en lugar de alert
         console.log("Curso aprobado:", data.message);
         onApprove(courseId); // elimina el curso aprobado de `PendingCourses`
       }, 800);

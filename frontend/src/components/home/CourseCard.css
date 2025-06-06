@@ -1,0 +1,147 @@
+/* ==========================================
+   COURSE CARD - RESPONSIVE Y MODO OSCURO
+   ========================================== */
+
+/* Card principal */
+.course-card .card {
+  background-color: var(--card-bg);
+  color: var(--primary-text);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.course-card .card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--accent-color);
+}
+
+/* Imagen de la card */
+.course-card .card-img-top {
+  transition: transform 0.3s ease;
+  border-bottom: 1px solid var(--border-color);
+  object-fit: cover;
+}
+
+.course-card .card:hover .card-img-top {
+  transform: scale(1.05);
+}
+
+/* Cuerpo de la card */
+.course-card .card-body {
+  background-color: var(--card-bg);
+  color: var(--primary-text);
+  padding: 1.5rem;
+}
+
+/* Título de la card */
+.course-card .card-title {
+  color: var(--primary-text);
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  font-size: 1.25rem;
+}
+
+/* Lista de características */
+.course-card .list-unstyled {
+  margin-bottom: 1.5rem;
+}
+
+.course-card .list-unstyled li {
+  color: var(--primary-text);
+  margin-bottom: 0.75rem;
+  padding: 0.5rem 0;
+  transition: all 0.3s ease;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+}
+
+.course-card .list-unstyled li:hover {
+  background-color: rgba(var(--link-color-rgb), 0.05);
+  padding-left: 0.5rem;
+}
+
+/* Iconos en la lista */
+.course-card .me-2 {
+  margin-right: 0.75rem !important;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.course-card .text-success {
+  color: var(--success-color) !important;
+}
+
+/* Botón de la card */
+.course-card .btn-outline-primary {
+  font-weight: 500;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  padding: 0.75rem 1.5rem;
+  width: 100%;
+}
+
+.course-card .btn-outline-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ==========================================
+   RESPONSIVE COURSE CARD
+   ========================================== */
+
+/* Mobile (hasta 576px) */
+@media (max-width: 575px) {
+  .course-card .card-body {
+    padding: 1.25rem;
+  }
+  
+  .course-card .card-title {
+    font-size: 1.1rem;
+    margin-bottom: 1.25rem;
+  }
+  
+  .course-card .list-unstyled li {
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .course-card .btn-outline-primary {
+    padding: 0.875rem 1rem;
+    font-size: 0.95rem;
+  }
+}
+
+/* Tablet (576px - 768px) */
+@media (min-width: 576px) and (max-width: 767px) {
+  .course-card .card-body {
+    padding: 1.375rem;
+  }
+  
+  .course-card .card-title {
+    font-size: 1.2rem;
+  }
+}
+
+/* Desktop (768px+) */
+@media (min-width: 768px) {
+  .course-card .card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .course-card .card-body {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+  
+  .course-card .list-unstyled {
+    flex-grow: 1;
+  }
+}

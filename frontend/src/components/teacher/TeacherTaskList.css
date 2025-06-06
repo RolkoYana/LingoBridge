@@ -1,0 +1,574 @@
+/* ==========================================
+   ESTILOS PARA TEACHER TASK LIST
+   ========================================== */
+
+.content-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+  border: none;
+}
+
+/* Header Section */
+.content-card h3 {
+  color: #2c3e50;
+  font-weight: 700;
+  margin-bottom: 4px;
+  font-size: 24px;
+}
+
+.content-card .text-muted {
+  color: #6c757d;
+  font-size: 14px;
+}
+
+/* Tasks List - Lista simple y legible */
+.tasks-list {
+  margin-bottom: 2rem;
+}
+
+.task-item {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin-bottom: 12px;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.task-item:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-color: #3498db;
+}
+
+.task-item.pending {
+  border-left: 4px solid #ffc107;
+}
+
+.task-item.evaluated {
+  border-left: 4px solid #28a745;
+}
+
+/* Task Content */
+.task-content {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.task-main-info {
+  flex-grow: 1;
+}
+
+.task-title {
+  color: #2c3e50;
+  font-weight: 600;
+  margin: 0 0 4px 0;
+  font-size: 1rem;
+  line-height: 1.3;
+}
+
+.task-meta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 14px;
+  color: #7f8c8d;
+}
+
+.student-info {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.submit-date {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Task Actions */
+.task-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+  margin-left: 20px;
+}
+
+.status-badge {
+  font-size: 0.75rem;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Modern Table */
+.modern-table {
+  margin-bottom: 0;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.modern-table thead th {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border: none;
+  color: #495057;
+  font-weight: 600;
+  padding: 16px 20px;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.modern-table tbody td {
+  padding: 16px 20px;
+  border-top: 1px solid #e9ecef;
+  vertical-align: middle;
+  background: #fff;
+  transition: background-color 0.2s ease;
+}
+
+.modern-table tbody tr:hover td {
+  background: #f8f9fa;
+}
+
+.modern-table .fw-semibold {
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+/* Score Badge */
+.score-badge {
+  font-weight: 600;
+  padding: 6px 10px;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 16px;
+  font-size: 0.8rem;
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.empty-state .fa-tasks {
+  color: #bdc3c7;
+  margin-bottom: 20px;
+}
+
+.empty-state h5 {
+  color: #7f8c8d;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.empty-state p {
+  color: #95a5a6;
+  margin-bottom: 24px;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.5;
+}
+
+/* Loading State */
+.spinner-border {
+  width: 2rem;
+  height: 2rem;
+}
+
+.text-primary {
+  color: #3498db !important;
+}
+
+/* Section Headers */
+.section-header-tasks {
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.section-header-tasks h5 {
+  color: #2c3e50;
+  font-weight: 600;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  font-size: 1.2rem;
+}
+
+.section-header-tasks .text-warning {
+  color: #f39c12 !important;
+}
+
+.section-header-tasks .text-success {
+  color: #27ae60 !important;
+}
+
+/* Modal de Evaluación */
+.evaluation-modal .modal-content {
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.evaluation-modal .modal-header {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-bottom: 1px solid #e2e8f0;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+.evaluation-modal .modal-title {
+  color: #2c3e50;
+  font-weight: 600;
+  font-size: 1.2rem;
+}
+
+.evaluation-section {
+  background: rgba(248, 249, 250, 0.5);
+  padding: 16px;
+  border-radius: 8px;
+  border-left: 3px solid #3498db;
+  margin-bottom: 16px;
+}
+
+.evaluation-section:last-child {
+  margin-bottom: 0;
+}
+
+.section-title {
+  color: #2c3e50;
+  font-weight: 600;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+}
+
+.info-grid {
+  display: grid;
+  gap: 8px;
+}
+
+.info-grid > div {
+  color: #2c3e50;
+  font-size: 14px;
+}
+
+.info-grid strong {
+  color: #495057;
+}
+
+.student-response {
+  background: white;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+
+.response-text {
+  margin: 0;
+  color: #2c3e50;
+  line-height: 1.5;
+  font-size: 14px;
+}
+
+.file-download {
+  background: white;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+
+.file-download .btn {
+  font-size: 13px;
+  padding: 6px 12px;
+}
+
+/* Form Inputs en Modal */
+.modern-input {
+  border: 2px solid #e2e8f0;
+  border-radius: 6px;
+  padding: 10px 12px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  background-color: white;
+}
+
+.modern-input:focus {
+  border-color: #3498db;
+  box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.1);
+  outline: none;
+}
+
+.modern-input:disabled {
+  background-color: #f8f9fa;
+  color: #6c757d;
+}
+
+/* ==========================================
+   RESPONSIVE
+   ========================================== */
+
+/* Mobile */
+@media (max-width: 767px) {
+  .content-card {
+    margin: 0 -15px;
+    border-radius: 0;
+  }
+  
+  .content-card h3 {
+    font-size: 20px;
+  }
+  
+  .task-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 16px;
+  }
+  
+  .task-content {
+    width: 100%;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .task-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .task-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .task-actions .btn {
+    flex-grow: 1;
+    margin-left: 8px;
+  }
+  
+  .modern-table thead {
+    display: none;
+  }
+  
+  .modern-table tbody,
+  .modern-table tbody tr,
+  .modern-table tbody td {
+    display: block;
+    width: 100%;
+  }
+  
+  .modern-table tbody tr {
+    background: #fff;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    padding: 16px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  }
+  
+  .modern-table tbody td {
+    border: none;
+    padding: 8px 0;
+    text-align: left;
+  }
+  
+  .modern-table tbody td:before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: #6c757d;
+    display: block;
+    margin-bottom: 4px;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  .evaluation-modal .modal-dialog {
+    margin: 0;
+    max-width: 100%;
+    height: 100vh;
+  }
+  
+  .evaluation-modal .modal-content {
+    height: 100vh;
+    border-radius: 0;
+  }
+  
+  .evaluation-modal .modal-header {
+    border-radius: 0;
+  }
+  
+  .evaluation-section {
+    padding: 12px;
+  }
+  
+  .info-grid {
+    gap: 6px;
+  }
+  
+  .empty-state {
+    padding: 40px 20px;
+  }
+  
+  .empty-state .fa-tasks {
+    font-size: 48px;
+  }
+}
+
+/* Tablet */
+@media (min-width: 768px) and (max-width: 991px) {
+  .task-item {
+    padding: 18px;
+  }
+  
+  .task-title {
+    font-size: 0.95rem;
+  }
+  
+  .task-meta {
+    gap: 12px;
+  }
+  
+  .modern-table tbody td {
+    padding: 14px 16px;
+  }
+  
+  .evaluation-section {
+    padding: 14px;
+  }
+}
+
+/* Desktop */
+@media (min-width: 992px) {
+  .content-card {
+    padding: 32px !important;
+  }
+  
+  .modern-table tbody td {
+    padding: 18px 24px;
+  }
+  
+  .task-item {
+    padding: 20px 24px;
+  }
+}
+
+/* ==========================================
+   UTILITIES NECESARIAS
+   ========================================== */
+
+.d-flex {
+  display: flex;
+}
+
+.align-items-center {
+  align-items: center;
+}
+
+.justify-content-center {
+  justify-content: center;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-muted {
+  color: #6c757d !important;
+}
+
+.text-danger {
+  color: #dc3545 !important;
+}
+
+.mb-0 {
+  margin-bottom: 0 !important;
+}
+
+.mb-1 {
+  margin-bottom: 0.25rem !important;
+}
+
+.mb-2 {
+  margin-bottom: 0.5rem !important;
+}
+
+.mb-3 {
+  margin-bottom: 1rem !important;
+}
+
+.mb-4 {
+  margin-bottom: 1.5rem !important;
+}
+
+.me-1 {
+  margin-right: 0.25rem !important;
+}
+
+.me-2 {
+  margin-right: 0.5rem !important;
+}
+
+.me-3 {
+  margin-right: 1rem !important;
+}
+
+.mt-2 {
+  margin-top: 0.5rem !important;
+}
+
+.fw-semibold {
+  font-weight: 600 !important;
+}
+
+.fw-bold {
+  font-weight: 700 !important;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* Badge colors */
+.bg-warning {
+  background-color: #ffc107 !important;
+  color: #000 !important;
+}
+
+.bg-success {
+  background-color: #28a745 !important;
+  color: #fff !important;
+}
+
+.bg-info {
+  background-color: #17a2b8 !important;
+  color: #fff !important;
+}
+
+.bg-danger {
+  background-color: #dc3545 !important;
+  color: #fff !important;
+}

@@ -1,3 +1,5 @@
+import React from "react";
+import "./HomePage.css";
 import Navbar from "../components/home/Navbar";
 import Banner from "../components/home/Banner";
 import Courses from "../components/home/Courses";
@@ -8,7 +10,7 @@ import Footer from "../components/home/Footer";
 
 const HomePage = () => {
   return (
-    <>
+    <div className="homepage">
       <Navbar />
       <Banner />
       <Courses />
@@ -16,7 +18,7 @@ const HomePage = () => {
       <Feedbacks />
       <Faq />
       <Footer />
-    </>
+    </div>
   );
 };
 

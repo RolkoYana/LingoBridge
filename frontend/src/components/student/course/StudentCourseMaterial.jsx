@@ -1,307 +1,208 @@
 import React, { useEffect, useState } from "react";
-import { Spinner, Alert, Badge } from "react-bootstrap";
-import { 
-  FaDownload, 
-  FaYoutube, 
-  FaFile, 
-  FaFilePdf, 
-  FaFileWord, 
-  FaFileImage,
-  FaExternalLinkAlt,
-  FaInfoCircle,
-  FaPlay,
-  FaFileArchive
-} from "react-icons/fa";
+import { Spinner, Alert, Card, Badge } from "react-bootstrap";
+import { FaFilePdf, FaYoutube, FaDownload, FaExternalLinkAlt } from "react-icons/fa";
 import { fetchWithAuth } from "../../../api/api";
+import "./StudentCourseMaterial.css";
 
 const StudentCourseMaterial = ({ courseId }) => {
-  const [material, setMaterial] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [materials, setMaterials] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchMaterials = async () => {
+    const loadMaterials = async () => {
       try {
         setLoading(true);
         setError(null);
-        const data = await fetchWithAuth(
-          `/student/course/${courseId}/material`
-        );
-        setMaterial(Array.isArray(data) ? data : []);
-      } catch (err) {
-        setError("Error al cargar los materiales del curso.");
-        console.error("Error loading materials:", err);
+
+        if (!courseId) {
+          setError("No se ha proporcionado un curso válido.");
+          return;
+        }
+
+        const data = await fetchWithAuth(`/student/course/${courseId}/material`);
+
+        if (Array.isArray(data)) {
+          setMaterials(data);
+        } else {
+          setMaterials([]);
+        }
+      } catch (error) {
+        setError("Error al cargar los materiales: " + error.message);
       } finally {
         setLoading(false);
       }
     };
 
     if (courseId) {
-      fetchMaterials();
+      loadMaterials();
     }
   }, [courseId]);
 
-  // Función para obtener el icono según el tipo de archivo
-  const getFileIcon = (filename) => {
-    if (!filename) return FaFile;
-    
-    const extension = filename.toLowerCase().split('.').pop();
-    switch (extension) {
-      case 'pdf':
-        return FaFilePdf;
-      case 'doc':
-      case 'docx':
-        return FaFileWord;
-      case 'jpg':
-      case 'jpeg':
-      case 'png':
-      case 'gif':
-      case 'svg':
-        return FaFileImage;
-      case 'zip':
-      case 'rar':
-      case '7z':
-        return FaFileArchive;
-      default:
-        return FaFile;
+  const pdfMaterials = materials.filter((m) => m.filename);
+  const youtubeMaterials = materials.filter((m) => m.youtubeLink);
+
+  const getYouTubeVideoId = (url) => {
+    if (!url) return null;
+    const regex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
+    const match = url.match(regex);
+    return match ? match[1] : null;
+  };
+
+  const formatDate = (dateString) => {
+    if (!dateString) return "";
+    try {
+      const date = new Date(dateString);
+      return date.toLocaleDateString("es-ES", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+      });
+    } catch (error) {
+      return dateString;
     }
   };
 
-  // Función para obtener el color del badge según el tipo
-  const getFileTypeColor = (filename) => {
-    if (!filename) return 'secondary';
-    
-    const extension = filename.toLowerCase().split('.').pop();
-    switch (extension) {
-      case 'pdf':
-        return 'danger';
-      case 'doc':
-      case 'docx':
-        return 'primary';
-      case 'jpg':
-      case 'jpeg':
-      case 'png':
-      case 'gif':
-      case 'svg':
-        return 'success';
-      case 'zip':
-      case 'rar':
-      case '7z':
-        return 'warning';
-      default:
-        return 'secondary';
+  const handlePdfDownload = async (courseId, filename) => {
+    try {
+      const blob = await fetchWithAuth(
+        `/student/course/${courseId}/material/download/${filename}`,
+        { method: "GET" },
+        true
+      );
+
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = filename;
+      link.click();
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      alert("No se pudo descargar el archivo");
     }
   };
 
-  // Función para formatear el tamaño del archivo
-  const formatFileSize = (bytes) => {
-    if (!bytes) return '';
-    if (bytes === 0) return '0 Bytes';
-    const k = 1024;
-    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-  };
-
-  const handleDownload = (filename) => {
-    const downloadUrl = `/api/student/course/${courseId}/material/download/${filename}`;
-    window.open(downloadUrl, '_blank');
+  const handleYouTubeClick = (material) => {
+    window.open(material.youtubeLink, "_blank", "noopener,noreferrer");
   };
 
   if (loading) {
     return (
-      <div className="material-loading">
-        <Spinner animation="border" variant="primary" size="sm" />
-        <span>Cargando materiales...</span>
+      <div className="materials-loading">
+        <Spinner animation="border" variant="primary" />
+        <p>Cargando materiales...</p>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="material-error">
-        <FaInfoCircle />
-        <span>{error}</span>
+      <div className="materials-container">
+        <Alert variant="danger" className="text-center">
+          {error}
+        </Alert>
       </div>
     );
   }
 
-  if (material.length === 0) {
+  if (materials.length === 0) {
     return (
-      <div className="material-empty">
-        <div className="empty-icon">
-          <FaFile size={48} />
+      <div className="materials-container">
+        <div className="materials-empty">
+          <h5>📚 No hay materiales disponibles</h5>
+          <p>El profesor aún no ha subido materiales para este curso.</p>
         </div>
-        <h6 className="empty-title">No hay materiales disponibles</h6>
-        <p className="empty-text">
-          El profesor aún no ha subido materiales para este curso.
-          Te notificaremos cuando haya nuevo contenido disponible.
-        </p>
       </div>
     );
   }
-
-  // Separar materiales por tipo
-  const videoMaterials = material.filter(m => m.youtubeLink);
-  const fileMaterials = material.filter(m => m.filename && !m.youtubeLink);
 
   return (
     <div className="materials-container">
-      {/* Estadísticas de materiales */}
-      <div className="materials-stats">
-        <div className="stat-item">
-          <span className="stat-number">{material.length}</span>
-          <span className="stat-label">Total</span>
-        </div>
-        <div className="stat-item">
-          <span className="stat-number">{videoMaterials.length}</span>
-          <span className="stat-label">Videos</span>
-        </div>
-        <div className="stat-item">
-          <span className="stat-number">{fileMaterials.length}</span>
-          <span className="stat-label">Archivos</span>
-        </div>
-      </div>
-
-      {/* Lista de materiales */}
-      <div className="materials-list">
-        {material.map((mat, index) => {
-          const FileIcon = getFileIcon(mat.filename);
-          const cleanTitle = mat.title ? mat.title.replace(/"/g, "") : `Material ${index + 1}`;
+      {/* Documentos PDF */}
+      {pdfMaterials.length > 0 && (
+        <div className="materials-section">
+          <h5 className="section-title">
+            <FaFilePdf className="section-icon" />
+            Documentos PDF
+            <Badge bg="primary">{pdfMaterials.length}</Badge>
+          </h5>
           
-          return (
-            <div key={mat.id || index} className="material-item">
-              <div className="material-header">
-                <div className="material-info">
-                  <div className="material-icon">
-                    {mat.youtubeLink ? (
-                      <FaYoutube className="youtube-icon" />
-                    ) : (
-                      <FileIcon className="file-icon" />
+          <div className="materials-grid">
+            {pdfMaterials.map((material) => (
+              <Card 
+                key={material.id} 
+                className="material-card pdf-card"
+                onClick={() => handlePdfDownload(courseId, material.filename)}
+              >
+                <Card.Body>
+                  <div className="material-header">
+                    <div className="material-icon pdf-icon">
+                      <FaFilePdf />
+                    </div>
+                    <div className="material-info">
+                      <h6 className="material-title">{material.title}</h6>
+                      <p className="material-filename">{material.filename}</p>
+                      <small className="material-date">{formatDate(material.uploadedAt)}</small>
+                    </div>
+                  </div>
+                  <div className="material-action">
+                    <FaDownload /> Descargar
+                  </div>
+                </Card.Body>
+              </Card>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Videos de YouTube */}
+      {youtubeMaterials.length > 0 && (
+        <div className="materials-section">
+          <h5 className="section-title">
+            <FaYoutube className="section-icon" />
+            Videos de YouTube
+            <Badge bg="danger">{youtubeMaterials.length}</Badge>
+          </h5>
+          
+          <div className="materials-grid">
+            {youtubeMaterials.map((material) => {
+              const videoId = getYouTubeVideoId(material.youtubeLink);
+
+              return (
+                <Card key={material.id} className="material-card youtube-card">
+                  <Card.Body>
+                    <div className="material-header">
+                      <div className="material-icon youtube-icon">
+                        <FaYoutube />
+                      </div>
+                      <div className="material-info">
+                        <h6 className="material-title">{material.title}</h6>
+                        <p className="material-filename">Video de YouTube</p>
+                        <small className="material-date">{formatDate(material.uploadedAt)}</small>
+                      </div>
+                    </div>
+
+                    {videoId && (
+                      <div className="youtube-embed">
+                        <iframe
+                          src={`https://www.youtube.com/embed/${videoId}`}
+                          title={material.title}
+                          frameBorder="0"
+                          allowFullScreen
+                        />
+                      </div>
                     )}
-                  </div>
-                  <div className="material-details">
-                    <h6 className="material-title">{cleanTitle}</h6>
-                    <div className="material-meta">
-                      {mat.youtubeLink ? (
-                        <Badge bg="danger" className="material-badge">
-                          <FaYoutube className="me-1" />
-                          Video YouTube
-                        </Badge>
-                      ) : mat.filename ? (
-                        <Badge 
-                          bg={getFileTypeColor(mat.filename)} 
-                          className="material-badge"
-                        >
-                          <FileIcon className="me-1" />
-                          {mat.filename.split('.').pop().toUpperCase()}
-                        </Badge>
-                      ) : null}
-                      
-                      {mat.fileSize && (
-                        <span className="file-size">
-                          {formatFileSize(mat.fileSize)}
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                </div>
-                
-                {/* Acciones */}
-                <div className="material-actions">
-                  {mat.filename && (
-                    <button
-                      className="btn-download"
-                      onClick={() => handleDownload(mat.filename)}
-                      title={`Descargar ${mat.filename}`}
-                    >
-                      <FaDownload />
-                    </button>
-                  )}
-                  {mat.youtubeLink && (
-                    <a
-                      href={`https://www.youtube.com/watch?v=${mat.youtubeLink}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="btn-external"
-                      title="Ver en YouTube"
-                    >
-                      <FaExternalLinkAlt />
-                    </a>
-                  )}
-                </div>
-              </div>
 
-              {/* Contenido del material */}
-              <div className="material-content">
-                {mat.youtubeLink ? (
-                  <div className="youtube-container">
-                    <iframe
-                      src={`https://www.youtube.com/embed/${mat.youtubeLink}`}
-                      title={cleanTitle}
-                      frameBorder="0"
-                      allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                      className="youtube-iframe"
-                    />
-                    <div className="video-overlay">
-                      <FaPlay className="play-icon" />
+                    <div 
+                      className="material-action youtube-action"
+                      onClick={() => handleYouTubeClick(material)}
+                    >
+                      <FaExternalLinkAlt /> Ver en YouTube
                     </div>
-                  </div>
-                ) : mat.filename ? (
-                  <div className="file-preview">
-                    <div className="file-info">
-                      <div className="file-icon-large">
-                        <FileIcon />
-                      </div>
-                      <div className="file-details">
-                        <span className="filename">{mat.filename}</span>
-                        <span className="file-type">
-                          Archivo {mat.filename.split('.').pop().toUpperCase()}
-                        </span>
-                        {mat.fileSize && (
-                          <span className="file-size-large">
-                            {formatFileSize(mat.fileSize)}
-                          </span>
-                        )}
-                      </div>
-                      <button
-                        className="btn-download-primary"
-                        onClick={() => handleDownload(mat.filename)}
-                      >
-                        <FaDownload className="me-2" />
-                        Descargar
-                      </button>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="material-placeholder">
-                    <FaInfoCircle className="placeholder-icon" />
-                    <p>Material sin contenido disponible</p>
-                  </div>
-                )}
-              </div>
-              
-              {/* Descripción del material si existe */}
-              {mat.description && (
-                <div className="material-description">
-                  <p>{mat.description}</p>
-                </div>
-              )}
-            </div>
-          );
-        })}
-      </div>
-
-      {/* Información adicional */}
-      {material.length > 0 && (
-        <div className="materials-footer">
-          <div className="footer-info">
-            <FaInfoCircle className="info-icon" />
-            <span>
-              Todos los materiales están disponibles para descarga. 
-              Los videos de YouTube requieren conexión a internet.
-            </span>
+                  </Card.Body>
+                </Card>
+              );
+            })}
           </div>
         </div>
       )}

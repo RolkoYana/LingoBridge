@@ -1,0 +1,94 @@
+/* ==========================================
+   ESTILOS PARA BOTÓN DE COMPLETAR CURSO
+   ========================================== */
+
+/* Variables locales para el componente */
+.btn-admin-primary {
+  --admin-sidebar-accent: #8b5cf6;
+  --transition: all 0.3s ease;
+  
+  background: linear-gradient(135deg, var(--admin-sidebar-accent), #6366f1);
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-weight: 600;
+  transition: var(--transition);
+  box-shadow: 0 2px 4px rgba(139, 92, 246, 0.2);
+  color: white;
+}
+
+.btn-admin-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(139, 92, 246, 0.3);
+  background: linear-gradient(135deg, #7c3aed, var(--admin-sidebar-accent));
+  color: white;
+}
+
+/* Estado completado específico para finalizar */
+.btn-primary-completed {
+  background: linear-gradient(135deg, var(--admin-sidebar-accent), #6366f1) !important;
+  border-color: var(--admin-sidebar-accent) !important;
+  color: white !important;
+  opacity: 0.8;
+  cursor: default !important;
+}
+
+.btn-primary-completed:hover {
+  transform: none !important;
+  opacity: 0.8 !important;
+}
+
+/* Botones más alargados y legibles */
+.btn-action-extended {
+  min-width: 85px;
+  padding: 8px 12px !important;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: var(--transition);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.btn-action-extended:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Mejorar el espaciado entre icono y texto */
+.btn-action-extended .me-1 {
+  margin-right: 4px !important;
+}
+
+/* Animación de spin para el spinner */
+.fa-spin {
+  animation: fa-spin 1s infinite linear;
+}
+
+@keyframes fa-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Responsive para botones en móvil */
+@media (max-width: 768px) {
+  .btn-action-extended {
+    min-width: 75px;
+    padding: 6px 8px !important;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .btn-action-extended {
+    min-width: 70px;
+    padding: 6px 8px !important;
+    font-size: 0.75rem;
+  }
+}

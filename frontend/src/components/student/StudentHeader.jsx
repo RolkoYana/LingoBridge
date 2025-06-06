@@ -12,16 +12,13 @@ import {
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { fetchWithAuth } from "../../api/api";
+import "./StudentHeader.css";
 
 const StudentHeader = ({ name }) => {
   const [user, setUser] = useState({ name: "Student" });
   const navigate = useNavigate();
-  const [completedCourses, setCompletedCourses] = useState(0);
-  const [inProgressCourses, setInProgressCourses] = useState(0);
   const [notifications, setNotifications] = useState(2);
   const [currentTime, setCurrentTime] = useState(new Date());
-  
-  // Estados para actividades
   const [activities, setActivities] = useState([]);
   const [activitiesLoading, setActivitiesLoading] = useState(true);
 
@@ -45,26 +42,9 @@ const StudentHeader = ({ name }) => {
     return () => clearInterval(timer);
   }, []);
 
-  // Cargar cursos del estudiante
-  const loadStudentCourses = async () => {
-    try {
-      const courses = await fetchWithAuth("/student/courses");
-      console.log("Cursos del estudiante:", courses);
-
-      const completed = courses.filter(course => course.completed === true).length;
-      const inProgress = courses.filter(course => course.completed === false).length;
-
-      setCompletedCourses(completed);
-      setInProgressCourses(inProgress);
-    } catch (err) {
-      console.error("Error al obtener los cursos del estudiante:", err);
-    }
-  };
-
   // Cargar actividades pendientes
   const loadActivities = async () => {
     try {
-      setActivitiesLoading(true);
       const courses = await fetchWithAuth("/student/courses");
       
       if (!Array.isArray(courses)) {
@@ -92,7 +72,7 @@ const StudentHeader = ({ name }) => {
       const pending = allActivities
         .filter((a) => !a.completed)
         .sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate))
-        .slice(0, 5); // Solo las 5 más próximas
+        .slice(0, 5);
 
       setActivities(pending);
     } catch (err) {
@@ -103,15 +83,12 @@ const StudentHeader = ({ name }) => {
   };
 
   useEffect(() => {
-    loadStudentCourses();
     loadActivities();
   }, []);
 
   const handleLogout = () => {
-    if (window.confirm('¿Estás seguro de que quieres cerrar sesión?')) {
-      localStorage.clear();
-      navigate("/login");
-    }
+    localStorage.clear();
+    navigate("/login");
   };
 
   const handleActivityClick = (activity) => {
@@ -124,13 +101,6 @@ const StudentHeader = ({ name }) => {
     } else if (type === "TEST") {
       navigate(`/student/course/${courseId}/test/${activityId}`);
     }
-  };
-
-  const getGreeting = () => {
-    const hour = currentTime.getHours();
-    if (hour < 12) return "Buenos días";
-    if (hour < 18) return "Buenas tardes";
-    return "Buenas noches";
   };
 
   const formatDate = () => {
@@ -151,12 +121,11 @@ const StudentHeader = ({ name }) => {
 
   return (
     <div className="student-header-integrated">
-      {/* Fila única: Saludo + Widgets y Usuario */}
       <Row className="align-items-center">
         <Col>
           <div className="welcome-section">
             <h4 className="greeting-text mb-1">
-              {getGreeting()}, <span className="user-name">{user?.name || "Estudiante"}</span>!
+              Hola, <span className="user-name">{user?.name || "Estudiante"}</span>!
             </h4>
             <p className="date-text mb-0">
               {formatDate()}
@@ -301,16 +270,6 @@ const StudentHeader = ({ name }) => {
                 <Dropdown.Item className="dropdown-item-custom">
                   <FaCog className="me-2" />
                   Configuración
-                </Dropdown.Item>
-                
-                <Dropdown.Item className="dropdown-item-custom">
-                  <FaBell className="me-2" />
-                  Notificaciones
-                  {notifications > 0 && (
-                    <Badge bg="danger" size="sm" className="ms-auto">
-                      {notifications}
-                    </Badge>
-                  )}
                 </Dropdown.Item>
                 
                 <Dropdown.Divider />

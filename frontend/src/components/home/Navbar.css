@@ -1,0 +1,201 @@
+/* ==========================================
+   NAVBAR
+   ========================================== */
+
+/* Navbar principal */
+.navbar {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid var(--border-color);
+  background-color: var(--card-bg) !important;
+  transition: all 0.3s ease;
+}
+
+/* Enlaces de navegación - MEJORADOS PARA VISIBILIDAD */
+.navbar-nav .nav-link {
+  font-weight: 500;
+  transition: all 0.3s ease;
+  border-radius: 8px;
+  margin: 0 4px;
+  color: var(--primary-text) !important;
+}
+
+/* Estado activo - Este es el que faltaba */
+.navbar-nav .nav-link.active {
+  background: linear-gradient(135deg, #0d6efd, #0a58ca) !important;
+  color: white !important;
+  font-weight: 600;
+  box-shadow: 0 2px 4px rgba(13, 110, 253, 0.3);
+}
+
+/* Hover en enlaces normales - MEJORADO */
+.navbar-nav .nav-link:hover:not(.active) {
+  background-color: rgba(13, 110, 253, 0.1);
+  color: #0d6efd !important;
+  transform: translateY(-1px);
+}
+
+/* Dropdown activo */
+.navbar-nav .nav-link.dropdown-toggle.active {
+  background: linear-gradient(135deg, #0d6efd, #0a58ca) !important;
+  color: white !important;
+}
+
+/* Botones del navbar - SIN SUBRAYADO */
+.navbar .btn-outline-primary {
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  text-decoration: none !important;
+  border: 2px solid #0d6efd;
+  color: #0d6efd;
+  background-color: transparent;
+}
+
+.navbar .btn-outline-primary:hover {
+  background-color: #0d6efd;
+  color: white;
+  text-decoration: none !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(13, 110, 253, 0.3);
+}
+
+.navbar .btn-primary {
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(13, 110, 253, 0.2);
+  text-decoration: none !important;
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+  color: white;
+}
+
+.navbar .btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(13, 110, 253, 0.3);
+  text-decoration: none !important;
+  background-color: #0a58ca;
+  border-color: #0a58ca;
+}
+
+/* Botón de tema */
+.navbar .btn.bg-transparent {
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  text-decoration: none !important;
+}
+
+.navbar .btn.bg-transparent:hover {
+  background-color: rgba(0, 0, 0, 0.05) !important;
+  transform: scale(1.1);
+  text-decoration: none !important;
+}
+
+/* Dropdown menu styling - MEJORADO */
+.dropdown-menu {
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--border-color);
+  padding: 8px 0;
+  background-color: var(--card-bg);
+}
+
+.dropdown-item {
+  padding: 8px 16px;
+  transition: all 0.3s ease;
+  border-radius: 4px;
+  margin: 2px 8px;
+  font-weight: 500;
+  color: var(--primary-text) !important;
+  text-decoration: none !important;
+}
+
+.dropdown-item:hover {
+  background-color: rgba(13, 110, 253, 0.1);
+  color: #0d6efd !important;
+  text-decoration: none !important;
+}
+
+/* MODO OSCURO - MEJORADO */
+body[data-theme="dark"] .navbar {
+  background-color: var(--card-bg) !important;
+  border-bottom-color: var(--border-color);
+}
+
+body[data-theme="dark"] .navbar-nav .nav-link {
+  color: var(--primary-text) !important;
+}
+
+body[data-theme="dark"] .navbar-nav .nav-link.active {
+  background: linear-gradient(135deg, #6daff7, #4dabf7) !important;
+  color: #212529 !important;
+  box-shadow: 0 2px 4px rgba(109, 175, 247, 0.3);
+}
+
+body[data-theme="dark"] .navbar-nav .nav-link:hover:not(.active) {
+  background-color: rgba(109, 175, 247, 0.1);
+  color: #6daff7 !important;
+}
+
+body[data-theme="dark"] .navbar .btn-outline-primary {
+  border-color: #6daff7;
+  color: #6daff7;
+}
+
+body[data-theme="dark"] .navbar .btn-outline-primary:hover {
+  background-color: #6daff7;
+  color: #212529;
+  border-color: #6daff7;
+}
+
+body[data-theme="dark"] .navbar .btn-primary {
+  background-color: #6daff7;
+  border-color: #6daff7;
+  color: #212529;
+}
+
+body[data-theme="dark"] .navbar .btn-primary:hover {
+  background-color: #4dabf7;
+  border-color: #4dabf7;
+}
+
+body[data-theme="dark"] .navbar .btn.bg-transparent:hover {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+body[data-theme="dark"] .dropdown-menu {
+  background-color: var(--card-bg);
+  border-color: var(--border-color);
+}
+
+body[data-theme="dark"] .dropdown-item {
+  color: var(--primary-text) !important;
+}
+
+body[data-theme="dark"] .dropdown-item:hover {
+  background-color: rgba(109, 175, 247, 0.1);
+  color: #6daff7 !important;
+}
+
+/* Responsive */
+@media (max-width: 991px) {
+  .navbar-nav .nav-link {
+    margin: 4px 0;
+    padding: 12px 16px;
+  }
+  
+  .navbar-nav .nav-link.active {
+    border-radius: 8px;
+  }
+  
+  .navbar .d-flex {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border-color);
+  }
+}

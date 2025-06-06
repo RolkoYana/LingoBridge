@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Form, Button, Row, Col, Alert, Badge } from "react-bootstrap";
-import { FaSave, FaBook, FaUsers, FaCalendarAlt, FaGraduationCap, FaTimes, FaInfoCircle } from "react-icons/fa";
+import { FaSave, FaBook, FaCalendarAlt, FaGraduationCap, FaTimes, FaInfoCircle } from "react-icons/fa";
 import { fetchWithAuth } from "../../api/api";
+import "./CreateCourseForm.css";
 
 const CreateCourseForm = ({ onSuccess }) => {
   const [course, setCourse] = useState({
@@ -47,7 +48,6 @@ const CreateCourseForm = ({ onSuccess }) => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setCourse({ ...course, [name]: value });
-    // Limpiar errores al escribir
     if (errorMessage) setErrorMessage(null);
   };
 
@@ -103,7 +103,6 @@ const CreateCourseForm = ({ onSuccess }) => {
         }
       );
 
-      // Resetear formulario
       setCourse({
         name: "",
         description: "",
@@ -112,7 +111,6 @@ const CreateCourseForm = ({ onSuccess }) => {
         completedAt: "",
       });
 
-      // Notificar éxito y cerrar
       onSuccess();
       
     } catch (error) {
@@ -124,212 +122,173 @@ const CreateCourseForm = ({ onSuccess }) => {
   };
 
   return (
-    <div className="unified-section">
-      {/* Header de la sección */}
-      <div className="section-header">
-        <Row className="align-items-center">
-          <Col>
-            <h2 className="section-title">
-              <FaBook className="header-icon me-3" />
-              Crear Nuevo Curso
-            </h2>
-            <p className="section-subtitle">
-              Completa la información para crear un nuevo curso
-            </p>
-          </Col>
-          <Col xs="auto">
-            <Badge bg="info" className="px-3 py-2">
-              <FaInfoCircle className="me-2" />
-              Pendiente de aprobación
-            </Badge>
-          </Col>
-        </Row>
+    <div className="simple-form-container">
+      {/* Header simple */}
+      <div className="simple-header">
+        <div className="header-content">
+          <div className="header-left">
+            <FaBook className="header-icon" />
+            <div>
+              <h2 className="form-title">Información del Curso</h2>
+              <p className="form-subtitle">Completa los datos para crear tu nuevo curso</p>
+            </div>
+          </div>
+          <Badge bg="info" className="status-badge">
+            <FaInfoCircle className="me-2" />
+            Pendiente de aprobación
+          </Badge>
+        </div>
       </div>
 
       {/* Contenido del formulario */}
-      <div className="section-content">
-        <div className="p-4">
-          {errorMessage && (
-            <Alert variant="danger" className="mb-4 d-flex align-items-center">
+      <div className="simple-content">
+        {errorMessage && (
+          <Alert variant="danger" className="mb-4">
+            <FaTimes className="me-2" />
+            <strong>Error:</strong> {errorMessage}
+          </Alert>
+        )}
+
+        <Form onSubmit={handleSubmit}>
+          {/* Información básica */}
+          <div className="form-group-section">
+            <h5 className="section-title-clean">
+              <FaBook className="me-2" />
+              Información del Curso
+            </h5>
+            
+            <Form.Group className="mb-3">
+              <Form.Label>Nombre del curso <span className="required">*</span></Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Ej: Español Conversacional B1"
+                name="name"
+                value={course.name}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3">
+              <Form.Label>Descripción <span className="required">*</span></Form.Label>
+              <Form.Control
+                as="textarea"
+                rows={4}
+                placeholder="Describe los objetivos, metodología y contenido del curso..."
+                name="description"
+                value={course.description}
+                onChange={handleChange}
+                maxLength={500}
+                required
+              />
+              <div className="char-count">{course.description.length}/500 caracteres</div>
+            </Form.Group>
+          </div>
+
+          {/* Configuración del curso */}
+          <div className="form-group-section">
+            <h5 className="section-title-clean">
+              <FaGraduationCap className="me-2" />
+              Configuración Académica
+            </h5>
+            
+            <Row>
+              <Col md={6}>
+                <Form.Group className="mb-3">
+                  <Form.Label>Nivel del curso</Form.Label>
+                  <Form.Select
+                    name="level"
+                    value={course.level}
+                    onChange={handleChange}
+                  >
+                    {levels.map((level) => (
+                      <option key={level.value} value={level.value}>
+                        {level.label}
+                      </option>
+                    ))}
+                  </Form.Select>
+                  <div className="help-text">
+                    {levels.find(l => l.value === course.level)?.description}
+                  </div>
+                </Form.Group>
+              </Col>
+              
+              <Col md={6}>
+                <Form.Group className="mb-3">
+                  <Form.Label>Modalidad</Form.Label>
+                  <Form.Select
+                    name="type"
+                    value={course.type}
+                    onChange={handleChange}
+                  >
+                    {courseTypes.map((type) => (
+                      <option key={type.value} value={type.value}>
+                        {type.icon} {type.label}
+                      </option>
+                    ))}
+                  </Form.Select>
+                  <div className="help-text">
+                    {courseTypes.find(t => t.value === course.type)?.description}
+                  </div>
+                </Form.Group>
+              </Col>
+            </Row>
+          </div>
+
+          {/* Programación */}
+          <div className="form-group-section">
+            <h5 className="section-title-clean">
+              <FaCalendarAlt className="me-2" />
+              Programación
+            </h5>
+            
+            <Row>
+              <Col md={6}>
+                <Form.Group className="mb-3">
+                  <Form.Label>Fecha de finalización estimada</Form.Label>
+                  <Form.Control
+                    type="date"
+                    name="completedAt"
+                    value={course.completedAt}
+                    onChange={handleChange}
+                    min={new Date().toISOString().split('T')[0]}
+                  />
+                  <div className="help-text">Puedes modificar esta fecha más adelante</div>
+                </Form.Group>
+              </Col>
+            </Row>
+          </div>
+
+          {/* Botones */}
+          <div className="form-buttons">
+            <Button
+              variant="outline-secondary"
+              type="button"
+              onClick={() => onSuccess()}
+              disabled={loading}
+            >
               <FaTimes className="me-2" />
-              <div>
-                <strong>Error:</strong> {errorMessage}
-              </div>
-            </Alert>
-          )}
-
-          <Form onSubmit={handleSubmit}>
-            {/* Información básica */}
-            <div className="form-section mb-4">
-              <div className="form-section-header">
-                <h5 className="form-section-title">
-                  <FaBook className="text-primary me-2" />
-                  Información del Curso
-                </h5>
-                <p className="form-section-subtitle">Datos básicos del curso</p>
-              </div>
-              
-              <Row>
-                <Col md={12}>
-                  <Form.Group className="mb-3">
-                    <Form.Label className="form-label-custom">
-                      Nombre del curso <span className="text-danger">*</span>
-                    </Form.Label>
-                    <Form.Control
-                      type="text"
-                      placeholder="Ej: Español Conversacional B1"
-                      name="name"
-                      value={course.name}
-                      onChange={handleChange}
-                      className="form-control-custom"
-                      required
-                    />
-                  </Form.Group>
-                </Col>
-              </Row>
-
-              <Row>
-                <Col md={12}>
-                  <Form.Group className="mb-3">
-                    <Form.Label className="form-label-custom">
-                      Descripción <span className="text-danger">*</span>
-                    </Form.Label>
-                    <Form.Control
-                      as="textarea"
-                      rows={4}
-                      placeholder="Describe los objetivos, metodología y contenido del curso..."
-                      name="description"
-                      value={course.description}
-                      onChange={handleChange}
-                      className="form-control-custom"
-                      maxLength={500}
-                      required
-                    />
-                    <div className="form-text-custom">
-                      {course.description.length}/500 caracteres
-                    </div>
-                  </Form.Group>
-                </Col>
-              </Row>
-            </div>
-
-            {/* Configuración del curso */}
-            <div className="form-section mb-4">
-              <div className="form-section-header">
-                <h5 className="form-section-title">
-                  <FaGraduationCap className="text-success me-2" />
-                  Configuración Académica
-                </h5>
-                <p className="form-section-subtitle">Nivel y modalidad del curso</p>
-              </div>
-              
-              <Row>
-                <Col md={6}>
-                  <Form.Group className="mb-3">
-                    <Form.Label className="form-label-custom">Nivel del curso</Form.Label>
-                    <Form.Select
-                      name="level"
-                      value={course.level}
-                      onChange={handleChange}
-                      className="form-control-custom"
-                    >
-                      {levels.map((level) => (
-                        <option key={level.value} value={level.value}>
-                          {level.label}
-                        </option>
-                      ))}
-                    </Form.Select>
-                    <div className="form-text-custom">
-                      {levels.find(l => l.value === course.level)?.description}
-                    </div>
-                  </Form.Group>
-                </Col>
-                
-                <Col md={6}>
-                  <Form.Group className="mb-3">
-                    <Form.Label className="form-label-custom">Modalidad</Form.Label>
-                    <Form.Select
-                      name="type"
-                      value={course.type}
-                      onChange={handleChange}
-                      className="form-control-custom"
-                    >
-                      {courseTypes.map((type) => (
-                        <option key={type.value} value={type.value}>
-                          {type.icon} {type.label}
-                        </option>
-                      ))}
-                    </Form.Select>
-                    <div className="form-text-custom">
-                      {courseTypes.find(t => t.value === course.type)?.description}
-                    </div>
-                  </Form.Group>
-                </Col>
-              </Row>
-            </div>
-
-            {/* Configuración temporal */}
-            <div className="form-section mb-4">
-              <div className="form-section-header">
-                <h5 className="form-section-title">
-                  <FaCalendarAlt className="text-info me-2" />
-                  Programación
-                </h5>
-                <p className="form-section-subtitle">Configuración temporal (opcional)</p>
-              </div>
-              
-              <Row>
-                <Col md={6}>
-                  <Form.Group className="mb-3">
-                    <Form.Label className="form-label-custom">Fecha de finalización estimada</Form.Label>
-                    <Form.Control
-                      type="date"
-                      name="completedAt"
-                      value={course.completedAt}
-                      onChange={handleChange}
-                      className="form-control-custom"
-                      min={new Date().toISOString().split('T')[0]}
-                    />
-                    <div className="form-text-custom">
-                      Puedes modificar esta fecha más adelante
-                    </div>
-                  </Form.Group>
-                </Col>
-              </Row>
-            </div>
-
-            {/* Botones de acción */}
-            <div className="form-actions">
-              <Button
-                variant="outline-secondary"
-                type="button"
-                onClick={() => onSuccess()}
-                disabled={loading}
-                className="btn-secondary-custom"
-              >
-                <FaTimes className="me-2" />
-                Cancelar
-              </Button>
-              <Button
-                type="submit"
-                className="btn-teacher-primary"
-                disabled={loading}
-              >
-                {loading ? (
-                  <>
-                    <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-                    Creando curso...
-                  </>
-                ) : (
-                  <>
-                    <FaSave className="me-2" />
-                    Crear Curso
-                  </>
-                )}
-              </Button>
-            </div>
-          </Form>
-        </div>
+              Cancelar
+            </Button>
+            <Button
+              type="submit"
+              variant="primary"
+              disabled={loading}
+            >
+              {loading ? (
+                <>
+                  <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                  Creando curso...
+                </>
+              ) : (
+                <>
+                  <FaSave className="me-2" />
+                  Crear Curso
+                </>
+              )}
+            </Button>
+          </div>
+        </Form>
       </div>
     </div>
   );

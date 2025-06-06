@@ -7,7 +7,7 @@ import TeacherCourses from "../components/teacher/TeacherCourses";
 import TeacherStudents from "../components/teacher/TeacherStudents";
 import TeacherTaskList from "../components/teacher/TeacherTaskList";
 import TeacherMessages from "../components/teacher/TeacherMessages";
-import "../styles/TeacherPanel.css";
+import "./TeacherPage.css";
 
 const TeacherPage = () => {
   const [activeSection, setActiveSection] = useState("mis-cursos");

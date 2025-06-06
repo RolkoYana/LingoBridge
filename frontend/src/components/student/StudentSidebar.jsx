@@ -4,35 +4,27 @@ import { useNavigate } from "react-router-dom";
 import { 
   FaBook, 
   FaSearch, 
-  FaGraduationCap, 
   FaStar,
   FaEnvelope,
   FaChalkboardTeacher
 } from "react-icons/fa";
+import "./StudentSidebar.css";
 
 const StudentSidebar = ({ setActiveSection, activeSection = "mis-cursos", onItemClick }) => {
-  const [courses, setCourses] = useState([]);
   const [showTeacherButton, setShowTeacherButton] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
-
-    if (user && user.roles.includes("STUDENT") && user.courses) {
-      setCourses(user.courses);
-    }
-
+    
     // Mostrar botón solo si tiene ambos roles
     if (user && user.roles.includes("STUDENT") && user.roles.includes("TEACHER")) {
       setShowTeacherButton(true);
-    } else {
-      setShowTeacherButton(false);
     }
   }, []);
 
   const handleSectionChange = (section) => {
     setActiveSection(section);
-    // Cerrar sidebar en móvil al seleccionar
     if (onItemClick) onItemClick();
   };
 
@@ -119,13 +111,6 @@ const StudentSidebar = ({ setActiveSection, activeSection = "mis-cursos", onItem
           Modo Profesor
         </Nav.Link>
       )}
-
-      {/* Información adicional al final */}
-      <div className="mt-auto p-3 text-center">
-        <small className="text-white-50">
-          Panel del Estudiante
-        </small>
-      </div>
     </Nav>
   );
 };

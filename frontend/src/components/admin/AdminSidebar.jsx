@@ -1,7 +1,6 @@
 import React from "react";
 import { Nav } from "react-bootstrap";
 import {
-  FaUserCog,
   FaBook,
   FaChalkboardTeacher,
   FaClipboardList,
@@ -9,6 +8,7 @@ import {
   FaUsers,
   FaGraduationCap,
 } from "react-icons/fa";
+import "./AdminSidebar.css";
 
 const AdminSidebar = ({ setActiveSection, activeSection, onItemClick }) => {
   

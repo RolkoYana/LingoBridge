@@ -104,6 +104,39 @@ public class MaterialController {
         }
     }
 
+    // eliminar material
+    @PreAuthorize("hasAuthority('TEACHER')")
+    @DeleteMapping("/teacher/material/{materialId}")
+    public ResponseEntity<?> deleteMaterial(@PathVariable Long materialId) {
+        try {
+            materialService.deleteMaterial(materialId);
+            return ResponseEntity.ok("Material eliminado correctamente.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error al eliminar el material: " + e.getMessage());
+        }
+    }
+
+
+    // modificar material
+    @PreAuthorize("hasAuthority('TEACHER')")
+    @PutMapping("/teacher/material/{materialId}")
+    public ResponseEntity<?> updateMaterial(
+            @PathVariable Long materialId,
+            @RequestParam(value = "file", required = false) MultipartFile file,
+            @RequestParam("title") String title,
+            @RequestParam(value = "youtubeLink", required = false) String youtubeLink
+    ) {
+        try {
+            materialService.updateMaterial(materialId, file, title, youtubeLink);
+            return ResponseEntity.ok("Material actualizado correctamente.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error al actualizar el material: " + e.getMessage());
+        }
+    }
+
+
     // ***** ESTUDIANTE *****
 
     // ver material del curso
@@ -119,6 +152,38 @@ public class MaterialController {
         }
 
         return ResponseEntity.ok(materials);
+    }
+
+    // descargar archivo
+    @PreAuthorize("hasAuthority('STUDENT')")
+    @GetMapping("/student/course/{courseId}/material/download/{filename}")
+    public ResponseEntity<Resource> downloadMaterialForStudent(
+            @PathVariable Long courseId,
+            @PathVariable String filename) {
+        try {
+            Path filePath = Paths.get(uploadDir)
+                    .resolve("course_" + courseId)
+                    .resolve(filename);
+
+            Resource resource = new FileSystemResource(filePath);
+
+            if (!resource.exists()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            }
+
+            String contentType = Files.probeContentType(filePath);
+            if (contentType == null) {
+                contentType = "application/octet-stream";
+            }
+
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                    .header(HttpHeaders.CONTENT_TYPE, contentType)
+                    .body(resource);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
 
 

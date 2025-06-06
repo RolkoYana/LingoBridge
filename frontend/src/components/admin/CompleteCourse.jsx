@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 import { FaCheckCircle, FaSpinner } from "react-icons/fa";
 import { fetchWithAuth } from "../../api/api";
+import "./CompleteCourse.css";
 
 const CompleteCourse = ({ courseId, onComplete }) => {
   const [loading, setLoading] = useState(false);
@@ -19,9 +20,7 @@ const CompleteCourse = ({ courseId, onComplete }) => {
 
       setCompleted(true);
       
-      // Esperar un momento para mostrar el éxito antes de remover
       setTimeout(() => {
-        // Usar una notificación más elegante en lugar de alert
         console.log("Curso finalizado correctamente");
         onComplete(courseId); // elimina el curso de la tabla de cursos activos
       }, 800);

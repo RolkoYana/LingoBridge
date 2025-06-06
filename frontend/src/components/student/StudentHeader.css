@@ -1,0 +1,287 @@
+/* ==========================================
+   ESTILOS PARA STUDENT HEADER
+   ========================================== */
+
+.student-header-integrated {
+  padding: 16px 0 12px 0;
+  background: transparent;
+  border-bottom: 1px solid rgba(226, 232, 240, 0.4);
+  margin-bottom: 16px;
+}
+
+/* Saludo y fecha */
+.student-header-integrated .greeting-text {
+  font-size: 1.4rem;
+  margin-bottom: 2px !important;
+  line-height: 1.3;
+}
+
+.student-header-integrated .date-text {
+  font-size: 0.85rem;
+  margin-bottom: 0 !important;
+}
+
+.student-header-integrated .user-name {
+  color: var(--student-sidebar-accent);
+}
+
+/* ==========================================
+   WIDGET DE ACTIVIDADES
+   ========================================== */
+.activities-widget {
+  position: relative;
+}
+
+.activities-btn {
+  background: none;
+  border: none;
+  color: var(--text-light);
+  padding: 8px;
+  border-radius: 50%;
+  transition: var(--transition);
+  position: relative;
+  cursor: pointer;
+}
+
+.activities-btn:hover {
+  background-color: var(--soft-gray);
+  color: var(--student-sidebar-accent);
+  transform: scale(1.1);
+}
+
+.activities-badge {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  font-size: 0.7rem;
+  min-width: 18px;
+  height: 18px;
+}
+
+/* Dropdown de actividades */
+.activities-dropdown-menu {
+  border: none;
+  border-radius: var(--border-radius);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  padding: 0;
+  min-width: 320px;
+  max-width: 400px;
+}
+
+.activities-dropdown-menu .dropdown-header {
+  background: linear-gradient(135deg, var(--soft-gray) 0%, #e9ecef 100%);
+  padding: 16px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+/* Lista de actividades */
+.activities-list {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.activity-item {
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(226, 232, 240, 0.5);
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.activity-item:hover {
+  background-color: rgba(52, 144, 220, 0.05);
+}
+
+.activity-item:last-child {
+  border-bottom: none;
+}
+
+.activity-info {
+  flex-grow: 1;
+  min-width: 0;
+}
+
+.activity-title {
+  font-weight: 600;
+  color: var(--text-dark);
+  font-size: 0.9rem;
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.activity-course {
+  font-size: 0.8rem;
+  color: var(--text-light);
+  display: flex;
+  align-items: center;
+}
+
+.activity-due {
+  font-size: 0.75rem;
+  color: var(--student-sidebar-accent);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  margin-left: 8px;
+}
+
+.dropdown-footer {
+  padding: 8px 16px;
+  background-color: var(--soft-gray);
+  text-align: center;
+  border-top: 1px solid var(--border-light);
+}
+
+/* ==========================================
+   NOTIFICACIONES
+   ========================================== */
+.student-header-integrated .notification-container {
+  position: relative;
+}
+
+.student-header-integrated .notification-btn {
+  background: none;
+  border: none;
+  color: var(--text-light);
+  padding: 8px;
+  border-radius: 50%;
+  transition: var(--transition);
+  position: relative;
+}
+
+.student-header-integrated .notification-btn:hover {
+  background-color: var(--soft-gray);
+  color: var(--student-sidebar-accent);
+  transform: scale(1.1);
+}
+
+.student-header-integrated .notification-badge {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  font-size: 0.7rem;
+  min-width: 18px;
+  height: 18px;
+}
+
+/* ==========================================
+   MENÚ DE USUARIO
+   ========================================== */
+.student-header-integrated .user-dropdown .user-menu-toggle {
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: var(--border-radius);
+  transition: var(--transition);
+  border: 2px solid transparent;
+}
+
+.student-header-integrated .user-dropdown .user-menu-toggle:hover {
+  background-color: var(--soft-gray);
+  border-color: var(--border-light);
+}
+
+.student-header-integrated .user-avatar {
+  color: var(--text-light);
+  transition: var(--transition);
+}
+
+.student-header-integrated .user-menu-toggle:hover .user-avatar {
+  color: var(--student-sidebar-accent);
+}
+
+.student-header-integrated .user-info .user-name-small {
+  font-weight: 600;
+  color: var(--text-dark);
+  font-size: 0.9rem;
+  line-height: 1.2;
+}
+
+.student-header-integrated .user-info .user-role {
+  font-size: 0.75rem;
+  color: var(--text-light);
+  line-height: 1;
+}
+
+.student-header-integrated .dropdown-arrow {
+  color: var(--text-light);
+  transition: var(--transition);
+}
+
+.student-header-integrated .user-menu-toggle:hover .dropdown-arrow {
+  color: var(--student-sidebar-accent);
+  transform: rotate(180deg);
+}
+
+/* Dropdown menu */
+.student-header-integrated .user-dropdown-menu {
+  border: none;
+  border-radius: var(--border-radius);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  padding: 0;
+  min-width: 280px;
+}
+
+.student-header-integrated .user-dropdown-menu .dropdown-header {
+  background: linear-gradient(135deg, var(--soft-gray) 0%, #e9ecef 100%);
+  padding: 16px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.student-header-integrated .dropdown-item-custom {
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  color: var(--text-dark);
+  transition: var(--transition);
+}
+
+.student-header-integrated .dropdown-item-custom:hover {
+  background-color: var(--soft-gray);
+  color: var(--student-sidebar-accent);
+}
+
+.student-header-integrated .dropdown-item-logout {
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  color: #dc3545;
+  transition: var(--transition);
+}
+
+.student-header-integrated .dropdown-item-logout:hover {
+  background-color: rgba(220, 53, 69, 0.1);
+  color: #dc3545;
+}
+
+/* ==========================================
+   RESPONSIVE PARA HEADER
+   ========================================== */
+
+/* Mobile */
+@media (max-width: 767px) {
+  .student-header-integrated {
+    margin-left: 70px;
+    margin-right: 10px;
+  }
+}
+
+/* Tablet */
+@media (min-width: 768px) and (max-width: 991px) {
+  .student-header-integrated {
+    margin-left: 0 !important;
+  }
+}
+
+/* Desktop */
+@media (min-width: 992px) {
+  .student-header-integrated {
+    padding: 12px 0 8px 0;
+    margin-bottom: 12px;
+    margin-left: 0 !important;
+  }
+}

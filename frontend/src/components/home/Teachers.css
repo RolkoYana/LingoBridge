@@ -1,0 +1,44 @@
+/* ==========================================
+   TEACHERS - RESPONSIVE Y MODO OSCURO
+   ========================================== */
+
+.teachers section {
+  background-color: var(--secondary-bg);
+  color: var(--primary-text);
+  transition: all 0.3s ease;
+  padding: 4rem 0;
+}
+
+.teachers .display-5 {
+  color: var(--primary-text);
+  margin-bottom: 3rem;
+}
+
+/* Botones de navegación */
+.teachers .btn-outline-secondary {
+  background-color: var(--card-bg);
+  border: 2px solid var(--border-color);
+  color: var(--primary-text);
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow-sm);
+}
+
+.teachers .btn-outline-secondary:hover {
+  background-color: var(--accent-color);
+  border-color: var(--accent-color);
+  color: white;
+  transform: scale(1.1);
+  box-shadow: var(--shadow-md);
+}
+
+/* Responsive */
+@media (max-width: 575px) {
+  .teachers section {
+    padding: 2.5rem 0;
+  }
+  
+  .teachers .display-5 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+  }
+}

@@ -1,0 +1,13 @@
+/* ==========================================
+   FIX DE CONTRASTE PARA ACTIVE COURSES
+   ========================================== */
+
+.bg-success.bg-opacity-10.text-success {
+  background-color: rgba(25, 135, 84, 0.1) !important;
+  color: #198754 !important; 
+  font-weight: 700 !important;
+}
+
+.bg-success.bg-opacity-10 {
+  color: #155724 !important; 
+}

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Badge, Button, Form, InputGroup, Row, Col, Spinner } from "react-bootstrap";
+import { Table, Badge, Button, Form, InputGroup, Row, Col, Spinner, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { FaBook, FaSearch, FaFilter, FaGraduationCap, FaLaptop, FaUsers, FaSyncAlt } from "react-icons/fa";
 import { fetchWithAuth } from '../../api/api';
+import "./AllCourses.css";
 
 const AllCourses = () => {
   const [courses, setCourses] = useState([]);
@@ -35,6 +36,11 @@ const AllCourses = () => {
     if (!course.approved) return "warning";
     if (course.completed) return "success";
     return "primary";
+  };
+
+  const getBadgeClass = (course) => {
+    const estado = getEstadoCurso(course);
+    return `status-badge badge-${estado.toLowerCase()}`;
   };
 
   const getTypeIcon = (type) => {
@@ -201,9 +207,26 @@ const AllCourses = () => {
                       </td>
                       <td>
                         <div>
-                          {course.description?.length > 100 
-                            ? `${course.description.substring(0, 100)}...` 
-                            : course.description || <em className="text-muted">Sin descripción</em>}
+                          {course.description ? (
+                            course.description.length > 100 ? (
+                              <OverlayTrigger
+                                placement="top"
+                                overlay={
+                                  <Tooltip id={`tooltip-desc-${course.id}`}>
+                                    {course.description}
+                                  </Tooltip>
+                                }
+                              >
+                                <span className="description-truncated">
+                                  {course.description.substring(0, 100)}...
+                                </span>
+                              </OverlayTrigger>
+                            ) : (
+                              course.description
+                            )
+                          ) : (
+                            <em className="text-muted">Sin descripción</em>
+                          )}
                         </div>
                       </td>
                       <td>
@@ -213,13 +236,9 @@ const AllCourses = () => {
                         </div>
                       </td>
                       <td>
-                        <Badge 
-                          bg={getBadgeVariant(course)} 
-                          className="px-2 py-1"
-                          style={{ fontSize: "0.75rem" }}
-                        >
+                        <div className={getBadgeClass(course)}>
                           {getEstadoCurso(course)}
-                        </Badge>
+                        </div>
                       </td>
                     </tr>
                   ))

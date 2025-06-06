@@ -1,0 +1,121 @@
+/* ==========================================
+   TEACHER CARD - RESPONSIVE Y MODO OSCURO
+   ========================================== */
+
+.card {
+  background-color: var(--card-bg);
+  color: var(--primary-text);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--accent-color);
+}
+
+body[data-theme="dark"] .teachers .card {
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6), 0 2px 6px rgba(0, 0, 0, 0.4) !important;
+}
+
+body[data-theme="dark"] .teachers .card:hover {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7), 0 4px 12px rgba(0, 0, 0, 0.5) !important;
+  border-color: var(--accent-color) !important;
+}
+
+/* Contenedor de la imagen */
+.teacher-image-container {
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--secondary-bg);
+  border-bottom: 1px solid var(--border-color);
+  padding: 2rem;
+}
+
+/* Imagen del profesor */
+.teacher-image {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--accent-color);
+  transition: transform 0.3s ease;
+}
+
+.card:hover .teacher-image {
+  transform: scale(1.05);
+}
+
+/* Contenido de la card */
+.card-body {
+  background-color: var(--card-bg);
+  color: var(--primary-text);
+  padding: 1.5rem;
+}
+
+/* Título */
+.card-title {
+  color: var(--primary-text) !important;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  font-size: 1.25rem;
+}
+
+/* Información */
+.teacher-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.teacher-info p {
+  color: var(--primary-text);
+  margin-bottom: 0.75rem;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.teacher-info .text-success {
+  color: var(--success-color) !important;
+}
+
+.teacher-info .text-info {
+  color: var(--info-color) !important;
+}
+
+/* Responsive */
+@media (max-width: 575px) {
+  .teacher-image-container {
+    height: 180px;
+    padding: 1.5rem;
+  }
+  
+  .teacher-image {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .card-body {
+    padding: 1.25rem;
+  }
+  
+  .card-title {
+    font-size: 1.1rem;
+    margin-bottom: 1.25rem;
+  }
+  
+  .teacher-info p {
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+  }
+}

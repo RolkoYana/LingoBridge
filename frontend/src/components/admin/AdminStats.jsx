@@ -1,261 +1,334 @@
 import React, { useState, useEffect } from "react";
-import { Bar, Doughnut, Line } from "react-chartjs-2";
-import { Row, Col, Card, Badge, Spinner, Button } from "react-bootstrap";
-import { 
-  FaUsers, 
-  FaBook, 
-  FaCheckCircle, 
-  FaChalkboardTeacher,
-  FaChartBar,
-  FaSyncAlt,
+import { Row, Col, Card, Button, Spinner, Alert } from "react-bootstrap";
+import {
+  FaUsers,
+  FaBook,
   FaChartLine,
-  FaUserGraduate,
-  FaClock,
+  FaGraduationCap,
+  FaSync,
   FaArrowUp,
   FaArrowDown,
-  FaGraduationCap,
-  FaLanguage
-} from 'react-icons/fa';
-import {
-  Chart as ChartJS,
-  Title,
-  Tooltip,
-  Legend,
-  BarElement,
-  CategoryScale,
-  LinearScale,
-  ArcElement,
-  LineElement,
-  PointElement,
-} from "chart.js";
+  FaPlay,
+  FaCheckCircle,
+  FaClock,
+  FaExclamationTriangle,
+  FaChalkboardTeacher,
+  FaChartBar,
+  FaChartPie,
+} from "react-icons/fa";
 import { fetchWithAuth } from "../../api/api";
-
-ChartJS.register(
-  Title,
-  Tooltip,
-  Legend,
-  BarElement,
-  CategoryScale,
-  LinearScale,
-  ArcElement,
-  LineElement,
-  PointElement
-);
+import "./AdminStats.css";
 
 const AdminStats = () => {
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const loadStats = async () => {
+  useEffect(() => {
+    fetchStats();
+  }, []);
+
+  const fetchStats = async () => {
+    setLoading(true);
+    setError(null);
+
     try {
-      setLoading(true);
-      setError(null);
       const data = await fetchWithAuth("/admin/statistics");
-      console.log("Datos recibidos:", data);
       setStats(data);
-    } catch (err) {
-      console.error("Error al cargar estadísticas", err);
-      setError(err.message || "Error al cargar estadísticas");
+    } catch (error) {
+      console.error("Error al obtener estadísticas:", error);
+
+      if (error.message.includes("401")) {
+        setError(
+          "No tienes permisos para acceder a estas estadísticas. Contacta con el administrador."
+        );
+      } else if (error.message.includes("403")) {
+        setError("Acceso denegado. Se requieren permisos de administrador.");
+      } else {
+        setError("Error al cargar las estadísticas. Verifica tu conexión.");
+      }
     } finally {
       setLoading(false);
     }
   };
 
-  useEffect(() => {
-    loadStats();
-  }, []);
+  // Crear gráfica de donut
+  const createDonutChart = (data, colors, title) => {
+    if (!stats || !stats.languages || !data || data.length === 0) {
+      return (
+        <div className="donut-chart-container">
+          <div className="donut-center">
+            <div className="donut-percentage">0</div>
+            <div className="donut-label-simple">Sin datos</div>
+          </div>
+        </div>
+      );
+    }
+
+    const total = data.reduce((sum, value) => sum + value, 0);
+
+    if (total === 0) {
+      return (
+        <div className="donut-chart-container">
+          <div className="donut-center">
+            <div className="donut-percentage">0</div>
+            <div className="donut-label">Sin {getShortTitle(title)}</div>
+          </div>
+        </div>
+      );
+    }
+
+    const radius = 80;
+    const strokeWidth = 25;
+    const normalizedRadius = radius - strokeWidth * 0.5;
+    const circumference = normalizedRadius * 2 * Math.PI;
+
+    // Crear segmentos
+    let cumulativePercentage = 0;
+    const segments = data.map((value, index) => {
+      const percentage = (value / total) * 100;
+      const strokeDasharray = `${(percentage / 100) * circumference} ${circumference}`;
+      const strokeDashoffset = -((cumulativePercentage / 100) * circumference);
+      
+      const segment = {
+        strokeDasharray,
+        strokeDashoffset,
+        color: colors[index % colors.length],
+        percentage: percentage.toFixed(1),
+        value,
+        language: stats.languages[index]
+      };
+      
+      cumulativePercentage += percentage;
+      return segment;
+    });
+
+    return (
+      <div className="donut-chart-container" title={`Total de ${title}: ${total}`}>
+        <svg
+          className="donut-chart-svg"
+          width={radius * 2}
+          height={radius * 2}
+        >
+          {/* Círculo base */}
+          <circle
+            stroke="#e2e8f0"
+            fill="transparent"
+            strokeWidth={strokeWidth}
+            r={normalizedRadius}
+            cx={radius}
+            cy={radius}
+          />
+          
+          {/* Segmentos */}
+          {segments.map((segment, index) => (
+            segment.value > 0 && (
+              <circle
+                key={index}
+                className="donut-segment"
+                stroke={segment.color}
+                fill="transparent"
+                strokeWidth={strokeWidth}
+                strokeDasharray={segment.strokeDasharray}
+                strokeDashoffset={segment.strokeDashoffset}
+                r={normalizedRadius}
+                cx={radius}
+                cy={radius}
+                transform={`rotate(-90 ${radius} ${radius})`}
+                strokeLinecap="round"
+                title={`${segment.language}: ${segment.value} (${segment.percentage}%)`}
+              />
+            )
+          ))}
+        </svg>
+        
+        <div className="donut-center">
+          <div className="donut-percentage">{total}</div>
+          <div className="donut-label-simple">{title}</div>
+        </div>
+      </div>
+    );
+  };
+
+  // Función para crear gráfica de barras
+  const createBarChart = (data, color, title) => {
+    if (!stats || !stats.languages || !data || data.length === 0) {
+      return (
+        <div className="bar-chart-container">
+          <div className="text-center text-muted">
+            No hay datos disponibles para {title.toLowerCase()}
+          </div>
+        </div>
+      );
+    }
+
+    const maxValue = Math.max(...data);
+
+    if (maxValue === 0) {
+      return (
+        <div className="bar-chart-container">
+          <div className="text-center text-muted">
+            No hay {title.toLowerCase()} registrados
+          </div>
+        </div>
+      );
+    }
+
+    return (
+      <div className="bar-chart-container">
+        <div className="language-bars-wrapper single-metric">
+          {stats.languages.map((language, index) => {
+            const value = data[index] || 0;
+            const heightPercent = maxValue > 0 ? (value / maxValue) * 100 : 0;
+
+            return (
+              <div key={index} className="language-bar-group">
+                <div className="single-bar-container">
+                  <div
+                    className="language-bar single-bar"
+                    style={{
+                      height: `${heightPercent}%`,
+                      background: `linear-gradient(to top, ${color}, ${color}cc)`,
+                    }}
+                    data-value={value}
+                    title={`${language}: ${value} ${title.toLowerCase()}`}
+                  />
+                </div>
+                <div className="language-bar-label">{language}</div>
+                <div className="language-bar-value">{value}</div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    );
+  };
 
   if (loading) {
     return (
       <div className="dashboard-loading">
-        <Spinner animation="border" variant="primary" />
-        <p className="mt-3">Cargando dashboard...</p>
+        <Spinner animation="border" variant="primary" size="lg" />
+        <p>Cargando estadísticas...</p>
       </div>
     );
   }
 
-  if (error || !stats) {
+  if (error) {
     return (
       <div className="dashboard-error">
-        <FaChartBar size={48} className="mb-3" />
-        <p>Error al cargar estadísticas</p>
-        {error && <p className="text-muted small">{error}</p>}
-        <Button variant="primary" onClick={loadStats}>
-          <FaSyncAlt className="me-2" />
-          Reintentar
-        </Button>
+        <FaExclamationTriangle size={48} className="text-warning mb-3" />
+        <Alert variant="warning" className="text-center">
+          <Alert.Heading>Acceso Restringido</Alert.Heading>
+          <p className="mb-0">{error}</p>
+        </Alert>
+        {!error.includes("permisos") && (
+          <Button variant="outline-primary" onClick={fetchStats} className="mt-3">
+            <FaSync className="me-2" />
+            Reintentar
+          </Button>
+        )}
       </div>
     );
   }
 
-  // Validar que existan los datos necesarios
-  const {
-    languages = [],
-    coursesPerLanguage = [],
-    teachersPerLanguage = [],
-    studentsPerLanguage = [],
-    totalTeachers = 0,
-    totalStudents = 0,
-    totalCourses = 0,
-    completedCourses = 0,
-    pendingCourses = 0,
-  } = stats;
+  // Calcular total de usuarios
+  const totalUsers = (stats?.totalTeachers || 0) + (stats?.totalStudents || 0);
+  
+  // Calcular cursos activos (total - completados - pendientes)
+  const activeCourses = (stats?.totalCourses || 0) - (stats?.completedCourses || 0) - (stats?.pendingCourses || 0);
 
-  // Calcular cursos activos de forma segura
-  const activeCoursesCount = Math.max(0, totalCourses - completedCourses - pendingCourses);
-
-  // Configuraciones de gráficos
-  const createBarData = (label, data, color) => {
-    const validData = Array.isArray(data) ? data.map(value => Math.round(Number(value) || 0)) : [0];
-    return {
-      labels: Array.isArray(languages) && languages.length > 0 ? languages : ['Sin datos'],
-      datasets: [{
-        label: label,
-        data: validData,
-        backgroundColor: color + '80',
-        borderColor: color,
-        borderWidth: 2,
-        borderRadius: 8,
-        borderSkipped: false,
-      }],
-    };
-  };
-
-  const createDonutData = () => ({
-    labels: ['Activos', 'Completados', 'Pendientes'],
-    datasets: [{
-      data: [activeCoursesCount, completedCourses, pendingCourses],
-      backgroundColor: ['#3b82f6', '#10b981', '#f59e0b'],
-      borderWidth: 0,
-      cutout: '65%', // Reducido de 70% a 65% para mayor estabilidad
-    }],
-  });
-
-  const chartOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
-    animation: false, // ← AÑADIDO: Deshabilitado para evitar problemas
-    plugins: {
-      legend: {
-        display: true,
-        position: 'top',
-        labels: {
-          color: 'var(--text-color)',
-          font: { size: 12, weight: '500' },
-          padding: 15,
-          usePointStyle: true,
-        },
-      },
-      tooltip: {
-        backgroundColor: 'rgba(0, 0, 0, 0.8)',
-        titleColor: '#fff',
-        bodyColor: '#fff',
-        cornerRadius: 8,
-      }
-    },
-    scales: {
-      x: {
-        grid: { display: false },
-        ticks: {
-          color: 'var(--text-color)',
-          font: { size: 12 }
-        },
-      },
-      y: {
-        beginAtZero: true,
-        grid: { color: 'rgba(0, 0, 0, 0.05)' },
-        ticks: {
-          color: 'var(--text-color)',
-          font: { size: 12 },
-          callback: function(value) {
-            if (Number.isInteger(value)) return value;
-          }
-        },
-      },
-    },
-  };
-
-  const donutOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
-    animation: false, // ← AÑADIDO: Clave para solucionar el problema del círculo
-    plugins: {
-      legend: { display: false },
-      tooltip: {
-        backgroundColor: 'rgba(0, 0, 0, 0.8)',
-        titleColor: '#fff',
-        bodyColor: '#fff',
-        cornerRadius: 8,
-        callbacks: {
-          label: function(context) {
-            const total = context.dataset.data.reduce((a, b) => a + b, 0);
-            if (total === 0) return `${context.label}: 0%`;
-            const percentage = ((context.raw / total) * 100).toFixed(1);
-            return `${context.label}: ${percentage}%`;
-          }
-        }
-      }
-    },
-  };
+  // Colores para las gráficas
+  const coursesColors = ['#3b82f6', '#60a5fa', '#93c5fd', '#dbeafe'];
+  const teachersColors = ['#10b981', '#34d399', '#6ee7b7', '#a7f3d0'];
+  const studentsColors = ['#f59e0b', '#fbbf24', '#fcd34d', '#fde68a'];
 
   return (
     <div className="dashboard-container">
-      {/* Header */}
+      {/* Header del Dashboard */}
       <div className="dashboard-header">
         <div className="dashboard-title">
-          <h4>Panel de Estadísticas</h4>
-          <p>Vista completa del sistema educativo</p>
+          <h4>
+            <FaChartLine className="me-2" />
+            Panel de Estadísticas
+          </h4>
+          <p>Resumen general del sistema</p>
         </div>
-        <Button variant="outline-primary" size="sm" onClick={loadStats} className="refresh-btn">
-          <FaSyncAlt />
+        <Button
+          variant="outline-primary"
+          onClick={fetchStats}
+          className="refresh-btn"
+          disabled={loading}
+        >
+          <FaSync className={loading ? "fa-spin" : ""} />
         </Button>
       </div>
 
-      {/* Tarjetas de Totales Principales */}
-      <Row className="g-3 mb-4">
-        <Col xs={12} sm={4}>
-          <Card className="dashboard-card-mini dashboard-card-blue">
+      {/* Tarjetas principales de estadísticas */}
+      <Row className="mb-4">
+        <Col xl={3} lg={6} md={6} sm={6} xs={12} className="mb-3">
+          <Card className="dashboard-card-mini dashboard-card-blue h-100">
             <Card.Body className="p-3">
               <div className="mini-card-content">
                 <div className="mini-card-icon dashboard-icon-blue">
-                  <FaChalkboardTeacher />
+                  <FaUsers />
                 </div>
                 <div className="mini-card-info">
-                  <div className="mini-card-value">{totalTeachers}</div>
-                  <div className="mini-card-label">Profesores</div>
+                  <h3 className="mini-card-value">{totalUsers}</h3>
+                  <p className="mini-card-label">Total Usuarios</p>
                 </div>
               </div>
             </Card.Body>
           </Card>
         </Col>
 
-        <Col xs={12} sm={4}>
-          <Card className="dashboard-card-mini dashboard-card-success">
+        <Col xl={3} lg={6} md={6} sm={6} xs={12} className="mb-3">
+          <Card className="dashboard-card-mini dashboard-card-success h-100">
             <Card.Body className="p-3">
               <div className="mini-card-content">
                 <div className="mini-card-icon dashboard-icon-success">
-                  <FaUserGraduate />
+                  <FaBook />
                 </div>
                 <div className="mini-card-info">
-                  <div className="mini-card-value">{totalStudents}</div>
-                  <div className="mini-card-label">Estudiantes</div>
+                  <h3 className="mini-card-value">
+                    {stats?.totalCourses || 0}
+                  </h3>
+                  <p className="mini-card-label">Total Cursos</p>
                 </div>
               </div>
             </Card.Body>
           </Card>
         </Col>
 
-        <Col xs={12} sm={4}>
-          <Card className="dashboard-card-mini dashboard-card-warning">
+        <Col xl={3} lg={6} md={6} sm={6} xs={12} className="mb-3">
+          <Card className="dashboard-card-mini dashboard-card-warning h-100">
             <Card.Body className="p-3">
               <div className="mini-card-content">
                 <div className="mini-card-icon dashboard-icon-warning">
-                  <FaBook />
+                  <FaGraduationCap />
                 </div>
                 <div className="mini-card-info">
-                  <div className="mini-card-value">{Number(totalCourses).toLocaleString()}</div>
-                  <div className="mini-card-label">Cursos</div>
+                  <h3 className="mini-card-value">
+                    {stats?.totalStudents || 0}
+                  </h3>
+                  <p className="mini-card-label">Total Estudiantes</p>
+                </div>
+              </div>
+            </Card.Body>
+          </Card>
+        </Col>
+
+        <Col xl={3} lg={6} md={6} sm={6} xs={12} className="mb-3">
+          <Card className="dashboard-card-mini dashboard-card-info h-100">
+            <Card.Body className="p-3">
+              <div className="mini-card-content">
+                <div className="mini-card-icon dashboard-icon-info">
+                  <FaChalkboardTeacher />
+                </div>
+                <div className="mini-card-info">
+                  <h3 className="mini-card-value">
+                    {stats?.totalTeachers || 0}
+                  </h3>
+                  <p className="mini-card-label">Total Profesores</p>
                 </div>
               </div>
             </Card.Body>
@@ -263,38 +336,40 @@ const AdminStats = () => {
         </Col>
       </Row>
 
-      {/* Tarjetas de Estado de Cursos */}
-      <Row className="g-3 mb-4">
-        <Col xs={12} sm={4}>
-          <Card className="dashboard-card-status status-active">
+      {/* Tarjetas de estado de cursos */}
+      <Row className="mb-4">
+        <Col lg={4} md={6} sm={12} className="mb-3">
+          <Card className="dashboard-card-status status-active h-100">
             <Card.Body className="p-3">
               <div className="status-card-content">
                 <div className="status-info">
-                  <div className="status-value">{activeCoursesCount}</div>
-                  <div className="status-label">Cursos Activos</div>
+                  <h4 className="status-value">{Math.max(0, activeCourses)}</h4>
+                  <p className="status-label">Cursos Activos</p>
                   <div className="status-trend">
                     <FaArrowUp className="trend-up" />
-                    <span>+8%</span>
+                    En progreso
                   </div>
                 </div>
                 <div className="status-icon">
-                  <FaGraduationCap />
+                  <FaPlay />
                 </div>
               </div>
             </Card.Body>
           </Card>
         </Col>
 
-        <Col xs={12} sm={4}>
-          <Card className="dashboard-card-status status-completed">
+        <Col lg={4} md={6} sm={12} className="mb-3">
+          <Card className="dashboard-card-status status-completed h-100">
             <Card.Body className="p-3">
               <div className="status-card-content">
                 <div className="status-info">
-                  <div className="status-value">{completedCourses}</div>
-                  <div className="status-label">Completados</div>
+                  <h4 className="status-value">
+                    {stats?.completedCourses || 0}
+                  </h4>
+                  <p className="status-label">Cursos Completados</p>
                   <div className="status-trend">
                     <FaArrowUp className="trend-up" />
-                    <span>+24%</span>
+                    Finalizados
                   </div>
                 </div>
                 <div className="status-icon">
@@ -305,16 +380,16 @@ const AdminStats = () => {
           </Card>
         </Col>
 
-        <Col xs={12} sm={4}>
-          <Card className="dashboard-card-status status-pending">
+        <Col lg={4} md={6} sm={12} className="mb-3">
+          <Card className="dashboard-card-status status-pending h-100">
             <Card.Body className="p-3">
               <div className="status-card-content">
                 <div className="status-info">
-                  <div className="status-value">{pendingCourses}</div>
-                  <div className="status-label">Pendientes</div>
+                  <h4 className="status-value">{stats?.pendingCourses || 0}</h4>
+                  <p className="status-label">Cursos Pendientes</p>
                   <div className="status-trend">
-                    <FaArrowDown className="trend-down" />
-                    <span>-5%</span>
+                    <FaClock className="trend-down" />
+                    En espera
                   </div>
                 </div>
                 <div className="status-icon">
@@ -326,101 +401,134 @@ const AdminStats = () => {
         </Col>
       </Row>
 
-      {/* Gráficos por Idioma - Sección Principal */}
-      <Row className="g-4">
-        {/* Distribución General */}
-        <Col xs={12} lg={4}>
-          <Card className="dashboard-card chart-card">
-            <Card.Header className="chart-card-header">
-              <h6 className="mb-0 d-flex align-items-center">
-                <FaChartLine className="me-2" />
-                Distribución de Cursos
-              </h6>
-            </Card.Header>
-            <Card.Body>
-              <div className="donut-chart-container">
-                <Doughnut data={createDonutData()} options={donutOptions} />
-                <div className="donut-center">
-                  <div className="donut-percentage">
-                    {totalCourses > 0 ? Math.round((completedCourses / totalCourses) * 100) : 0}%
-                  </div>
-                  <div className="donut-label">Completado</div>
-                </div>
-              </div>
-              <div className="chart-legend mt-3">
-                <div className="legend-item">
-                  <span className="legend-color" style={{backgroundColor: '#3b82f6'}}></span>
-                  <span>Activos ({activeCoursesCount})</span>
-                </div>
-                <div className="legend-item">
-                  <span className="legend-color" style={{backgroundColor: '#10b981'}}></span>
-                  <span>Completados ({completedCourses})</span>
-                </div>
-                <div className="legend-item">
-                  <span className="legend-color" style={{backgroundColor: '#f59e0b'}}></span>
-                  <span>Pendientes ({pendingCourses})</span>
-                </div>
-              </div>
-            </Card.Body>
-          </Card>
-        </Col>
-
-        {/* Cursos por Idioma */}
-        <Col xs={12} lg={8}>
-          <Card className="dashboard-card chart-card">
-            <Card.Header className="chart-card-header">
-              <h6 className="mb-0 d-flex align-items-center">
+      {/* LAS TRES GRÁFICAS PRINCIPALES */}
+      
+      {/* 1. GRÁFICA DE CURSOS POR IDIOMA */}
+      <Row className="mb-4">
+        <Col lg={4} md={12} className="mb-4">
+          <Card className="dashboard-card chart-card h-100">
+            <div className="chart-card-header">
+              <h6>
                 <FaBook className="me-2" />
                 Cursos por Idioma
               </h6>
-            </Card.Header>
+            </div>
             <Card.Body>
-              <div className="bar-chart-container">
-                <Bar 
-                  data={createBarData("Cursos", coursesPerLanguage, '#3b82f6')} 
-                  options={chartOptions} 
-                />
+              {createDonutChart(stats?.coursesPerLanguage, coursesColors, "Cursos")}
+              <div className="chart-legend">
+                {stats?.languages?.map((language, index) => (
+                  <div key={index} className="legend-item">
+                    <div
+                      className="legend-color"
+                      style={{ backgroundColor: coursesColors[index % coursesColors.length] }}
+                    />
+                    <span className="legend-text">
+                      {language} ({stats?.coursesPerLanguage?.[index] || 0})
+                    </span>
+                  </div>
+                ))}
               </div>
             </Card.Body>
           </Card>
         </Col>
 
-        {/* Profesores por Idioma */}
-        <Col xs={12} lg={6}>
-          <Card className="dashboard-card chart-card">
-            <Card.Header className="chart-card-header">
-              <h6 className="mb-0 d-flex align-items-center">
+        {/* 2. GRÁFICA DE PROFESORES POR IDIOMA */}
+        <Col lg={4} md={12} className="mb-4">
+          <Card className="dashboard-card chart-card h-100">
+            <div className="chart-card-header">
+              <h6>
                 <FaChalkboardTeacher className="me-2" />
                 Profesores por Idioma
               </h6>
-            </Card.Header>
+            </div>
             <Card.Body>
-              <div className="bar-chart-container">
-                <Bar 
-                  data={createBarData("Profesores", teachersPerLanguage, '#f59e0b')} 
-                  options={chartOptions} 
-                />
+              {createDonutChart(stats?.teachersPerLanguage, teachersColors, "Profesores")}
+              <div className="chart-legend">
+                {stats?.languages?.map((language, index) => (
+                  <div key={index} className="legend-item">
+                    <div
+                      className="legend-color"
+                      style={{ backgroundColor: teachersColors[index % teachersColors.length] }}
+                    />
+                    <span className="legend-text">
+                      {language} ({stats?.teachersPerLanguage?.[index] || 0})
+                    </span>
+                  </div>
+                ))}
               </div>
             </Card.Body>
           </Card>
         </Col>
 
-        {/* Estudiantes por Idioma */}
-        <Col xs={12} lg={6}>
-          <Card className="dashboard-card chart-card">
-            <Card.Header className="chart-card-header">
-              <h6 className="mb-0 d-flex align-items-center">
-                <FaUserGraduate className="me-2" />
+        {/* 3. GRÁFICA DE ESTUDIANTES POR IDIOMA */}
+        <Col lg={4} md={12} className="mb-4">
+          <Card className="dashboard-card chart-card h-100">
+            <div className="chart-card-header">
+              <h6>
+                <FaGraduationCap className="me-2" />
                 Estudiantes por Idioma
               </h6>
-            </Card.Header>
+            </div>
             <Card.Body>
-              <div className="bar-chart-container">
-                <Bar 
-                  data={createBarData("Estudiantes", studentsPerLanguage, '#10b981')} 
-                  options={chartOptions} 
-                />
+              {createDonutChart(stats?.studentsPerLanguage, studentsColors, "Estudiantes")}
+              <div className="chart-legend">
+                {stats?.languages?.map((language, index) => (
+                  <div key={index} className="legend-item">
+                    <div
+                      className="legend-color"
+                      style={{ backgroundColor: studentsColors[index % studentsColors.length] }}
+                    />
+                    <span className="legend-text">
+                      {language} ({stats?.studentsPerLanguage?.[index] || 0})
+                    </span>
+                  </div>
+                ))}
               </div>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+
+      {/* GRÁFICAS ALTERNATIVAS CON BARRAS */}
+      <Row>
+        <Col lg={4} md={12} className="mb-4">
+          <Card className="dashboard-card chart-card h-100">
+            <div className="chart-card-header">
+              <h6>
+                <FaChartBar className="me-2" />
+                Distribución de Cursos
+              </h6>
+            </div>
+            <Card.Body>
+              {createBarChart(stats?.coursesPerLanguage, '#3b82f6', 'Cursos')}
+            </Card.Body>
+          </Card>
+        </Col>
+
+        <Col lg={4} md={12} className="mb-4">
+          <Card className="dashboard-card chart-card h-100">
+            <div className="chart-card-header">
+              <h6>
+                <FaChartBar className="me-2" />
+                Distribución de Profesores
+              </h6>
+            </div>
+            <Card.Body>
+              {createBarChart(stats?.teachersPerLanguage, '#10b981', 'Profesores')}
+            </Card.Body>
+          </Card>
+        </Col>
+
+        <Col lg={4} md={12} className="mb-4">
+          <Card className="dashboard-card chart-card h-100">
+            <div className="chart-card-header">
+              <h6>
+                <FaChartBar className="me-2" />
+                Distribución de Estudiantes
+              </h6>
+            </div>
+            <Card.Body>
+              {createBarChart(stats?.studentsPerLanguage, '#f59e0b', 'Estudiantes')}
             </Card.Body>
           </Card>
         </Col>

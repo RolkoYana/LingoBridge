@@ -1,0 +1,380 @@
+/* ==========================================
+   ESTILOS PARA ACTIVIDADES
+   ========================================== */
+
+/* Variables */
+:root {
+  --primary-color: #007bff;
+  --success-color: #28a745;
+  --warning-color: #ffc107;
+  --danger-color: #dc3545;
+  --light-bg: #f8f9fa;
+  --border-color: #dee2e6;
+  --text-color: #495057;
+  --shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* RESET para evitar scroll */
+.activities-container,
+.activities-section,
+.activities-list,
+.activity-item {
+  height: auto !important;
+  max-height: none !important;
+  min-height: auto !important;
+  overflow: visible !important;
+  box-sizing: border-box !important;
+}
+
+/* Contenedor principal */
+.activities-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+  width: 100%;
+  display: block;
+}
+
+/* Loading */
+.activities-loading {
+  text-align: center;
+  padding: 40px;
+}
+
+.activities-loading .spinner-border {
+  margin-bottom: 15px;
+}
+
+/* Estado vacío */
+.activities-empty {
+  text-align: center;
+  padding: 60px 20px;
+  background: var(--light-bg);
+  border-radius: 10px;
+  color: var(--text-color);
+}
+
+.activities-empty h5 {
+  margin-bottom: 15px;
+  font-size: 1.5rem;
+}
+
+/* Secciones */
+.activities-section {
+  margin-bottom: 40px;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 25px;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.section-icon {
+  font-size: 1.2rem;
+}
+
+/* Lista de actividades */
+.activities-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Items de actividades como lista */
+.activity-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 20px;
+  background: white;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  width: 100%;
+  margin-bottom: 15px;
+  position: relative;
+}
+
+.activity-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+}
+
+.pending-item {
+  border-left: 4px solid var(--primary-color);
+}
+
+.pending-item.urgent {
+  border-left-color: var(--warning-color);
+  background: linear-gradient(135deg, white 0%, rgba(255, 193, 7, 0.05) 100%);
+}
+
+.pending-item.overdue {
+  border-left-color: var(--danger-color);
+  background: linear-gradient(135deg, white 0%, rgba(220, 53, 69, 0.05) 100%);
+  animation: pulse 2s infinite;
+}
+
+.pending-item.today {
+  border-left-color: var(--warning-color);
+  background: linear-gradient(135deg, white 0%, rgba(255, 193, 7, 0.08) 100%);
+  box-shadow: 0 0 10px rgba(255, 193, 7, 0.3);
+}
+
+.completed-item {
+  border-left: 4px solid var(--success-color);
+  background: linear-gradient(135deg, white 0%, rgba(40, 167, 69, 0.05) 100%);
+  opacity: 0.9;
+  cursor: default;
+}
+
+.completed-item:hover {
+  transform: translateY(-1px);
+}
+
+/* Icono de la actividad */
+.activity-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+  background: var(--primary-color);
+}
+
+.completed-icon {
+  background: var(--success-color);
+}
+
+/* Contenido principal */
+.activity-content {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  min-width: 0;
+}
+
+.activity-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.activity-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.activity-description {
+  font-size: 0.9rem;
+  color: var(--text-color);
+  margin-bottom: 8px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.activity-date,
+.activity-completed {
+  display: block;
+  font-size: 0.8rem;
+  color: #6c757d;
+  margin-bottom: 3px;
+}
+
+.activity-dates {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+/* Meta información */
+.activity-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-end;
+  flex-shrink: 0;
+}
+
+.activity-type,
+.activity-status,
+.due-status {
+  font-size: 0.8rem;
+  padding: 4px 8px;
+  border-radius: 12px;
+  white-space: nowrap;
+}
+
+.due-status.overdue {
+  animation: pulse 2s infinite;
+}
+
+.due-status.today {
+  animation: bounce 1s infinite;
+}
+
+/* Acción de la actividad */
+.activity-action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  background: var(--light-bg);
+  border-radius: 25px;
+  color: var(--primary-color);
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+  border: 2px solid var(--primary-color);
+  white-space: nowrap;
+}
+
+.pending-item:hover .activity-action {
+  background: var(--primary-color);
+  color: white;
+  transform: scale(1.05);
+}
+
+/* Animaciones */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-2px);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.activity-card {
+  animation: fadeIn 0.5s ease forwards;
+}
+
+.activity-card:nth-child(1) { animation-delay: 0.1s; }
+.activity-card:nth-child(2) { animation-delay: 0.2s; }
+.activity-card:nth-child(3) { animation-delay: 0.3s; }
+.activity-card:nth-child(4) { animation-delay: 0.4s; }
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .activities-container {
+    padding: 15px;
+  }
+  
+  .activities-list {
+    gap: 12px;
+  }
+  
+  .section-title {
+    font-size: 1.1rem;
+  }
+  
+  .activity-item {
+    padding: 15px;
+    gap: 12px;
+  }
+  
+  .activity-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  
+  .activity-meta {
+    align-items: flex-start;
+    flex-direction: row;
+    gap: 10px;
+  }
+  
+  .activity-action {
+    align-self: flex-end;
+    margin-top: 10px;
+  }
+}
+
+@media (max-width: 576px) {
+  .activities-container {
+    padding: 10px;
+  }
+  
+  .activity-item {
+    flex-direction: column;
+    text-align: center;
+    gap: 15px;
+  }
+  
+  .activity-content {
+    width: 100%;
+    text-align: center;
+  }
+  
+  .activity-meta {
+    justify-content: center;
+  }
+  
+  .activity-dates {
+    align-items: center;
+  }
+  
+  .activity-action {
+    margin-top: 0;
+    align-self: center;
+    font-size: 0.8rem;
+    padding: 10px 16px;
+  }
+  
+  .section-title {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+/* Estados especiales */
+.pending-card.urgent {
+  background: linear-gradient(135deg, white 0%, rgba(255, 193, 7, 0.05) 100%);
+}
+
+.pending-card.overdue {
+  background: linear-gradient(135deg, white 0%, rgba(220, 53, 69, 0.05) 100%);
+}
+
+.completed-card {
+  background: linear-gradient(135deg, white 0%, rgba(40, 167, 69, 0.05) 100%);
+}

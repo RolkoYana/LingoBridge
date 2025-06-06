@@ -7,7 +7,7 @@ import StudentCourses from "../components/student/StudentCourses";
 import StudentEvaluations from "../components/student/StudentEvaluations";
 import StudentMessages from "../components/student/StudentMessages";
 import AvailableCourses from "../components/student/StudentAvailableCourses";
-import "../styles/StudentPanel.css";
+import "./StudentPage.css";
 
 const StudentPage = () => {
   const [activeSection, setActiveSection] = useState("mis-cursos");

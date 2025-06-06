@@ -8,6 +8,7 @@ import {
   FaClock,
   FaUserTie
 } from 'react-icons/fa';
+import "./StudentMessages.css";
 
 const StudentMessages = () => {
   const [activeTab, setActiveTab] = useState('inbox');

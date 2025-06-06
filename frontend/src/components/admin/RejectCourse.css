@@ -1,0 +1,53 @@
+/* ==========================================
+   ESTILOS PARA BOTÓN DE RECHAZAR CURSO
+   ========================================== */
+
+/* Variables locales para el componente */
+.btn-admin-danger {
+  --admin-accent-red: #ef4444;
+  --transition: all 0.3s ease;
+  
+  background: linear-gradient(135deg, var(--admin-accent-red), #dc2626);
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-weight: 600;
+  transition: var(--transition);
+  box-shadow: 0 2px 4px rgba(239, 68, 68, 0.2);
+  color: white;
+}
+
+.btn-admin-danger:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(239, 68, 68, 0.3);
+  background: linear-gradient(135deg, #dc2626, var(--admin-accent-red));
+  color: white;
+}
+
+/* Estado completado específico para rechazar */
+.btn-danger-completed {
+  background: linear-gradient(135deg, var(--admin-accent-red), #dc2626) !important;
+  border-color: var(--admin-accent-red) !important;
+  color: white !important;
+  opacity: 0.8;
+  cursor: default !important;
+}
+
+.btn-danger-completed:hover {
+  transform: none !important;
+  opacity: 0.8 !important;
+}
+
+/* Animación de spin para el spinner */
+.fa-spin {
+  animation: fa-spin 1s infinite linear;
+}
+
+@keyframes fa-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
