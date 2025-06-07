@@ -6,7 +6,6 @@
 .description-truncated {
   cursor: help;
   color: inherit;
-  /* Removido text-decoration: underline y text-decoration-style: dotted */
 }
 
 /* Mejores badges de estado */
