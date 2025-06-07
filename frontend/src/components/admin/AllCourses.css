@@ -5,9 +5,8 @@
 /* Tooltip para descripción larga */
 .description-truncated {
   cursor: help;
-  text-decoration: underline;
-  text-decoration-style: dotted;
   color: inherit;
+  /* Removido text-decoration: underline y text-decoration-style: dotted */
 }
 
 /* Mejores badges de estado */
