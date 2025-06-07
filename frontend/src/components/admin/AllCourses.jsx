@@ -203,10 +203,10 @@ const AllCourses = () => {
                         </div>
                       </td>
                       <td>
-                        <div className="fw-bold text-primary">{course.name}</div>
+                        <div className="fw-bold text-primary course-name">{course.name}</div>
                       </td>
                       <td>
-                        <div>
+                        <div className="course-description">
                           {course.description ? (
                             course.description.length > 100 ? (
                               <OverlayTrigger
@@ -222,7 +222,7 @@ const AllCourses = () => {
                                 </span>
                               </OverlayTrigger>
                             ) : (
-                              course.description
+                              <span>{course.description}</span>
                             )
                           ) : (
                             <em className="text-muted">Sin descripción</em>
@@ -230,7 +230,7 @@ const AllCourses = () => {
                         </div>
                       </td>
                       <td>
-                        <div className="d-flex align-items-center justify-content-center">
+                        <div className="d-flex align-items-center justify-content-center course-type">
                           {getTypeIcon(course.type)}
                           <span>{course.type || "No especificado"}</span>
                         </div>

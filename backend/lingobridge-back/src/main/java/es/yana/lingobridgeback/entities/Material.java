@@ -19,6 +19,7 @@ public class Material {
     private String title;
     private String filename;
 
+    @Column(name = "youtube_link")
     private String youtubeLink;
 
     private LocalDateTime uploadedAt;

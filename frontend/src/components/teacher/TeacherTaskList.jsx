@@ -1,16 +1,27 @@
 import React, { useEffect, useState } from "react";
-import { Table, Modal, Button, Form, Card, Badge, Row, Col } from "react-bootstrap";
-import { 
-  FaTasks, 
-  FaEye, 
-  FaCheck, 
-  FaClock, 
+import {
+  Table,
+  Modal,
+  Button,
+  Form,
+  Card,
+  Badge,
+  Row,
+  Col,
+} from "react-bootstrap";
+import {
+  FaTasks,
+  FaEye,
+  FaCheck,
+  FaClock,
   FaDownload,
   FaStar,
-  FaUser
+  FaUser,
 } from "react-icons/fa";
 import { fetchWithAuth } from "../../api/api";
 import "./TeacherTaskList.css";
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const TeacherTaskList = ({ teacherUsername }) => {
   const [results, setResults] = useState([]);
@@ -42,7 +53,9 @@ const TeacherTaskList = ({ teacherUsername }) => {
   const handleEvaluateClick = (result) => {
     setSelectedResult(result);
     setFeedback(result.feedback || "");
-    setScore(result.score !== null && result.score !== undefined ? result.score : "");
+    setScore(
+      result.score !== null && result.score !== undefined ? result.score : ""
+    );
     setShowModal(true);
   };
 
@@ -51,7 +64,9 @@ const TeacherTaskList = ({ teacherUsername }) => {
 
     try {
       await fetchWithAuth(
-        `/teacher/activity/${selectedResult.activityId}/evaluate?username=${encodeURIComponent(
+        `/teacher/activity/${
+          selectedResult.activityId
+        }/evaluate?username=${encodeURIComponent(
           selectedResult.studentUsername
         )}`,
         {
@@ -82,10 +97,10 @@ const TeacherTaskList = ({ teacherUsername }) => {
   };
 
   const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString('es-ES', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric'
+    return new Date(dateString).toLocaleDateString("es-ES", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
     });
   };
 
@@ -114,8 +129,12 @@ const TeacherTaskList = ({ teacherUsername }) => {
     );
   }
 
-  const pendingTasks = results.filter(r => r.score === null || r.score === undefined);
-  const evaluatedTasks = results.filter(r => r.score !== null && r.score !== undefined);
+  const pendingTasks = results.filter(
+    (r) => r.score === null || r.score === undefined
+  );
+  const evaluatedTasks = results.filter(
+    (r) => r.score !== null && r.score !== undefined
+  );
 
   return (
     <Card className="content-card p-4">
@@ -127,7 +146,8 @@ const TeacherTaskList = ({ teacherUsername }) => {
             <div>
               <h3 className="mb-1">Tareas Entregadas</h3>
               <p className="text-muted mb-0">
-                {pendingTasks.length} pendientes • {evaluatedTasks.length} evaluadas
+                {pendingTasks.length} pendientes • {evaluatedTasks.length}{" "}
+                evaluadas
               </p>
             </div>
           </div>
@@ -147,7 +167,10 @@ const TeacherTaskList = ({ teacherUsername }) => {
               </div>
               <div className="tasks-list">
                 {pendingTasks.map((result) => (
-                  <div key={result.activityResultId} className="task-item pending">
+                  <div
+                    key={result.activityResultId}
+                    className="task-item pending"
+                  >
                     <div className="task-content">
                       <div className="task-main-info">
                         <h6 className="task-title">{result.activityTitle}</h6>
@@ -202,12 +225,19 @@ const TeacherTaskList = ({ teacherUsername }) => {
                   {evaluatedTasks.map((result) => (
                     <tr key={result.activityResultId}>
                       <td data-label="Tarea">
-                        <div className="fw-semibold">{result.activityTitle}</div>
+                        <div className="fw-semibold">
+                          {result.activityTitle}
+                        </div>
                       </td>
                       <td data-label="Estudiante">{result.studentName}</td>
-                      <td data-label="Fecha">{formatDate(result.submittedAt)}</td>
+                      <td data-label="Fecha">
+                        {formatDate(result.submittedAt)}
+                      </td>
                       <td data-label="Nota">
-                        <Badge bg={getScoreColor(result.score)} className="score-badge">
+                        <Badge
+                          bg={getScoreColor(result.score)}
+                          className="score-badge"
+                        >
                           <FaStar size={10} className="me-1" />
                           {result.score}/10
                         </Badge>
@@ -233,7 +263,9 @@ const TeacherTaskList = ({ teacherUsername }) => {
         <div className="empty-state text-center py-5">
           <FaTasks size={48} className="text-muted mb-3" />
           <h5 className="text-muted">No hay tareas entregadas</h5>
-          <p className="text-muted">Las tareas aparecerán aquí cuando los estudiantes las entreguen</p>
+          <p className="text-muted">
+            Las tareas aparecerán aquí cuando los estudiantes las entreguen
+          </p>
         </div>
       )}
 
@@ -247,7 +279,9 @@ const TeacherTaskList = ({ teacherUsername }) => {
       >
         <Modal.Header closeButton>
           <Modal.Title>
-            {selectedResult?.score !== null ? 'Ver Evaluación' : 'Evaluar Tarea'}
+            {selectedResult?.score !== null
+              ? "Ver Evaluación"
+              : "Evaluar Tarea"}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -257,9 +291,16 @@ const TeacherTaskList = ({ teacherUsername }) => {
               <div className="evaluation-section mb-4">
                 <h6 className="section-title">Información de la Tarea</h6>
                 <div className="info-grid">
-                  <div><strong>Tarea:</strong> {selectedResult.activityTitle}</div>
-                  <div><strong>Estudiante:</strong> {selectedResult.studentName}</div>
-                  <div><strong>Entregado:</strong> {formatDate(selectedResult.submittedAt)}</div>
+                  <div>
+                    <strong>Tarea:</strong> {selectedResult.activityTitle}
+                  </div>
+                  <div>
+                    <strong>Estudiante:</strong> {selectedResult.studentName}
+                  </div>
+                  <div>
+                    <strong>Entregado:</strong>{" "}
+                    {formatDate(selectedResult.submittedAt)}
+                  </div>
                 </div>
               </div>
 
@@ -281,7 +322,7 @@ const TeacherTaskList = ({ teacherUsername }) => {
                   <h6 className="section-title">Archivo Entregado</h6>
                   <div className="file-download">
                     <a
-                      href={`http://localhost:8080/api/activity-result/${selectedResult.activityResultId}/download`}
+                      href={`${API_BASE_URL}/activity-result/${selectedResult.activityResultId}/download`}
                       target="_blank"
                       rel="noopener noreferrer"
                       download={selectedResult.fileName}

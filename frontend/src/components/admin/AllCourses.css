@@ -1,11 +1,33 @@
 /* ==========================================
-   MEJORAS PARA ALL COURSES
+   ESTILOS ALL COURSES
    ========================================== */
 
-/* Tooltip para descripción larga */
+/* Estilos específicos para elementos del curso */
+.course-name {
+  text-decoration: none !important;
+  border: none !important;
+}
+
+.course-description {
+  text-decoration: none !important;
+}
+
+.course-type {
+  text-decoration: none !important;
+}
+
+/* Tooltip para descripción larga - SOLO para descripciones truncadas */
 .description-truncated {
   cursor: help;
   color: inherit;
+  display: inline;
+}
+
+/* Asegurar que otros elementos no tengan decoración */
+.course-name,
+.course-type,
+.fw-bold {
+  text-decoration: none !important;
 }
 
 /* Mejores badges de estado */
@@ -21,6 +43,7 @@
   min-width: 90px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  text-decoration: none !important;
 }
 
 /* Badge específico para Activo */
@@ -42,6 +65,15 @@
   background: linear-gradient(135deg, #6b7280, #4b5563);
   color: white;
   box-shadow: 0 2px 4px rgba(107, 114, 128, 0.3);
+}
+
+/* Estilos para la tabla */
+.admin-table td {
+  text-decoration: none !important;
+}
+
+.admin-table .text-primary {
+  text-decoration: none !important;
 }
 
 /* Responsive para badges */

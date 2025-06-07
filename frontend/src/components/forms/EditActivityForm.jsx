@@ -7,7 +7,8 @@ import {
   FaTrash, 
   FaQuestionCircle,
   FaFileAlt,
-  FaCheck
+  FaCheck,
+  FaSpinner
 } from "react-icons/fa";
 import "./EditActivityForm.css";
 
@@ -20,6 +21,8 @@ const EditActivityForm = ({ activity, formData, onCancel, onSave }) => {
   const [questions, setQuestions] = useState(formData.questions || []);
   const [errors, setErrors] = useState({});
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [saveError, setSaveError] = useState(null);
 
   // Validación
   const validateForm = () => {
@@ -121,15 +124,36 @@ const EditActivityForm = ({ activity, formData, onCancel, onSave }) => {
     setQuestions(newQuestions);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
     if (!validateForm()) {
       return;
     }
 
-    // Mostrar modal de éxito (sin llamar a onSave)
-    setShowSuccessModal(true);
+    setIsLoading(true);
+    setSaveError(null);
+
+    try {
+      // Preparar datos para guardar
+      const formDataToSave = {
+        title,
+        description,
+        dueDate,
+        questions: activity.type === "TEST" ? questions : undefined
+      };
+
+      // ✅ Llamar a onSave para guardar realmente
+      await onSave(formDataToSave);
+      
+      // Mostrar modal de éxito solo si se guardó correctamente
+      setShowSuccessModal(true);
+    } catch (error) {
+      console.error("Error al guardar:", error);
+      setSaveError("Error al guardar los cambios. Por favor, inténtalo de nuevo.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleCloseModal = () => {
@@ -173,6 +197,12 @@ const EditActivityForm = ({ activity, formData, onCancel, onSave }) => {
         </Alert>
       )}
 
+      {saveError && (
+        <Alert variant="danger" className="error-alert">
+          <strong>Error al guardar:</strong> {saveError}
+        </Alert>
+      )}
+
       <Form onSubmit={handleSubmit} className="activity-form">
         {/* Información básica */}
         <Card className="form-section">
@@ -191,6 +221,7 @@ const EditActivityForm = ({ activity, formData, onCancel, onSave }) => {
                     placeholder="Ingresa el título de la actividad"
                     isInvalid={!!errors.title}
                     className="form-input"
+                    disabled={isLoading}
                   />
                   <Form.Control.Feedback type="invalid">
                     {errors.title}
@@ -206,6 +237,7 @@ const EditActivityForm = ({ activity, formData, onCancel, onSave }) => {
                     onChange={(e) => setDueDate(e.target.value)}
                     isInvalid={!!errors.dueDate}
                     className="form-input"
+                    disabled={isLoading}
                   />
                   <Form.Control.Feedback type="invalid">
                     {errors.dueDate}
@@ -224,6 +256,7 @@ const EditActivityForm = ({ activity, formData, onCancel, onSave }) => {
                 placeholder="Describe la actividad y sus objetivos"
                 isInvalid={!!errors.description}
                 className="form-textarea"
+                disabled={isLoading}
               />
               <Form.Control.Feedback type="invalid">
                 {errors.description}
@@ -245,6 +278,7 @@ const EditActivityForm = ({ activity, formData, onCancel, onSave }) => {
                 size="sm"
                 onClick={handleAddQuestion}
                 className="add-question-btn"
+                disabled={isLoading}
               >
                 <FaPlus className="me-1" />
                 Añadir Pregunta
@@ -259,6 +293,7 @@ const EditActivityForm = ({ activity, formData, onCancel, onSave }) => {
                     type="button"
                     variant="primary"
                     onClick={handleAddQuestion}
+                    disabled={isLoading}
                   >
                     <FaPlus className="me-1" />
                     Añadir primera pregunta
@@ -278,6 +313,7 @@ const EditActivityForm = ({ activity, formData, onCancel, onSave }) => {
                           size="sm"
                           onClick={() => handleDeleteQuestion(i)}
                           className="delete-question-btn"
+                          disabled={isLoading}
                         >
                           <FaTrash />
                         </Button>
@@ -291,6 +327,7 @@ const EditActivityForm = ({ activity, formData, onCancel, onSave }) => {
                           placeholder={`Escribe la pregunta ${i + 1}`}
                           isInvalid={!!errors[`question_${i}`]}
                           className="question-input"
+                          disabled={isLoading}
                         />
                         <Form.Control.Feedback type="invalid">
                           {errors[`question_${i}`]}
@@ -306,6 +343,7 @@ const EditActivityForm = ({ activity, formData, onCancel, onSave }) => {
                             size="sm"
                             onClick={() => handleAddOption(i)}
                             className="add-option-btn"
+                            disabled={isLoading}
                           >
                             <FaPlus className="me-1" />
                             Añadir opción
@@ -323,6 +361,7 @@ const EditActivityForm = ({ activity, formData, onCancel, onSave }) => {
                               onChange={(e) => handleOptionChange(i, j, e.target.value)}
                               placeholder={`Opción ${String.fromCharCode(65 + j)}`}
                               className="option-input"
+                              disabled={isLoading}
                             />
                             <Form.Check
                               type="checkbox"
@@ -330,6 +369,7 @@ const EditActivityForm = ({ activity, formData, onCancel, onSave }) => {
                               onChange={(e) => handleOptionCorrectChange(i, j, e.target.checked)}
                               label=""
                               className="correct-checkbox"
+                              disabled={isLoading}
                             />
                             <div className="correct-label">
                               {opt.correct && <FaCheck className="correct-icon" />}
@@ -342,6 +382,7 @@ const EditActivityForm = ({ activity, formData, onCancel, onSave }) => {
                                 size="sm"
                                 onClick={() => handleDeleteOption(i, j)}
                                 className="delete-option-btn"
+                                disabled={isLoading}
                               >
                                 <FaTrash />
                               </Button>
@@ -375,6 +416,7 @@ const EditActivityForm = ({ activity, formData, onCancel, onSave }) => {
             variant="outline-secondary"
             onClick={onCancel}
             className="cancel-btn"
+            disabled={isLoading}
           >
             <FaTimes className="me-1" />
             Cancelar
@@ -383,14 +425,24 @@ const EditActivityForm = ({ activity, formData, onCancel, onSave }) => {
             type="submit"
             variant="primary"
             className="save-btn"
+            disabled={isLoading}
           >
-            <FaSave className="me-1" />
-            Guardar Cambios
+            {isLoading ? (
+              <>
+                <FaSpinner className="me-1 fa-spin" />
+                Guardando...
+              </>
+            ) : (
+              <>
+                <FaSave className="me-1" />
+                Guardar Cambios
+              </>
+            )}
           </Button>
         </div>
       </Form>
 
-      {/* Modal de éxito - VERSIÓN SIMPLE */}
+      {/* Modal de éxito */}
       <Modal 
         show={showSuccessModal} 
         onHide={() => setShowSuccessModal(false)}
