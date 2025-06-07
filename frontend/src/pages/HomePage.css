@@ -30,7 +30,6 @@
   transform: translateX(-50%);
   width: 60px;
   height: 4px;
-  background: linear-gradient(135deg, var(--accent-color), var(--link-hover-color));
   border-radius: 2px;
 }
 
@@ -45,7 +44,6 @@
 }
 
 .banner-title {
-  background: linear-gradient(135deg, var(--accent-color), var(--link-hover-color));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;

@@ -19,7 +19,6 @@
 /* Tooltip para descripción larga - SOLO para descripciones truncadas */
 .description-truncated {
   cursor: help;
-  text-decoration: underline dotted #6c757d !important;
   color: inherit;
   display: inline;
 }
