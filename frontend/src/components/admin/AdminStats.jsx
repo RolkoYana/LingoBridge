@@ -24,6 +24,13 @@ const AdminStats = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const getShortTitle = (title, maxLength = 15) => {
+    if (!title) return "datos";
+    return title.length > maxLength
+      ? title.substring(0, maxLength) + "..."
+      : title.toLowerCase();
+  };
+
   useEffect(() => {
     fetchStats();
   }, []);
@@ -87,29 +94,30 @@ const AdminStats = () => {
     let cumulativePercentage = 0;
     const segments = data.map((value, index) => {
       const percentage = (value / total) * 100;
-      const strokeDasharray = `${(percentage / 100) * circumference} ${circumference}`;
+      const strokeDasharray = `${
+        (percentage / 100) * circumference
+      } ${circumference}`;
       const strokeDashoffset = -((cumulativePercentage / 100) * circumference);
-      
+
       const segment = {
         strokeDasharray,
         strokeDashoffset,
         color: colors[index % colors.length],
         percentage: percentage.toFixed(1),
         value,
-        language: stats.languages[index]
+        language: stats.languages[index],
       };
-      
+
       cumulativePercentage += percentage;
       return segment;
     });
 
     return (
-      <div className="donut-chart-container" title={`Total de ${title}: ${total}`}>
-        <svg
-          className="donut-chart-svg"
-          width={radius * 2}
-          height={radius * 2}
-        >
+      <div
+        className="donut-chart-container"
+        title={`Total de ${title}: ${total}`}
+      >
+        <svg className="donut-chart-svg" width={radius * 2} height={radius * 2}>
           {/* Círculo base */}
           <circle
             stroke="#e2e8f0"
@@ -119,29 +127,30 @@ const AdminStats = () => {
             cx={radius}
             cy={radius}
           />
-          
+
           {/* Segmentos */}
-          {segments.map((segment, index) => (
-            segment.value > 0 && (
-              <circle
-                key={index}
-                className="donut-segment"
-                stroke={segment.color}
-                fill="transparent"
-                strokeWidth={strokeWidth}
-                strokeDasharray={segment.strokeDasharray}
-                strokeDashoffset={segment.strokeDashoffset}
-                r={normalizedRadius}
-                cx={radius}
-                cy={radius}
-                transform={`rotate(-90 ${radius} ${radius})`}
-                strokeLinecap="round"
-                title={`${segment.language}: ${segment.value} (${segment.percentage}%)`}
-              />
-            )
-          ))}
+          {segments.map(
+            (segment, index) =>
+              segment.value > 0 && (
+                <circle
+                  key={index}
+                  className="donut-segment"
+                  stroke={segment.color}
+                  fill="transparent"
+                  strokeWidth={strokeWidth}
+                  strokeDasharray={segment.strokeDasharray}
+                  strokeDashoffset={segment.strokeDashoffset}
+                  r={normalizedRadius}
+                  cx={radius}
+                  cy={radius}
+                  transform={`rotate(-90 ${radius} ${radius})`}
+                  strokeLinecap="round"
+                  title={`${segment.language}: ${segment.value} (${segment.percentage}%)`}
+                />
+              )
+          )}
         </svg>
-        
+
         <div className="donut-center">
           <div className="donut-percentage">{total}</div>
           <div className="donut-label-simple">{title}</div>
@@ -222,7 +231,11 @@ const AdminStats = () => {
           <p className="mb-0">{error}</p>
         </Alert>
         {!error.includes("permisos") && (
-          <Button variant="outline-primary" onClick={fetchStats} className="mt-3">
+          <Button
+            variant="outline-primary"
+            onClick={fetchStats}
+            className="mt-3"
+          >
             <FaSync className="me-2" />
             Reintentar
           </Button>
@@ -233,14 +246,17 @@ const AdminStats = () => {
 
   // Calcular total de usuarios
   const totalUsers = (stats?.totalTeachers || 0) + (stats?.totalStudents || 0);
-  
+
   // Calcular cursos activos (total - completados - pendientes)
-  const activeCourses = (stats?.totalCourses || 0) - (stats?.completedCourses || 0) - (stats?.pendingCourses || 0);
+  const activeCourses =
+    (stats?.totalCourses || 0) -
+    (stats?.completedCourses || 0) -
+    (stats?.pendingCourses || 0);
 
   // Colores para las gráficas
-  const coursesColors = ['#3b82f6', '#60a5fa', '#93c5fd', '#dbeafe'];
-  const teachersColors = ['#10b981', '#34d399', '#6ee7b7', '#a7f3d0'];
-  const studentsColors = ['#f59e0b', '#fbbf24', '#fcd34d', '#fde68a'];
+  const coursesColors = ["#3b82f6", "#60a5fa", "#93c5fd", "#dbeafe"];
+  const teachersColors = ["#10b981", "#34d399", "#6ee7b7", "#a7f3d0"];
+  const studentsColors = ["#f59e0b", "#fbbf24", "#fcd34d", "#fde68a"];
 
   return (
     <div className="dashboard-container">
@@ -402,7 +418,7 @@ const AdminStats = () => {
       </Row>
 
       {/* LAS TRES GRÁFICAS PRINCIPALES */}
-      
+
       {/* 1. GRÁFICA DE CURSOS POR IDIOMA */}
       <Row className="mb-4">
         <Col lg={4} md={12} className="mb-4">
@@ -414,13 +430,20 @@ const AdminStats = () => {
               </h6>
             </div>
             <Card.Body>
-              {createDonutChart(stats?.coursesPerLanguage, coursesColors, "Cursos")}
+              {createDonutChart(
+                stats?.coursesPerLanguage,
+                coursesColors,
+                "Cursos"
+              )}
               <div className="chart-legend">
                 {stats?.languages?.map((language, index) => (
                   <div key={index} className="legend-item">
                     <div
                       className="legend-color"
-                      style={{ backgroundColor: coursesColors[index % coursesColors.length] }}
+                      style={{
+                        backgroundColor:
+                          coursesColors[index % coursesColors.length],
+                      }}
                     />
                     <span className="legend-text">
                       {language} ({stats?.coursesPerLanguage?.[index] || 0})
@@ -442,13 +465,20 @@ const AdminStats = () => {
               </h6>
             </div>
             <Card.Body>
-              {createDonutChart(stats?.teachersPerLanguage, teachersColors, "Profesores")}
+              {createDonutChart(
+                stats?.teachersPerLanguage,
+                teachersColors,
+                "Profesores"
+              )}
               <div className="chart-legend">
                 {stats?.languages?.map((language, index) => (
                   <div key={index} className="legend-item">
                     <div
                       className="legend-color"
-                      style={{ backgroundColor: teachersColors[index % teachersColors.length] }}
+                      style={{
+                        backgroundColor:
+                          teachersColors[index % teachersColors.length],
+                      }}
                     />
                     <span className="legend-text">
                       {language} ({stats?.teachersPerLanguage?.[index] || 0})
@@ -470,13 +500,20 @@ const AdminStats = () => {
               </h6>
             </div>
             <Card.Body>
-              {createDonutChart(stats?.studentsPerLanguage, studentsColors, "Estudiantes")}
+              {createDonutChart(
+                stats?.studentsPerLanguage,
+                studentsColors,
+                "Estudiantes"
+              )}
               <div className="chart-legend">
                 {stats?.languages?.map((language, index) => (
                   <div key={index} className="legend-item">
                     <div
                       className="legend-color"
-                      style={{ backgroundColor: studentsColors[index % studentsColors.length] }}
+                      style={{
+                        backgroundColor:
+                          studentsColors[index % studentsColors.length],
+                      }}
                     />
                     <span className="legend-text">
                       {language} ({stats?.studentsPerLanguage?.[index] || 0})
@@ -500,7 +537,7 @@ const AdminStats = () => {
               </h6>
             </div>
             <Card.Body>
-              {createBarChart(stats?.coursesPerLanguage, '#3b82f6', 'Cursos')}
+              {createBarChart(stats?.coursesPerLanguage, "#3b82f6", "Cursos")}
             </Card.Body>
           </Card>
         </Col>
@@ -514,7 +551,11 @@ const AdminStats = () => {
               </h6>
             </div>
             <Card.Body>
-              {createBarChart(stats?.teachersPerLanguage, '#10b981', 'Profesores')}
+              {createBarChart(
+                stats?.teachersPerLanguage,
+                "#10b981",
+                "Profesores"
+              )}
             </Card.Body>
           </Card>
         </Col>
@@ -528,7 +569,11 @@ const AdminStats = () => {
               </h6>
             </div>
             <Card.Body>
-              {createBarChart(stats?.studentsPerLanguage, '#f59e0b', 'Estudiantes')}
+              {createBarChart(
+                stats?.studentsPerLanguage,
+                "#f59e0b",
+                "Estudiantes"
+              )}
             </Card.Body>
           </Card>
         </Col>

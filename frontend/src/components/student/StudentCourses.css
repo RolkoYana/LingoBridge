@@ -291,7 +291,6 @@ body[data-theme="dark"] .course-item:hover {
 }
 
 .btn-access {
-  background: linear-gradient(135deg, var(--accent-color), var(--link-hover-color));
   border: none;
   border-radius: 8px;
   padding: 10px 18px;
