@@ -19,8 +19,8 @@
 
 3. **Configurar variables de entorno para Railway**
    
-   En el archivo `application.properties`, asegurarse de que las variables estén configuradas para usar variables de entorno:
-   ```properties
+   En el archivo `application.properties`:
+   ```
    # Base de datos (Railway las configura automáticamente)
    spring.datasource.url=jdbc:postgresql://${PGHOST}:${PGPORT}/${PGDATABASE}
    spring.datasource.username=${PGUSER}
@@ -49,7 +49,7 @@
 
 2. **Configurar proyecto en Railway**
    - Ir a [Railway](https://railway.app)
-   - Crear nuevo proyecto desde GitHub repository
+   - Crear nuevo proyecto desde el repositorio de GitHub
    - **Root directory**: `backend/lingobridge-back`
    - Railway detectará automáticamente el `pom.xml`
 
@@ -90,8 +90,7 @@
 
 1. **Crear nuevo proyecto en Netlify**
    - Ir a [Netlify](https://netlify.com)
-   - "Import an existing project"
-   - Conectar con el repositorio de GitHub
+   - "Import an existing project" y conectar con el respositorio de GitHub
 
 2. **Configuración de build**
    - **Base directory**: `frontend`
@@ -123,7 +122,7 @@ https://lingobridge.es
 
 ## Configuración de Dominio Personalizado
 
-### Dominio en IONOS
+### Dominio en INWX
 
 1. **Configurar DNS en INWX**
 
@@ -144,7 +143,7 @@ https://lingobridge.es
 
 ## Iniciar el Frontend (Desde VS Code)
 
-1. Ir a la carpeta `frontend/src`:
+1. En la carpeta `frontend/src`:
    ```
    cd frontend/src
    ```
@@ -164,7 +163,7 @@ https://lingobridge.es
 
 ## Iniciar backend (Desde IntelliJ IDEA)
 
-1. Ir a la carpeta `backend/src`:
+1. En la carpeta `backend/src`:
    ```
    cd backend/src
    ```
